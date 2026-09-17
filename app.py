@@ -61,33 +61,37 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                try:
-                    client = genai.Client(api_key=api_key)
-                    
-                    # Lấy 2 tin nhắn gần nhất
-                    recent_messages = st.session_state.chat_messages[-2:]
-                    contents = [
-                        types.Content(
-                            role="user" if m["role"] == "user" else "model", 
-                            parts=[types.Part.from_text(text=m["content"])]
-                        ) for m in recent_messages
-                    ]
+                client = genai.Client(api_key=api_key)
+                
+                # Giới hạn lịch sử chat gửi đi
+                recent_messages = st.session_state.chat_messages[-2:]
+                contents = [
+                    types.Content(
+                        role="user" if m["role"] == "user" else "model", 
+                        parts=[types.Part.from_text(text=m["content"])]
+                    ) for m in recent_messages
+                ]
 
-                    # Sử dụng mô hình ổn định nhất trên hạ tầng API hiện tại
-                    response = client.models.generate_content(
-                        model="gemini-2.5-flash",
-                        contents=contents,
-                        config=types.GenerateContentConfig(
-                            system_instruction=SYSTEM_PROMPT,
-                            temperature=0.7
+                # Gọi trực tiếp model chuẩn gemini-3.6-flash với vòng lặp thử lại nếu bận
+                success = False
+                for attempt in range(3):
+                    try:
+                        response = client.models.generate_content(
+                            model="gemini-3.6-flash",
+                            contents=contents,
+                            config=types.GenerateContentConfig(
+                                system_instruction=SYSTEM_PROMPT,
+                                temperature=0.7
+                            )
                         )
-                    )
-                    
-                    if response and hasattr(response, 'text') and response.text:
-                        bot_reply = response.text
-                        st.markdown(bot_reply)
-                        st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                    else:
-                        st.error("Không nhận được phản hồi từ AI.")
-                except Exception as e:
-                    st.error(f"Chi tiết lỗi kết nối API: {e}")
+                        if response and hasattr(response, 'text') and response.text:
+                            bot_reply = response.text
+                            st.markdown(bot_reply)
+                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                            success = True
+                            break
+                    except Exception as e:
+                        time.sleep(1.5)
+
+                if not success:
+                    st.error("Máy chủ Google đang bận ngắn hạn. Bạn hãy gửi lại câu hỏi sau 3 giây nhé!")
