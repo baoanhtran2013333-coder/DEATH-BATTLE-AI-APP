@@ -8,10 +8,9 @@ st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layo
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
-# 1. Tự động lấy API Key từ Streamlit Secrets
+# Tự động lấy API Key từ Streamlit Secrets
 default_api_key = st.secrets.get("GEMINI_API_KEY", "")
 
-# Sidebar hiển thị tùy chọn (người dùng không bắt buộc phải nhập)
 with st.sidebar:
     st.header("⚙️ Cấu hình")
     user_api_key = st.text_input(
@@ -64,8 +63,8 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
                 client = genai.Client(api_key=api_key)
                 
-                # 2. ĐIỂM TỐI ƯU QUAN TRỌNG: Chỉ lấy 4 tin nhắn gần nhất để tránh quá tải Token (TPM)
-                recent_messages = st.session_state.chat_messages[-4:]
+                # Cắt gọn chỉ lấy 2 tin nhắn gần nhất để tối ưu tốc độ tối đa
+                recent_messages = st.session_state.chat_messages[-2:]
                 contents = [
                     types.Content(
                         role="user" if m["role"] == "user" else "model", 
@@ -73,32 +72,29 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     ) for m in recent_messages
                 ]
 
-                # 3. Danh sách model + Cơ chế Tự động thử lại (Retry) khi 503
-                models_to_try = ['gemini-3.6-flash', 'gemini-2.5-pro']
+                # Danh sách mô hình hỗ trợ ổn định nhất trên API
+                models_to_try = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.5-pro']
                 success = False
 
                 for model_name in models_to_try:
-                    for attempt in range(2): # Thử lại tối đa 2 lần mỗi model
-                        try:
-                            response = client.models.generate_content(
-                                model=model_name,
-                                contents=contents,
-                                config=types.GenerateContentConfig(
-                                    system_instruction=SYSTEM_PROMPT,
-                                    temperature=0.7
-                                )
+                    try:
+                        response = client.models.generate_content(
+                            model=model_name,
+                            contents=contents,
+                            config=types.GenerateContentConfig(
+                                system_instruction=SYSTEM_PROMPT,
+                                temperature=0.7
                             )
-                            if response and hasattr(response, 'text') and response.text:
-                                bot_reply = response.text
-                                st.markdown(bot_reply)
-                                st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                                success = True
-                                break
-                        except Exception as e:
-                            # Nếu quá tải (503), chờ 1.5 giây rồi thử lại
-                            time.sleep(1.5)
-                    if success:
-                        break
+                        )
+                        if response and hasattr(response, 'text') and response.text:
+                            bot_reply = response.text
+                            st.markdown(bot_reply)
+                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                            success = True
+                            break
+                    except Exception:
+                        # Tự động nhảy sang model tiếp theo nếu dính lỗi 503 hoặc 404
+                        continue
 
                 if not success:
-                    st.error("Hệ thống máy chủ Google hiện đang bận cục bộ. Bạn vui lòng bấm gửi lại câu hỏi sau 5 giây nhé!")
+                    st.error("Hệ thống máy chủ Google hiện đang quá tải. Bạn vui lòng bấm nút 'Tạo kèo đấu mới' ở góc trái và thử lại nhé!")
