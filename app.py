@@ -63,7 +63,7 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
                 client = genai.Client(api_key=api_key)
                 
-                # Giới hạn lịch sử chat gửi đi
+                # Giới hạn lịch sử gửi đi để tránh bị quá tải Token
                 recent_messages = st.session_state.chat_messages[-2:]
                 contents = [
                     types.Content(
@@ -72,12 +72,16 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     ) for m in recent_messages
                 ]
 
-                # Gọi trực tiếp model chuẩn gemini-3.6-flash với vòng lặp thử lại nếu bận
+                # Danh sách mô hình theo thứ tự ưu tiên
+                models_to_try = ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash"]
+                
                 success = False
-                for attempt in range(3):
+                last_error = ""
+
+                for model_name in models_to_try:
                     try:
                         response = client.models.generate_content(
-                            model="gemini-3.6-flash",
+                            model=model_name,
                             contents=contents,
                             config=types.GenerateContentConfig(
                                 system_instruction=SYSTEM_PROMPT,
@@ -91,7 +95,9 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                             success = True
                             break
                     except Exception as e:
-                        time.sleep(1.5)
+                        last_error = str(e)
+                        time.sleep(1) # Chờ 1s trước khi nhảy sang model tiếp theo
+                        continue
 
                 if not success:
-                    st.error("Máy chủ Google đang bận ngắn hạn. Bạn hãy gửi lại câu hỏi sau 3 giây nhé!")
+                    st.error(f"Lỗi kết nối API: {last_error}")
