@@ -16,7 +16,7 @@ with st.sidebar:
         "Dùng API Key riêng (Tùy chọn):", 
         value="", 
         type="password",
-        help="Hệ thống đã có sẵn API Key mặc định. Bạn chỉ cần nhập nếu muốn dùng Key của riêng mình."
+        help="Dán API Key mới từ Google AI Studio vào đây nếu Key cũ hết Quota."
     )
     if st.button("🔄 Tạo kèo đấu mới"):
         st.session_state.chat_messages = []
@@ -52,7 +52,7 @@ for msg in st.session_state.chat_messages:
 
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
     if not api_key:
-        st.error("Chưa cấu hình GEMINI_API_KEY trong Streamlit Secrets! Vui lòng cài đặt trước.")
+        st.error("Chưa cấu hình GEMINI_API_KEY! Vui lòng nhập API Key vào ô bên trái.")
     else:
         st.session_state.chat_messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -60,33 +60,42 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                try:
-                    client = genai.Client(api_key=api_key)
-                    
-                    recent_messages = st.session_state.chat_messages[-2:]
-                    contents = [
-                        types.Content(
-                            role="user" if m["role"] == "user" else "model", 
-                            parts=[types.Part.from_text(text=m["content"])]
-                        ) for m in recent_messages
-                    ]
+                client = genai.Client(api_key=api_key)
+                
+                recent_messages = st.session_state.chat_messages[-2:]
+                contents = [
+                    types.Content(
+                        role="user" if m["role"] == "user" else "model", 
+                        parts=[types.Part.from_text(text=m["content"])]
+                    ) for m in recent_messages
+                ]
 
-                    # Sử dụng mô hình mới gemini-3.6-flash theo đúng thông báo từ Google API
-                    response = client.models.generate_content(
-                        model="gemini-3.6-flash",
-                        contents=contents,
-                        config=types.GenerateContentConfig(
-                            system_instruction=SYSTEM_PROMPT,
-                            temperature=0.7
+                success = False
+                last_error = ""
+
+                # Thử gửi lại tối đa 3 lần nếu dính giới hạn tức thời
+                for attempt in range(3):
+                    try:
+                        response = client.models.generate_content(
+                            model="gemini-3.6-flash",
+                            contents=contents,
+                            config=types.GenerateContentConfig(
+                                system_instruction=SYSTEM_PROMPT,
+                                temperature=0.7
+                            )
                         )
-                    )
-                    
-                    if response and hasattr(response, 'text') and response.text:
-                        bot_reply = response.text
-                        st.markdown(bot_reply)
-                        st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                    else:
-                        st.error("Không nhận được dữ liệu từ mô hình. Vui lòng thử lại!")
+                        if response and hasattr(response, 'text') and response.text:
+                            bot_reply = response.text
+                            st.markdown(bot_reply)
+                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                            success = True
+                            break
+                    except Exception as e:
+                        last_error = str(e)
+                        if "429" in last_error:
+                            time.sleep(4)  # Đợi 4 giây theo yêu cầu retryDelay của Google
+                        else:
+                            break
 
-                except Exception as e:
-                    st.error(f"Lỗi truy vấn API: {e}")
+                if not success:
+                    st.error(f"API Key đã hết lượt sử dụng trong ngày (Quota 20 req/ngày). Hãy tạo API Key mới tại Google AI Studio và dán vào ô bên trái! Chi tiết: {last_error}")
