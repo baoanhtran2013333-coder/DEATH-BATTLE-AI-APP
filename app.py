@@ -7,8 +7,18 @@ st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layo
 st.title("⚔️ Death Battle AI Master (VSBw & DBVN Standard)")
 st.caption("AI tự động tra cứu, phân tích Feat, Hax, Speed Blitz và đưa ra Verdict chuẩn VSBattles Wiki.")
 
-api_key = st.sidebar.text_input("Nhập Google Gemini API Key:", type="password")
+# Lấy API Key từ Streamlit Secrets nếu có, nếu không thì lấy từ input của người dùng
+default_api_key = st.secrets.get("GEMINI_API_KEY", "")
+
+user_api_key = st.sidebar.text_input(
+    "Nhập Google Gemini API Key:", 
+    value=default_api_key, 
+    type="password",
+    help="Nếu đã cài API Key trong Secrets thì không cần nhập thêm."
+)
 st.sidebar.markdown("[Lấy API Key miễn phí tại đây](https://aistudio.google.com/)")
+
+api_key = user_api_key or default_api_key
 
 SYSTEM_PROMPT = """
 Bạn là "Death Battle Master AI" - Chuyên gia phân tích Power Scaling, Versus Debating theo chuẩn VS Battles Wiki và cộng đồng Death Battle VN 2.5.
@@ -39,7 +49,7 @@ CẤU TRÚC PHÂN TÍCH CHUẨN:
    - Tuyên bố nhân vật chiến thắng kèm lý do cốt lõi nhất.
 """
 
-matchup = st.text_input("Nhập kèo đấu (Ví dụ: UI Daniel vs Sukuna hoặc Goku vs Saitama):")
+matchup = st.text_input("Nhập kèo đấu (Ví dụ: UI Daniel vs Sukuna hoặc Gojo vs Rick):")
 
 if st.button("Phân Tích Kèo Đấu 💥"):
     if not api_key:
@@ -59,6 +69,9 @@ if st.button("Phân Tích Kèo Đấu 💥"):
                     )
                 )
                 st.markdown("---")
+                st.markdown(response.text)
+            except Exception as e:
+                st.error(f"Lỗi: {e}")
                 st.markdown(response.text)
             except Exception as e:
                 st.error(f"Lỗi: {e}")
