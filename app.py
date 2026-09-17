@@ -7,7 +7,7 @@ st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layo
 st.title("⚔️ Death Battle AI Master (VSBw & DBVN Standard)")
 st.caption("AI tự động tra cứu, phân tích Feat, Hax và tranh luận phản biện theo chuẩn VSBattles Wiki.")
 
-# Lấy API Key từ Secrets hoặc từ người dùng
+# Lấy API Key từ Secrets hoặc từ người dùng nhập
 default_api_key = st.secrets.get("GEMINI_API_KEY", "")
 
 user_api_key = st.sidebar.text_input(
@@ -72,7 +72,7 @@ if prompt := st.chat_input("Nhập kèo đấu mới hoặc gửi phản biện/
                         contents.append(types.Content(role=role, parts=[types.Part.from_text(text=m["content"])]))
 
                     response = client.models.generate_content(
-                        model='gemini-2.5-flash',
+                        model='gemini-3.6-flash',
                         contents=contents,
                         config=types.GenerateContentConfig(
                             system_instruction=SYSTEM_PROMPT,
