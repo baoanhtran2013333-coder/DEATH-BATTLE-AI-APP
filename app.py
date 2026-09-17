@@ -61,43 +61,35 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                client = genai.Client(api_key=api_key)
-                
-                # Giới hạn lịch sử gửi đi để tránh bị quá tải Token
-                recent_messages = st.session_state.chat_messages[-2:]
-                contents = [
-                    types.Content(
-                        role="user" if m["role"] == "user" else "model", 
-                        parts=[types.Part.from_text(text=m["content"])]
-                    ) for m in recent_messages
-                ]
+                try:
+                    client = genai.Client(api_key=api_key)
+                    
+                    recent_messages = st.session_state.chat_messages[-2:]
+                    contents = [
+                        types.Content(
+                            role="user" if m["role"] == "user" else "model", 
+                            parts=[types.Part.from_text(text=m["content"])]
+                        ) for m in recent_messages
+                    ]
 
-                # Danh sách mô hình theo thứ tự ưu tiên
-                models_to_try = ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash"]
-                
-                success = False
-                last_error = ""
+                    # Danh sách tên mô hình chuẩn của SDK hiện tại
+                    model_name = "gemini-2.5-flash"
 
-                for model_name in models_to_try:
-                    try:
-                        response = client.models.generate_content(
-                            model=model_name,
-                            contents=contents,
-                            config=types.GenerateContentConfig(
-                                system_instruction=SYSTEM_PROMPT,
-                                temperature=0.7
-                            )
+                    response = client.models.generate_content(
+                        model=model_name,
+                        contents=contents,
+                        config=types.GenerateContentConfig(
+                            system_instruction=SYSTEM_PROMPT,
+                            temperature=0.7
                         )
-                        if response and hasattr(response, 'text') and response.text:
-                            bot_reply = response.text
-                            st.markdown(bot_reply)
-                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                            success = True
-                            break
-                    except Exception as e:
-                        last_error = str(e)
-                        time.sleep(1) # Chờ 1s trước khi nhảy sang model tiếp theo
-                        continue
+                    )
+                    
+                    if response and hasattr(response, 'text') and response.text:
+                        bot_reply = response.text
+                        st.markdown(bot_reply)
+                        st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                    else:
+                        st.error("Không phản hồi được dữ liệu. Vui lòng thử lại!")
 
-                if not success:
-                    st.error(f"Lỗi kết nối API: {last_error}")
+                except Exception as e:
+                    st.error(f"Lỗi API: {e}")
