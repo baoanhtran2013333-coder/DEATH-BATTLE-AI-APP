@@ -68,29 +68,32 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     ) for m in st.session_state.chat_messages
                 ]
 
-                # Danh sách mô hình ưu tiên -> dự phòng
-                models_to_try = ['gemini-3.6-flash', 'gemini-2.5-flash']
+                # Danh sách mô hình chuẩn không bị lỗi 404
+                models_to_try = ['gemini-3.6-flash', 'gemini-2.5-pro']
                 success = False
 
                 for model_name in models_to_try:
-                    try:
-                        response = client.models.generate_content(
-                            model=model_name,
-                            contents=contents,
-                            config=types.GenerateContentConfig(
-                                system_instruction=SYSTEM_PROMPT,
-                                temperature=0.7
+                    # Thử lại tối đa 2 lần cho mỗi model nếu dính bận 503
+                    for attempt in range(2):
+                        try:
+                            response = client.models.generate_content(
+                                model=model_name,
+                                contents=contents,
+                                config=types.GenerateContentConfig(
+                                    system_instruction=SYSTEM_PROMPT,
+                                    temperature=0.7
+                                )
                             )
-                        )
-                        if response and hasattr(response, 'text') and response.text:
-                            bot_reply = response.text
-                            st.markdown(bot_reply)
-                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                            success = True
-                            break
-                    except Exception as e:
-                        # Nếu lỗi 503 hoặc lỗi model, tự động chuyển sang model tiếp theo trong danh sách
-                        continue
+                            if response and hasattr(response, 'text') and response.text:
+                                bot_reply = response.text
+                                st.markdown(bot_reply)
+                                st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                                success = True
+                                break
+                        except Exception:
+                            time.sleep(1)
+                    if success:
+                        break
 
                 if not success:
-                    st.error("Hệ thống máy chủ Gemini hiện đang quá tải ở tất cả mô hình. Vui lòng thử lại sau vài giây!")
+                    st.error("Hệ thống máy chủ Google hiện đang quá tải nghẽn mạng cục bộ. Bạn vui lòng bấm gửi lại sau 5-10 giây nhé!")
