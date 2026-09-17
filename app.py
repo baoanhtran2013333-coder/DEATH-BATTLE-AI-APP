@@ -65,9 +65,9 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     for m in st.session_state.chat_messages[-4:]:
                         messages.append({"role": m["role"], "content": m["content"]})
 
-                    # Dùng model Llama 3.3 70B siêu mạnh trên hạ tầng cực nhanh của Groq
+                    # Sử dụng model chuẩn, phản hồi siêu tốc của Groq
                     response = client.chat.completions.create(
-                        model="llama-3.3-70b-versatile",
+                        model="llama-3.1-8b-instant",
                         messages=messages,
                         temperature=0.7
                     )
