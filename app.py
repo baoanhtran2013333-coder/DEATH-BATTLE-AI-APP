@@ -48,6 +48,14 @@ for msg in st.session_state.chat_messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
+# Danh sách các model Free ổn định nhất trên OpenRouter hiện tại
+FREE_MODELS = [
+    "google/gemini-2.0-flash-lite-001:free",
+    "meta-llama/llama-3.1-8b-instruct:free",
+    "qwen/qwen-2.5-72b-instruct:free",
+    "mistralai/mistral-7b-instruct:free"
+]
+
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
     if not api_key:
         st.error("Vui lòng dán OpenRouter API Key vào ô cấu hình bên trái!")
@@ -58,26 +66,35 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                try:
-                    client = OpenAI(
-                        base_url="https://openrouter.ai/api/v1",
-                        api_key=api_key,
-                    )
+                client = OpenAI(
+                    base_url="https://openrouter.ai/api/v1",
+                    api_key=api_key,
+                )
 
-                    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-                    for m in st.session_state.chat_messages[-4:]:
-                        messages.append({"role": m["role"], "content": m["content"]})
+                messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+                for m in st.session_state.chat_messages[-4:]:
+                    messages.append({"role": m["role"], "content": m["content"]})
 
-                    # Dùng Gemini 2.0 Flash Exp (Bản miễn phí hoàn toàn trên OpenRouter)
-                    response = client.chat.completions.create(
-                        model="google/gemini-2.0-flash-exp:free",
-                        messages=messages,
-                        temperature=0.7
-                    )
+                success = False
+                last_error = ""
 
-                    bot_reply = response.choices[0].message.content
-                    st.markdown(bot_reply)
-                    st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                # Thử lần lượt từng model free trong danh sách
+                for model_name in FREE_MODELS:
+                    try:
+                        response = client.chat.completions.create(
+                            model=model_name,
+                            messages=messages,
+                            temperature=0.7
+                        )
+                        if response and response.choices and response.choices[0].message.content:
+                            bot_reply = response.choices[0].message.content
+                            st.markdown(bot_reply)
+                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                            success = True
+                            break
+                    except Exception as e:
+                        last_error = str(e)
+                        continue
 
-                except Exception as e:
-                    st.error(f"Lỗi API OpenRouter: {e}")
+                if not success:
+                    st.error(f"Tất cả các mô hình miễn phí hiện đang bận hoặc gián đoạn. Vui lòng bấm 'Tạo kèo đấu mới' và thử lại sau ít phút! Chi tiết: {last_error}")
