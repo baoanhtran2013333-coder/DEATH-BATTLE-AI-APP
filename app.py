@@ -1,20 +1,20 @@
 import streamlit as st
-from openai import OpenAI
+from groq import Groq
 
 st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layout="wide")
 
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
-default_api_key = st.secrets.get("OPENROUTER_API_KEY", "")
+default_api_key = st.secrets.get("GROQ_API_KEY", "")
 
 with st.sidebar:
     st.header("⚙️ Cấu hình")
     user_api_key = st.text_input(
-        "Dùng API Key OpenRouter (Tùy chọn):", 
+        "Dùng API Key Groq (Tùy chọn):", 
         value="", 
         type="password",
-        help="Dán API Key sk-or-v1-... từ OpenRouter vào đây."
+        help="Dán API Key gsk_... lấy miễn phí từ console.groq.com vào đây."
     )
     if st.button("🔄 Tạo kèo đấu mới"):
         st.session_state.chat_messages = []
@@ -48,17 +48,9 @@ for msg in st.session_state.chat_messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Danh sách các model Free ổn định nhất trên OpenRouter hiện tại
-FREE_MODELS = [
-    "google/gemini-2.0-flash-lite-001:free",
-    "meta-llama/llama-3.1-8b-instruct:free",
-    "qwen/qwen-2.5-72b-instruct:free",
-    "mistralai/mistral-7b-instruct:free"
-]
-
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
     if not api_key:
-        st.error("Vui lòng dán OpenRouter API Key vào ô cấu hình bên trái!")
+        st.error("Vui lòng dán Groq API Key (bắt đầu bằng gsk_...) vào ô cấu hình bên trái!")
     else:
         st.session_state.chat_messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -66,35 +58,23 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                client = OpenAI(
-                    base_url="https://openrouter.ai/api/v1",
-                    api_key=api_key,
-                )
+                try:
+                    client = Groq(api_key=api_key)
 
-                messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-                for m in st.session_state.chat_messages[-4:]:
-                    messages.append({"role": m["role"], "content": m["content"]})
+                    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+                    for m in st.session_state.chat_messages[-4:]:
+                        messages.append({"role": m["role"], "content": m["content"]})
 
-                success = False
-                last_error = ""
+                    # Dùng model Llama 3.3 70B siêu mạnh trên hạ tầng cực nhanh của Groq
+                    response = client.chat.completions.create(
+                        model="llama-3.3-70b-versatile",
+                        messages=messages,
+                        temperature=0.7
+                    )
 
-                # Thử lần lượt từng model free trong danh sách
-                for model_name in FREE_MODELS:
-                    try:
-                        response = client.chat.completions.create(
-                            model=model_name,
-                            messages=messages,
-                            temperature=0.7
-                        )
-                        if response and response.choices and response.choices[0].message.content:
-                            bot_reply = response.choices[0].message.content
-                            st.markdown(bot_reply)
-                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                            success = True
-                            break
-                    except Exception as e:
-                        last_error = str(e)
-                        continue
+                    bot_reply = response.choices[0].message.content
+                    st.markdown(bot_reply)
+                    st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
 
-                if not success:
-                    st.error(f"Tất cả các mô hình miễn phí hiện đang bận hoặc gián đoạn. Vui lòng bấm 'Tạo kèo đấu mới' và thử lại sau ít phút! Chi tiết: {last_error}")
+                except Exception as e:
+                    st.error(f"Lỗi API Groq: {e}")
