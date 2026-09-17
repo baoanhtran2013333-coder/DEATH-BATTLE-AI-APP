@@ -1,22 +1,20 @@
 import streamlit as st
-import time
-from google import genai
-from google.genai import types
+from openai import OpenAI
 
 st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layout="wide")
 
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
-default_api_key = st.secrets.get("GEMINI_API_KEY", "")
+default_api_key = st.secrets.get("OPENROUTER_API_KEY", "")
 
 with st.sidebar:
     st.header("⚙️ Cấu hình")
     user_api_key = st.text_input(
-        "Dùng API Key riêng (Tùy chọn):", 
+        "Dùng API Key OpenRouter (Tùy chọn):", 
         value="", 
         type="password",
-        help="Dán API Key mới từ Google AI Studio vào đây nếu Key cũ hết Quota."
+        help="Dán API Key sk-or-v1-... từ OpenRouter vào đây."
     )
     if st.button("🔄 Tạo kèo đấu mới"):
         st.session_state.chat_messages = []
@@ -52,7 +50,7 @@ for msg in st.session_state.chat_messages:
 
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
     if not api_key:
-        st.error("Chưa cấu hình GEMINI_API_KEY! Vui lòng nhập API Key vào ô bên trái.")
+        st.error("Vui lòng dán OpenRouter API Key vào ô cấu hình bên trái!")
     else:
         st.session_state.chat_messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -60,42 +58,25 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                client = genai.Client(api_key=api_key)
-                
-                recent_messages = st.session_state.chat_messages[-2:]
-                contents = [
-                    types.Content(
-                        role="user" if m["role"] == "user" else "model", 
-                        parts=[types.Part.from_text(text=m["content"])]
-                    ) for m in recent_messages
-                ]
+                try:
+                    client = OpenAI(
+                        base_url="https://openrouter.ai/api/v1",
+                        api_key=api_key,
+                    )
 
-                success = False
-                last_error = ""
+                    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+                    for m in st.session_state.chat_messages[-4:]:
+                        messages.append({"role": m["role"], "content": m["content"]})
 
-                # Thử gửi lại tối đa 3 lần nếu dính giới hạn tức thời
-                for attempt in range(3):
-                    try:
-                        response = client.models.generate_content(
-                            model="gemini-3.6-flash",
-                            contents=contents,
-                            config=types.GenerateContentConfig(
-                                system_instruction=SYSTEM_PROMPT,
-                                temperature=0.7
-                            )
-                        )
-                        if response and hasattr(response, 'text') and response.text:
-                            bot_reply = response.text
-                            st.markdown(bot_reply)
-                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                            success = True
-                            break
-                    except Exception as e:
-                        last_error = str(e)
-                        if "429" in last_error:
-                            time.sleep(4)  # Đợi 4 giây theo yêu cầu retryDelay của Google
-                        else:
-                            break
+                    response = client.chat.completions.create(
+                        model="google/gemini-2.5-flash:free",
+                        messages=messages,
+                        temperature=0.7
+                    )
 
-                if not success:
-                    st.error(f"API Key đã hết lượt sử dụng trong ngày (Quota 20 req/ngày). Hãy tạo API Key mới tại Google AI Studio và dán vào ô bên trái! Chi tiết: {last_error}")
+                    bot_reply = response.choices[0].message.content
+                    st.markdown(bot_reply)
+                    st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+
+                except Exception as e:
+                    st.error(f"Lỗi API OpenRouter: {e}")
