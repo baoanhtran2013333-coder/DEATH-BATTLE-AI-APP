@@ -68,13 +68,14 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     ) for m in st.session_state.chat_messages
                 ]
 
-                # Vòng lặp tự động gửi lại 3 lần nếu máy chủ quá tải (Lỗi 503)
-                max_retries = 3
+                # Danh sách mô hình ưu tiên -> dự phòng
+                models_to_try = ['gemini-3.6-flash', 'gemini-2.5-flash']
                 success = False
-                for attempt in range(max_retries):
+
+                for model_name in models_to_try:
                     try:
                         response = client.models.generate_content(
-                            model='gemini-3.6-flash',
+                            model=model_name,
                             contents=contents,
                             config=types.GenerateContentConfig(
                                 system_instruction=SYSTEM_PROMPT,
@@ -88,9 +89,8 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                             success = True
                             break
                     except Exception as e:
-                        if "503" in str(e) and attempt < max_retries - 1:
-                            time.sleep(2) # Đợi 2 giây rồi thử lại
-                            continue
-                        else:
-                            st.error(f"Lỗi hệ thống: {e}")
-                            break
+                        # Nếu lỗi 503 hoặc lỗi model, tự động chuyển sang model tiếp theo trong danh sách
+                        continue
+
+                if not success:
+                    st.error("Hệ thống máy chủ Gemini hiện đang quá tải ở tất cả mô hình. Vui lòng thử lại sau vài giây!")
