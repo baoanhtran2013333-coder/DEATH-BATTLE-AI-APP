@@ -8,7 +8,6 @@ st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layo
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
-# Tự động lấy API Key từ Streamlit Secrets
 default_api_key = st.secrets.get("GEMINI_API_KEY", "")
 
 with st.sidebar:
@@ -72,35 +71,9 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                         ) for m in recent_messages
                     ]
 
-                    # 1. Tự động tìm tất cả model khả dụng với API Key của bạn
-                    valid_models = []
-                    try:
-                        for m in client.models.list():
-                            name = m.name.replace("models/", "")
-                            # Chỉ lấy các model hỗ trợ tạo văn bản
-                            if hasattr(m, "supported_generation_methods") and "generateContent" in m.supported_generation_methods:
-                                valid_models.append(name)
-                    except Exception:
-                        pass
-
-                    # 2. Thứ tự ưu tiên chọn model (Flash trước -> Pro sau)
-                    model_to_use = None
-                    priority_list = ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash", "gemini-1.5-pro"]
-                    
-                    for p in priority_list:
-                        if p in valid_models:
-                            model_to_use = p
-                            break
-                    
-                    # Nếu danh sách lọc rỗng, tự động lấy model hợp lệ đầu tiên trong tài khoản
-                    if not model_to_use and valid_models:
-                        model_to_use = valid_models[0]
-                    elif not model_to_use:
-                        model_to_use = "gemini-2.5-flash"
-
-                    # 3. Gọi API tạo phản hồi
+                    # Sử dụng mô hình mới gemini-3.6-flash theo đúng thông báo từ Google API
                     response = client.models.generate_content(
-                        model=model_to_use,
+                        model="gemini-3.6-flash",
                         contents=contents,
                         config=types.GenerateContentConfig(
                             system_instruction=SYSTEM_PROMPT,
