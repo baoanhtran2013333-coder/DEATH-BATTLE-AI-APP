@@ -72,28 +72,35 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                         ) for m in recent_messages
                     ]
 
-                    # Danh sách mô hình ưu tiên
-                    preferred_models = ["gemini-3.6-flash", "gemini-3.6-pro"]
-                    
-                    # Tự động lấy danh sách model thực tế khả dụng từ API Key của bạn
-                    available_models = []
+                    # 1. Tự động tìm tất cả model khả dụng với API Key của bạn
+                    valid_models = []
                     try:
                         for m in client.models.list():
-                            m_name = m.name.replace("models/", "")
-                            if "generateContent" in getattr(m, 'supported_generation_methods', []):
-                                available_models.append(m_name)
+                            name = m.name.replace("models/", "")
+                            # Chỉ lấy các model hỗ trợ tạo văn bản
+                            if hasattr(m, "supported_generation_methods") and "generateContent" in m.supported_generation_methods:
+                                valid_models.append(name)
                     except Exception:
                         pass
 
-                    # Chọn mô hình phù hợp nhất
-                    selected_model = "gemini-3.6-flash"
-                    for pm in preferred_models:
-                        if pm in available_models:
-                            selected_model = pm
+                    # 2. Thứ tự ưu tiên chọn model (Flash trước -> Pro sau)
+                    model_to_use = None
+                    priority_list = ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash", "gemini-1.5-pro"]
+                    
+                    for p in priority_list:
+                        if p in valid_models:
+                            model_to_use = p
                             break
+                    
+                    # Nếu danh sách lọc rỗng, tự động lấy model hợp lệ đầu tiên trong tài khoản
+                    if not model_to_use and valid_models:
+                        model_to_use = valid_models[0]
+                    elif not model_to_use:
+                        model_to_use = "gemini-2.5-flash"
 
+                    # 3. Gọi API tạo phản hồi
                     response = client.models.generate_content(
-                        model=selected_model,
+                        model=model_to_use,
                         contents=contents,
                         config=types.GenerateContentConfig(
                             system_instruction=SYSTEM_PROMPT,
@@ -106,7 +113,7 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                         st.markdown(bot_reply)
                         st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
                     else:
-                        st.error("Không nhận được phản hồi từ AI.")
+                        st.error("Không nhận được dữ liệu từ mô hình. Vui lòng thử lại!")
 
                 except Exception as e:
-                    st.error(f"Lỗi API: {e}")
+                    st.error(f"Lỗi truy vấn API: {e}")
