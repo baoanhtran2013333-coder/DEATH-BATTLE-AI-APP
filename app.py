@@ -7,7 +7,7 @@ st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layo
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
-# Lấy API Key từ Secrets hoặc từ người dùng nhập
+# Lấy API Key từ Secrets hoặc từ ô nhập liệu ở thanh bên
 default_api_key = st.secrets.get("GEMINI_API_KEY", "")
 
 user_api_key = st.sidebar.text_input(
@@ -32,17 +32,11 @@ NHIỆM VỤ & PHONG CÁCH PHÂN TÍCH:
 3. Luôn sẵn sàng phản biện lại người dùng nếu họ đưa ra NLF (No Limits Fallacy), Wank/Highball quá đà hoặc Downplay sai sự thật. Nếu người dùng đưa ra scan/proof hợp lý theo chuẩn DBVN/EF, hãy khách quan ghi nhận và cập nhật lại Verdict.
 
 CẤU TRÚC PHÂN TÍCH CHUẨN:
-1. STATS OVERVIEW (AP/Durability/Speed Tier theo VSBw & Meta DBVN/EF):
-   - Nêu Tier AP, Durability, Speed (Speed Blitz, Speed Equalized nếu có).
-2. HAX & RESISTANCE ANALYSIS (Phân tích kĩ năng đặc biệt):
-   - Liệt kê Hax nổi bật, cấp độ Hax (Low/Mid/High Concept, Reality Warping, Conceptual Manipulation...).
-   - Kiểm tra Resistance tương ứng dựa trên Feat thực tế.
-3. VN COMMUNITY META & DEBATE FEATS (Meta Tranh Luận VN):
-   - Đánh giá cách kèo đấu này thường được tranh luận tại Endless Fictional / DBVN 2.5 / TikTok DBVN. Các lập luận hay bị bẻ (Debunk) hoặc các Feat tranh cãi.
-4. BATTLE SCENARIO:
-   - Diễn biến giao tranh chi tiết (giữ đúng tính cách, Win-Cons chính).
-5. FINAL VERDICT:
-   - Tỷ lệ thắng (% Victory) + Tuyên bố Winner kèm lý do cốt lõi nhất.
+1. STATS OVERVIEW (AP/Durability/Speed Tier theo VSBw & Meta DBVN/EF)
+2. HAX & RESISTANCE ANALYSIS (Phân tích kĩ năng đặc biệt)
+3. VN COMMUNITY META & DEBATE FEATS (Meta Tranh Luận VN)
+4. BATTLE SCENARIO (Mô tả diễn biến giao tranh)
+5. FINAL VERDICT (% Victory + Winner kèm lý do cốt lõi)
 """
 
 # Khởi tạo lịch sử chat trong Session State
@@ -79,7 +73,12 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     contents = []
                     for m in st.session_state.chat_messages:
                         role = "user" if m["role"] == "user" else "model"
-                        contents.append(types.Content(role=role, parts=[types.Part.from_text(text=m["content"])]))
+                        contents.append(
+                            types.Content(
+                                role=role, 
+                                parts=[types.Part.from_text(text=m["content"])]
+                            )
+                        )
 
                     response = client.models.generate_content(
                         model='gemini-3.6-flash',
@@ -90,11 +89,11 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                         )
                     )
                     
-                    if response and hasattr(response, 'text'):
+                    if response and hasattr(response, 'text') and response.text:
                         bot_reply = response.text
                         st.markdown(bot_reply)
                         st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
                     else:
-                        st.error("Không nhận được phản hồi từ AI.")
+                        st.error("Không nhận được phản hồi từ AI. Vui lòng thử lại!")
                 except Exception as e:
-                    st.error(f"Lỗi kết nối Gemini API: {e}")
+                    st.error(f"Lỗi hệ thống: {e}")
