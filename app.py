@@ -8,17 +8,23 @@ st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layo
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
+# 1. Tự động lấy API Key từ Streamlit Secrets
 default_api_key = st.secrets.get("GEMINI_API_KEY", "")
 
-user_api_key = st.sidebar.text_input(
-    "Nhập Google Gemini API Key:", 
-    value=default_api_key, 
-    type="password",
-    help="Nếu đã cài API Key trong Secrets thì không cần nhập thêm."
-)
-st.sidebar.markdown("[Lấy API Key miễn phí tại đây](https://aistudio.google.com/)")
+# Sidebar hiển thị tùy chọn (người dùng không bắt buộc phải nhập)
+with st.sidebar:
+    st.header("⚙️ Cấu hình")
+    user_api_key = st.text_input(
+        "Dùng API Key riêng (Tùy chọn):", 
+        value="", 
+        type="password",
+        help="Hệ thống đã có sẵn API Key mặc định. Bạn chỉ cần nhập nếu muốn dùng Key của riêng mình."
+    )
+    if st.button("🔄 Tạo kèo đấu mới"):
+        st.session_state.chat_messages = []
+        st.rerun()
 
-api_key = user_api_key or default_api_key
+api_key = user_api_key.strip() or default_api_key
 
 SYSTEM_PROMPT = """
 Bạn là "Death Battle Master AI" - Một Master Debater kỳ cựu mang tư duy và chuẩn mực từ các cộng đồng Versus Debating lớn nhất Việt Nam:
@@ -42,17 +48,13 @@ CẤU TRÚC PHÂN TÍCH CHUẨN:
 if "chat_messages" not in st.session_state:
     st.session_state.chat_messages = []
 
-if st.sidebar.button("🔄 Tạo kèo đấu mới"):
-    st.session_state.chat_messages = []
-    st.rerun()
-
 for msg in st.session_state.chat_messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
     if not api_key:
-        st.error("Vui lòng nhập Gemini API Key ở thanh bên trái!")
+        st.error("Chưa cấu hình GEMINI_API_KEY trong Streamlit Secrets! Vui lòng cài đặt trước.")
     else:
         st.session_state.chat_messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -61,20 +63,22 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
                 client = genai.Client(api_key=api_key)
+                
+                # 2. ĐIỂM TỐI ƯU QUAN TRỌNG: Chỉ lấy 4 tin nhắn gần nhất để tránh quá tải Token (TPM)
+                recent_messages = st.session_state.chat_messages[-4:]
                 contents = [
                     types.Content(
                         role="user" if m["role"] == "user" else "model", 
                         parts=[types.Part.from_text(text=m["content"])]
-                    ) for m in st.session_state.chat_messages
+                    ) for m in recent_messages
                 ]
 
-                # Danh sách mô hình chuẩn không bị lỗi 404
+                # 3. Danh sách model + Cơ chế Tự động thử lại (Retry) khi 503
                 models_to_try = ['gemini-3.6-flash', 'gemini-2.5-pro']
                 success = False
 
                 for model_name in models_to_try:
-                    # Thử lại tối đa 2 lần cho mỗi model nếu dính bận 503
-                    for attempt in range(2):
+                    for attempt in range(2): # Thử lại tối đa 2 lần mỗi model
                         try:
                             response = client.models.generate_content(
                                 model=model_name,
@@ -90,10 +94,11 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                                 st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
                                 success = True
                                 break
-                        except Exception:
-                            time.sleep(1)
+                        except Exception as e:
+                            # Nếu quá tải (503), chờ 1.5 giây rồi thử lại
+                            time.sleep(1.5)
                     if success:
                         break
 
                 if not success:
-                    st.error("Hệ thống máy chủ Google hiện đang quá tải nghẽn mạng cục bộ. Bạn vui lòng bấm gửi lại sau 5-10 giây nhé!")
+                    st.error("Hệ thống máy chủ Google hiện đang bận cục bộ. Bạn vui lòng bấm gửi lại câu hỏi sau 5 giây nhé!")
