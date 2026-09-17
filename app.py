@@ -61,17 +61,17 @@ if st.button("Phân Tích Kèo Đấu 💥"):
             try:
                 client = genai.Client(api_key=api_key)
                 response = client.models.generate_content(
-                    model='gemini-2.5-flash',
+                    model='gemini-3.6-flash',
                     contents=matchup,
                     config=types.GenerateContentConfig(
                         system_instruction=SYSTEM_PROMPT,
                         temperature=0.7
                     )
                 )
-                st.markdown("---")
-                st.markdown(response.text)
+                if response and hasattr(response, 'text'):
+                    st.markdown("---")
+                    st.markdown(response.text)
+                else:
+                    st.error("Không nhận được phản hồi từ AI. Vui lòng thử lại!")
             except Exception as e:
-                st.error(f"Lỗi: {e}")
-                st.markdown(response.text)
-            except Exception as e:
-                st.error(f"Lỗi: {e}")
+                st.error(f"Lỗi kết nối Gemini API: {e}")
