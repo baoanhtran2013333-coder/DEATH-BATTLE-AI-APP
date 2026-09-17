@@ -68,8 +68,9 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     for m in st.session_state.chat_messages[-4:]:
                         messages.append({"role": m["role"], "content": m["content"]})
 
+                    # Dùng model Llama 3.3 70B miễn phí không bị giới hạn
                     response = client.chat.completions.create(
-                        model="google/gemini-2.5-flash:free",
+                        model="meta-llama/llama-3.3-70b-instruct:free",
                         messages=messages,
                         temperature=0.7
                     )
