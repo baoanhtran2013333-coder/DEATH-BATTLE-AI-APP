@@ -1,11 +1,14 @@
 import streamlit as st
-import google.generativeai as genai
+import time
+from google import genai
+from google.genai import types
 
 st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layout="wide")
 
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
+# Tự động lấy API Key từ Streamlit Secrets
 default_api_key = st.secrets.get("GEMINI_API_KEY", "")
 
 with st.sidebar:
@@ -50,7 +53,7 @@ for msg in st.session_state.chat_messages:
 
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
     if not api_key:
-        st.error("Chưa cấu hình GEMINI_API_KEY! Vui lòng kiểm tra lại.")
+        st.error("Chưa cấu hình GEMINI_API_KEY trong Streamlit Secrets! Vui lòng cài đặt trước.")
     else:
         st.session_state.chat_messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -59,34 +62,51 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
                 try:
-                    genai.configure(api_key=api_key)
+                    client = genai.Client(api_key=api_key)
                     
-                    # Sử dụng mô hình ổn định nhất của API
-                    model = genai.GenerativeModel(
-                        model_name="gemini-1.5-flash",
-                        system_instruction=SYSTEM_PROMPT
+                    recent_messages = st.session_state.chat_messages[-2:]
+                    contents = [
+                        types.Content(
+                            role="user" if m["role"] == "user" else "model", 
+                            parts=[types.Part.from_text(text=m["content"])]
+                        ) for m in recent_messages
+                    ]
+
+                    # Danh sách mô hình ưu tiên
+                    preferred_models = ["gemini-3.6-flash", "gemini-3.6-pro"]
+                    
+                    # Tự động lấy danh sách model thực tế khả dụng từ API Key của bạn
+                    available_models = []
+                    try:
+                        for m in client.models.list():
+                            m_name = m.name.replace("models/", "")
+                            if "generateContent" in getattr(m, 'supported_generation_methods', []):
+                                available_models.append(m_name)
+                    except Exception:
+                        pass
+
+                    # Chọn mô hình phù hợp nhất
+                    selected_model = "gemini-3.6-flash"
+                    for pm in preferred_models:
+                        if pm in available_models:
+                            selected_model = pm
+                            break
+
+                    response = client.models.generate_content(
+                        model=selected_model,
+                        contents=contents,
+                        config=types.GenerateContentConfig(
+                            system_instruction=SYSTEM_PROMPT,
+                            temperature=0.7
+                        )
                     )
                     
-                    response = model.generate_content(prompt)
-                    
-                    if response and response.text:
+                    if response and hasattr(response, 'text') and response.text:
                         bot_reply = response.text
                         st.markdown(bot_reply)
                         st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
                     else:
-                        st.error("Không nhận được phản hồi từ mô hình.")
+                        st.error("Không nhận được phản hồi từ AI.")
 
                 except Exception as e:
-                    # Tự động chuyển sang mô hình dự phòng gemini-1.5-pro nếu có sự cố
-                    try:
-                        model_backup = genai.GenerativeModel(
-                            model_name="gemini-1.5-pro",
-                            system_instruction=SYSTEM_PROMPT
-                        )
-                        response = model_backup.generate_content(prompt)
-                        if response and response.text:
-                            bot_reply = response.text
-                            st.markdown(bot_reply)
-                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                    except Exception as err:
-                        st.error(f"Lỗi API: {err}")
+                    st.error(f"Lỗi API: {e}")
