@@ -61,40 +61,33 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                client = genai.Client(api_key=api_key)
-                
-                # Cắt gọn chỉ lấy 2 tin nhắn gần nhất để tối ưu tốc độ tối đa
-                recent_messages = st.session_state.chat_messages[-2:]
-                contents = [
-                    types.Content(
-                        role="user" if m["role"] == "user" else "model", 
-                        parts=[types.Part.from_text(text=m["content"])]
-                    ) for m in recent_messages
-                ]
+                try:
+                    client = genai.Client(api_key=api_key)
+                    
+                    # Lấy 2 tin nhắn gần nhất
+                    recent_messages = st.session_state.chat_messages[-2:]
+                    contents = [
+                        types.Content(
+                            role="user" if m["role"] == "user" else "model", 
+                            parts=[types.Part.from_text(text=m["content"])]
+                        ) for m in recent_messages
+                    ]
 
-                # Danh sách mô hình hỗ trợ ổn định nhất trên API
-                models_to_try = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.5-pro']
-                success = False
-
-                for model_name in models_to_try:
-                    try:
-                        response = client.models.generate_content(
-                            model=model_name,
-                            contents=contents,
-                            config=types.GenerateContentConfig(
-                                system_instruction=SYSTEM_PROMPT,
-                                temperature=0.7
-                            )
+                    # Sử dụng mô hình ổn định nhất trên hạ tầng API hiện tại
+                    response = client.models.generate_content(
+                        model="gemini-2.5-flash",
+                        contents=contents,
+                        config=types.GenerateContentConfig(
+                            system_instruction=SYSTEM_PROMPT,
+                            temperature=0.7
                         )
-                        if response and hasattr(response, 'text') and response.text:
-                            bot_reply = response.text
-                            st.markdown(bot_reply)
-                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                            success = True
-                            break
-                    except Exception:
-                        # Tự động nhảy sang model tiếp theo nếu dính lỗi 503 hoặc 404
-                        continue
-
-                if not success:
-                    st.error("Hệ thống máy chủ Google hiện đang quá tải. Bạn vui lòng bấm nút 'Tạo kèo đấu mới' ở góc trái và thử lại nhé!")
+                    )
+                    
+                    if response and hasattr(response, 'text') and response.text:
+                        bot_reply = response.text
+                        st.markdown(bot_reply)
+                        st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
+                    else:
+                        st.error("Không nhận được phản hồi từ AI.")
+                except Exception as e:
+                    st.error(f"Chi tiết lỗi kết nối API: {e}")
