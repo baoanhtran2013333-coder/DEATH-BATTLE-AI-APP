@@ -68,9 +68,9 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                     for m in st.session_state.chat_messages[-4:]:
                         messages.append({"role": m["role"], "content": m["content"]})
 
-                    # Dùng model Llama 3.3 70B miễn phí không bị giới hạn
+                    # Dùng Gemini 2.0 Flash Exp (Bản miễn phí hoàn toàn trên OpenRouter)
                     response = client.chat.completions.create(
-                        model="meta-llama/llama-3.3-70b-instruct:free",
+                        model="google/gemini-2.0-flash-exp:free",
                         messages=messages,
                         temperature=0.7
                     )
