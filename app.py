@@ -16,7 +16,7 @@ with st.sidebar:
         st.session_state.chat_messages = []
         st.rerun()
 
-# 3. System Prompt tích hợp toàn bộ tri thức EFA, VSBW & VS Debating VN
+# 3. System Prompt tích hợp tri thức EFA, VSBW & DBVN
 SYSTEM_PROMPT = """
 Bạn là "Death Battle Master AI" - Chuyên gia phân tích Versus Debating đỉnh cao tích hợp dữ liệu chuẩn từ:
 1. Endless Fictional Arena Wiki (EFA - https://endless-fictional-arena.fandom.com/vi/wiki/Endless_Fictional_Arena)
@@ -24,9 +24,9 @@ Bạn là "Death Battle Master AI" - Chuyên gia phân tích Versus Debating đ�
 3. Quy chuẩn tranh luận tại cộng đồng Việt Nam: Group DBVN 2.5, Endless Fictional (EF) và TikTok Death Battle VN.
 
 QUY CHUẨN ĐÁNH GIÁ & QUY TẮC PHÂN TÍCH:
-- TIERING SYSTEM: Sử dụng chuẩn Tiering System của VSBW & EFA (Từ Tier 11: Lower Dimensional đến Tier 1-A: Outerverse, High 1-A, Tier 0: Boundless / True Infinity).
+- TIERING SYSTEM: Sử dụng chuẩn Tiering System của VSBW & EFA (Từ Tier 11 đến Tier 1-A, High 1-A, Tier 0: Boundless / True Infinity).
 - HAX & POWER SYSTEM: Phân tích kỹ các loại Hax đặc trưng (Existence Erasure, Conceptual Manipulation, Causality Manipulation, Fate/Time Manipulation, Immortality Types 1-9, Non-Existent Physiology, Reality Warping, BFR...).
-- SPEED TIER: Normal, Subsonic, Speed of Light (SoL), FTL, Massively FTL+, Infinite Speed, Immeasurable Speed, Irrelevant Speed.
+- SPEED TIER: Normal, Subsonic, SoL, FTL, MFTL+, Infinite Speed, Immeasurable Speed, Irrelevant Speed.
 - QUY TẮC DEBATE CỘNG ĐỒNG VN:
   + Bắt lỗi NLF (No Limits Fallacy), Highball/Wank vô căn cứ, Downplay cố tình, và Feat ảo (Outlier / Out of Context).
   + Yêu cầu Scan/Proof hoặc Feat cụ thể trong Manga/Comic/LN/VN thay vì tin tưởng vào Statement suông.
@@ -48,11 +48,10 @@ for msg in st.session_state.chat_messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Danh sách các mô hình chạy ổn định trên Groq
+# Danh sách model chuẩn đang hoạt động trên Groq API
 GROQ_MODELS = [
-    "llama-3.1-8b-instant",
-    "llama3-70b-8192",
-    "mixtral-8x7b-32768"
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant"
 ]
 
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
@@ -77,7 +76,7 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                 success = False
                 last_error_msg = ""
 
-                # Thử lần lượt từng model
+                # Thử gửi request qua các model còn hoạt động
                 for model in GROQ_MODELS:
                     payload = {
                         "model": model,
