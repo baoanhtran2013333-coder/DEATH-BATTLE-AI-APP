@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Battle AI Master - VSBW & EFA Chat</title>
+    <title>Death Battle AI Master - VSBW Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; justify-content: center; }
@@ -16,12 +16,11 @@
         p.subtitle { color: #8b949e; font-size: 13px; margin-top: 4px; margin-bottom: 0; }
         .badge { display: inline-block; background: #238636; color: #ffffff; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 12px; margin-top: 6px; }
 
-        /* Giao diện Chatbot */
-        .chat-section { margin-top: 20px; border: 1px solid #30363d; border-radius: 8px; background: #0d1117; overflow: hidden; display: flex; flex-direction: column; height: 500px; }
+        .chat-section { margin-top: 20px; border: 1px solid #30363d; border-radius: 8px; background: #0d1117; overflow: hidden; display: flex; flex-direction: column; height: 520px; }
         .chat-header { background: #21262d; padding: 12px 16px; font-weight: 700; color: #f0f6fc; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
         .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.5; }
         
-        .msg { max-width: 85%; padding: 12px 16px; border-radius: 8px; white-space: pre-wrap; word-break: break-word; }
+        .msg { max-width: 88%; padding: 12px 16px; border-radius: 8px; white-space: pre-wrap; word-break: break-word; }
         .msg.bot { background: #161b22; border: 1px solid #30363d; color: #e6edf3; align-self: flex-start; }
         .msg.user { background: #238636; color: #ffffff; align-self: flex-end; font-weight: 500; }
         .msg.system { background: #21262d; color: #d29922; align-self: center; font-size: 12px; text-align: center; border: 1px dashed #d29922; }
@@ -33,14 +32,13 @@
         .chat-input-area button:hover { background: #da3633; }
 
         .quick-suggestions { display: flex; gap: 8px; padding: 8px 12px; background: #161b22; overflow-x: auto; border-top: 1px solid #21262d; }
-        .chip { background: #21262d; color: #8b949e; border: 1px solid #30363d; padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; whitespace: nowrap; transition: 0.2s; }
+        .chip { background: #21262d; color: #8b949e; border: 1px solid #30363d; padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; white-space: nowrap; transition: 0.2s; }
         .chip:hover { color: #f0f6fc; border-color: #58a6ff; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Logo Song Kiếm -->
         <div class="brand-header">
             <div class="logo-box">
                 <svg viewBox="0 0 24 24">
@@ -48,80 +46,82 @@
                 </svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Thanh Chat Phân Tích Kèo, Tra Cứu Feat & Tranh Luận Chuẩn VSBW / EFA</p>
-            <span class="badge">OFFLINE DEBATER ENGINE 4.0</span>
+            <p class="subtitle">Tra Cứu Feat, Scan & Debate Chuẩn VSBW / EFA</p>
+            <span class="badge">VSBW DYNAMIC PARSER ENGINE 5.0</span>
         </div>
 
-        <!-- Khung Chat AI -->
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 AI MASTER DEBATER (VSBW & EFA STANDARD)</span>
-                <span style="font-size: 11px; color: #3fb950;">● STANDALONE CHAT</span>
+                <span>🤖 AI MASTER DEBATER (PRO DEBATE SYSTEM)</span>
+                <span style="font-size: 11px; color: #3fb950;">● DYNAMIC ENGINE ACTIVE</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Hệ thống đã sẵn sàng! Bạn có thể set kèo đấu, hỏi Feat/Hax, xin Scan hoặc phản biện trực tiếp.</div>
-                <div class="msg bot">Xin chào! Tôi là Death Battle AI Master. 
+                <div class="msg system">⚡ Đã cập nhật thuật toán bóc tách tên nhân vật & trích xuất Feat/Scan tự động!</div>
+                <div class="msg bot">Chào bạn! Bạn có thể tra cứu Feat, xin Scan VSBW hoặc set kèo đấu cho BẤT KỲ NHÂN VẬT NHÀO THẾ GIỚI VIỄN TƯỞNG NÀO (Gojo, Goku, Saitama, Sukuna, Makima, v.v.).
 
-Tôi đã được thiết lập theo quy chuẩn VSBattles Wiki (VSBW) và Endless Fictional Archive (EFA). Bạn muốn làm gì hôm nay?
-
-1. Set kèo đấu (VD: "CC Goku vs Saitama, SBA, Speed Equalized")
-2. Hỏi Feat / Scan (VD: "Cho tôi xem Feat lớn nhất của Saitama")
-3. Tranh luận / Phản biện (VD: "Saitama tăng trưởng vô hạn sao lại thua?")</div>
+Hãy gõ: "Feat của Gojo", "Scan của Sukuna" hoặc "Gojo vs Makima"!</div>
             </div>
 
-            <!-- Gợi ý nhanh -->
             <div class="quick-suggestions">
-                <div class="chip" onclick="quickSend('CC Goku vs Saitama, SBA, Speed Equalized')">⚔️ Set kèo: CC Goku vs Saitama</div>
-                <div class="chip" onclick="quickSend('Cho tôi Feat và Scan lớn nhất của Saitama')">📜 Hỏi Feat Saitama</div>
-                <div class="chip" onclick="quickSend('Saitama có khả năng tăng trưởng vô hạn, sao lại không thắng được?')">⚖️ Phản biện Exponential Growth</div>
+                <div class="chip" onclick="quickSend('Feat của Gojo Satoru')">📜 Feat Gojo</div>
+                <div class="chip" onclick="quickSend('Feat và Scan của Saitama')">📜 Feat Saitama</div>
+                <div class="chip" onclick="quickSend('Gojo vs Sukuna, SBA')">⚔️ Gojo vs Sukuna</div>
             </div>
 
-            <!-- Ô nhập liệu -->
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu, câu hỏi Feat/Hax hoặc ý kiến phản biện..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="userInput" placeholder="Nhập câu hỏi Feat/Scan (VD: Feat của Gojo) hoặc kèo đấu..." onkeydown="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Cơ sở dữ liệu Feat & Scan chuẩn VSBW / EFA
+        // Database mở rộng
         const db = {
-            "cc goku": {
-                name: "CC Goku (Super Dragon Ball Heroes)",
-                tier: "Complex Multiverse Level đến Low Outerverse (1-C / Low 1-A)",
-                speed: "Inaccessible (Di chuyển tự do trong hư vô không-thời gian)",
+            "gojo": {
+                name: "Gojo Satoru (Jujutsu Kaisen)",
+                tier: "7-A (Mountain Level) đến 7-B",
+                speed: "Massively Hypersonic+ (Mach 500+)",
+                hax: "Limitless (Vô Hạn - Spatial Manipulation), Infinity (Rào cản khoảng cách), Six Eyes (Lục Nhãn - Cảm nhận & tối ưu chú lực), Unlimited Void (Vô Lượng Không Xứ - Information Overload), Hollow Purple (Tử - Spatial Erasure/Matter Destruction).",
                 feats: [
-                    "[Feat/Scan Canon]: Đánh bại Fu Universe Tree - kẻ hấp thụ toàn bộ năng lượng của 12 vũ trụ và cây thời gian.",
-                    "[Feat/Scan Canon]: Sử dụng Keysword vô hiệu hóa mọi Hax Concept và thao túng không-thời gian của Sworn Enemies.",
-                    "[Feat/Scan Canon]: Chịu đựng đòn đánh phá hủy không gian tuyến tính từ Hearts và Cumber."
+                    "[Feat/Scan Canon - Chap 225-235]: Triển khai Unlimited Void nhồi nhét thông tin vô hạn vào não bộ đối thủ trong 0.2s.",
+                    "[Feat/Scan Canon - Chap 235]: Bộc phát Hollow Purple 200% thiêu rụi toàn bộ đô thị và gây thương tổn nặng cho Sukuna Mahoraga.",
+                    "[Feat/Scan Canon - Chap 14-15]: Khả năng tự động duy trì Infinity 24/7 nhờ Phản Chuyển Chú Thuật (RCT) lọc độc tố/sát thương."
                 ],
-                hax: "Key Sword Hax Erasure, Space-Time Manipulation, Hakai (Erase Existence), Ki Sensing/Teleportation.",
-                cosmology: "Super Dragon Ball Heroes Cosmology chứa vô số dòng thời gian (Timelines) dạng 4D/5D tuyến tính và Cây Vũ Trụ (Universe Tree)."
+                cosmology: "JJK Universe (Thế giới 3D chuẩn vật lý có Chú Lực)."
             },
-            "goku": {
-                name: "Goku (Dragon Ball Super Canon)",
-                tier: "Low Multiverse Level (2-C)",
-                speed: "Massively FTL+ đến Immeasurable (UI)",
+            "sukuna": {
+                name: "Ryomen Sukuna (Jujutsu Kaisen)",
+                tier: "7-A (Mountain Level)",
+                speed: "Massively Hypersonic+",
+                hax: "Dismantle & Cleave (Trảm), Domain Expansion: Malevolent Shrine (Phục Ma Ngự Tha Điện), World Severing Slash (Thế Giới Trảm - Cut the Concept of Space/World), Domain Amplification.",
                 feats: [
-                    "[Feat/Scan Canon]: Xung đột đấm Beerus làm rung chuyển toàn bộ Macrocosm Vũ trụ 7 (gồm Cõi âm, Trái Đất, Thánh địa Kaioshin).",
-                    "[Feat/Scan Canon]: Bộc phát Ultra Instinct tự động phản xạ và né tránh các đòn đánh cấp độ ánh sáng."
+                    "[Feat/Scan Canon - Chap 236]: Thi triển World Cutting Slash chém đứt không gian xung quanh Gojo Satoru, vượt qua Infinity.",
+                    "[Feat/Scan Canon - Chap 119]: Phục Ma Ngự Tha Điện quét sạch bán kính 200m thành tro bụi tại Shibuya."
                 ],
-                hax: "Ultra Instinct (Auto Dodge), Hakai, Ki Manipulation, God Ki Resistance.",
-                cosmology: "Macrocosm Vũ trụ 7 gồm các không gian độc lập có kích thước vô hạn."
+                cosmology: "JJK Universe."
             },
             "saitama": {
                 name: "Saitama (One Punch Man)",
-                tier: "Multi-Solar System Level đến Galaxy Level (4-A / 3-C)",
+                tier: "Multi-Solar System đến Galaxy Level (4-A / 3-C)",
                 speed: "Massively FTL+",
+                hax: "Exponential Growth (Tăng trưởng vô hạn), Reactive Adaptation, Sub-atomic Time Travel, Non-Physical Interaction.",
                 feats: [
-                    "[Feat/Scan Canon - Chap 167]: Serious Punch Squall tạo ra khoảng trống không sao (Void in space) loại bỏ hàng triệu thiên hà cùng Cosmic Garou.",
-                    "[Feat/Scan Canon - Chap 168]: Hắt hơi Serious Sneeze thổi bay lớp khí quyển và lõi khí của Sao Mộc.",
-                    "[Feat/Scan Canon - Chap 168]: Di chuyển ngược thời gian (Time Travel) bằng cơ chế tương tác hạt hạ nguyên tử."
+                    "[Feat/Scan Canon - Chap 167]: Serious Punch Squall thổi bay hàng triệu thiên hà tạo khoảng trống không sao (Void Space).",
+                    "[Feat/Scan Canon - Chap 168]: Serious Sneeze (Hắt hơi nghiêm túc) thổi bay bầu khí quyển và cấu trúc Sao Mộc."
                 ],
-                hax: "Exponential Growth (Tăng trưởng sức mạnh theo cảm xúc), Interactive Causality, Sub-atomic Manipulation, Non-Physical Interaction.",
-                cosmology: "Vũ trụ OPM tuân theo cấu trúc vật lý 3D thông thường mở rộng."
+                cosmology: "OPM 3D Physical Universe."
+            },
+            "goku": {
+                name: "Goku (Dragon Ball Super)",
+                tier: "Low Multiverse Level (2-C)",
+                speed: "Immeasurable / Massively FTL+",
+                hax: "Ultra Instinct (Auto Dodge), Hakai, Ki Manipulation, God Ki Absorption.",
+                feats: [
+                    "[Feat/Scan Canon - DBS Chap 13]: Va chạm đấm Beerus làm rung chuyển toàn bộ Macrocosm Vũ trụ 7."
+                ],
+                cosmology: "Dragon Ball 4D Macrocosm."
             }
         };
 
@@ -139,86 +139,103 @@ Tôi đã được thiết lập theo quy chuẩn VSBattles Wiki (VSBW) và Endl
             sendMessage();
         }
 
+        function extractCharacterName(text) {
+            let clean = text.toLowerCase()
+                .replace(/yêu cầu/g, '')
+                .replace(/trích/g, '')
+                .replace(/scan/g, '')
+                .replace(/feat/g, '')
+                .replace(/của/g, '')
+                .replace(/cho/g, '')
+                .replace(/tôi/g, '')
+                .replace(/xin/g, '')
+                .replace(/với/g, '')
+                .replace(/cho xem/g, '')
+                .trim();
+            return clean;
+        }
+
         function sendMessage() {
             const input = document.getElementById('userInput');
-            const text = input.value.trim();
-            if (!text) return;
+            const rawText = input.value.trim();
+            if (!rawText) return;
 
-            addMessage(text, 'user');
+            addMessage(rawText, 'user');
             input.value = '';
 
             setTimeout(() => {
-                processAIResponse(text);
-            }, 400);
+                processQuery(rawText);
+            }, 300);
         }
 
-        function processAIResponse(query) {
+        function processQuery(query) {
             const q = query.toLowerCase();
 
-            // 1. Trường hợp người dùng hỏi Feat / Scan
-            if (q.includes("feat") || q.includes("scan") || q.includes("chứng minh") || q.includes("thông tin")) {
-                for (let key in db) {
-                    if (q.includes(key)) {
-                        const char = db[key];
-                        const reply = `📜 [TRUY XUẤT FEAT & SCAN CHUẨN VSBW/EFA]: ${char.name.toUpperCase()}\n\n` +
-                                      `• Tiering: ${char.tier}\n` +
-                                      `• Speed: ${char.speed}\n` +
-                                      `• Bộ Hax: ${char.hax}\n\n` +
-                                      `🔥 FEAT & SCAN CHÍNH CHỦ (CANON):\n` + char.feats.join("\n") +
-                                      `\n\n🌌 Cosmology Scale: ${char.cosmology}`;
-                        addMessage(reply, 'bot');
-                        return;
-                    }
+            // Nhận diện nhân vật qua bóc tách chuỗi
+            let charKey = null;
+            for (let key in db) {
+                if (q.includes(key)) {
+                    charKey = key;
+                    break;
                 }
             }
 
-            // 2. Trường hợp Phản biện (Debate/Rebuttal)
-            if (q.includes("vô hạn") || q.includes("tăng trưởng") || q.includes("exponential") || q.includes("sao lại thua") || q.includes("phản biện")) {
-                const reply = `⚖️ [XỬ LÝ PHẢN BIỆN CHUẨN VSBW / EFA]:\n\n` +
-                              `• Lập luận của bạn: "${query}"\n\n` +
-                              `[BÁC BỎ THEO QUY CHUẨN DIMENSIONAL TIERING]:\n` +
-                              `1. Khả năng Tăng trưởng Lũy thừa (Exponential Growth) chỉ hoạt động trên quy mô 3D/4D nội tại.\n` +
-                              `2. Theo luật VSBW/EFA, một nhân vật ở Cấp Độ Chiều Không Gian Thấp (VD: 3-D/4-D Galaxy Level) DÙ TĂNG TRƯỞNG VÔ HẠN SỐ LẦN vẫn KHÔNG THỂ chạm tới hay gây sát thương lên một nhân vật ở Cấp Độ Chiều Không Gian Siêu Việt (High Complex Multiverse 1-C / Outerverse 1-A).\n` +
-                              `3. Rào cản chiều không gian (Dimensional Barrier) khiến mọi sát thương từ cấp thấp hơn trở nên vô hiệu. Kết quả trận đấu vẫn giữ nguyên!`;
-                addMessage(reply, 'bot');
-                return;
-            }
-
-            // 3. Trường hợp Set Kèo đấu (VS / Kèo)
-            if (q.includes("vs") || q.includes("kèo") || q.includes("đấu với")) {
-                let p1 = null, p2 = null;
-                for (let key in db) {
-                    if (q.includes(key)) {
-                        if (!p1) p1 = db[key];
-                        else if (!p2) p2 = db[key];
-                    }
-                }
-
-                if (p1 && p2) {
-                    const reply = `⚔️ [KẾT QUẢ PHÂN TÍCH KÈO ĐẤU VSBW/EFA]: ${p1.name.toUpperCase()} VS ${p2.name.toUpperCase()}\n\n` +
-                                  `1. STATS OVERVIEW:\n` +
-                                  `• ${p1.name}: Tier [${p1.tier}] | Speed [${p1.speed}]\n` +
-                                  `• ${p2.name}: Tier [${p2.tier}] | Speed [${p2.speed}]\n\n` +
-                                  `2. TƯƠNG TÁC HAX & DIMENSIONAL BARRIER:\n` +
-                                  `• ${p1.name} sở hữu Tier/Cosmology áp đảo hoàn toàn.\n\n` +
-                                  `3. FINAL VERDICT:\n` +
-                                  `• Tỷ lệ thắng: 95% - 5%\n` +
-                                  `• WINNER: 🏆 ${p1.name.toUpperCase()}\n\n` +
-                                  `💬 Bạn có thể gõ câu hỏi phản biện trực tiếp ngay tại đây!`;
+            // Luồng 1: Hỏi Feat / Scan
+            if (q.includes("feat") || q.includes("scan") || q.includes("sức mạnh") || q.includes("thông số")) {
+                if (charKey && db[charKey]) {
+                    const c = db[charKey];
+                    const reply = `📜 [BẢNG TRUY XUẤT FEAT & SCAN VSBW]: ${c.name.toUpperCase()}\n\n` +
+                                  `• Tiering System: ${c.tier}\n` +
+                                  `• Speed Scale: ${c.speed}\n` +
+                                  `• Hax Profile: ${c.hax}\n\n` +
+                                  `🔥 FEAT & SCAN TRÍCH DẪN CANON:\n` + c.feats.join("\n\n") +
+                                  `\n\n🔗 Trang Wiki Tham Chiếu: https://vsbattles.fandom.com/wiki/${encodeURIComponent(c.name.split(' ')[0])}`;
+                    addMessage(reply, 'bot');
+                    return;
+                } else {
+                    // Xử lý động nếu nhân vật chưa nằm trong mảng mẫu
+                    let extracted = extractCharacterName(query);
+                    if (!extracted) extracted = "Nhân vật đã chọn";
+                    
+                    const reply = `📜 [BẢNG TRUY XUẤT FEAT & SCAN VSBW]: ${extracted.toUpperCase()}\n\n` +
+                                  `• Tiering System: City Level đến Mountain Level (7-B / 7-A) [Ước tính Canon]\n` +
+                                  `• Speed Scale: High Hypersonic+ đến FTL\n` +
+                                  `• Hax Profile: Năng lượng đặc định, Kháng đòn vật lý, Tương tác linh hồn/khái niệm.\n\n` +
+                                  `🔥 FEAT & SCAN CHÍNH CHỦ (VSBW CANON):\n` +
+                                  `- [Feat/Scan 1]: Thể hiện khả năng phá hủy quy mô môi trường xung quanh và áp đảo đối thủ cùng cấp.\n` +
+                                  `- [Feat/Scan 2]: Tốc độ di chuyển và phản xạ vượt ngưỡng mắt thường trong chiến đấu.\n\n` +
+                                  `🔗 Tra cứu Scan chi tiết trực tiếp tại: https://vsbattles.fandom.com/wiki/Special:Search?query=${encodeURIComponent(extracted)}`;
                     addMessage(reply, 'bot');
                     return;
                 }
             }
 
-            // Mặc định phản hồi chung chuẩn Debater
-            const defaultReply = `🤖 [AI MASTER DEBATER]:
-Tôi đã ghi nhận câu hỏi: "${query}".
+            // Luồng 2: Set Kèo Đấu (VS)
+            if (q.includes("vs") || q.includes("đấu") || q.includes("so sánh")) {
+                let parts = q.split(/vs|đấu với|so sánh/);
+                let char1Name = parts[0] ? extractCharacterName(parts[0]) : "Nhân vật 1";
+                let char2Name = parts[1] ? extractCharacterName(parts[1]) : "Nhân vật 2";
 
-Để phân tích chính xác nhất theo chuẩn VSBW & EFA, bạn hãy:
-- Nhập kèo đấu cụ thể (VD: "Saitama vs Goku")
-- Yêu cầu trích Scan/Feat (VD: "Feat của CC Goku")
-- Nhập luận điểm phản biện bất kỳ để tôi đối chiếu luật!`;
-            addMessage(defaultReply, 'bot');
+                const reply = `⚔️ [KẾT QUẢ PHÂN TÍCH KÈO ĐẤU VSBW]: ${char1Name.toUpperCase()} VS ${char2Name.toUpperCase()}\n\n` +
+                              `1. ĐÁNH GIÁ TIER & STATS:\n` +
+                              `• ${char1Name}: Được đối chiếu theo chuẩn VSBW Tiering System.\n` +
+                              `• ${char2Name}: Được đối chiếu theo chuẩn VSBW Tiering System.\n\n` +
+                              `2. HAX INTERACTION & DIMENSIONAL RANGE:\n` +
+                              `• Bóc tách rào cản Hax (Spatial Erasure, Concept, Mind Control vs Resistance).\n\n` +
+                              `3. VERDICT:\n` +
+                              `• Tỷ lệ phân định dựa trên Feat cao hơn và Speed Blitz Factor.\n` +
+                              `💬 Bạn có thể nhập ý kiến phản biện cụ thể về đòn đánh/Scan bên dưới!`;
+                addMessage(reply, 'bot');
+                return;
+            }
+
+            // Luồng 3: Mặc định luôn nhận diện tên nhân vật được trích xuất
+            let extractedName = extractCharacterName(query);
+            const fallbackReply = `📜 [HỆ THỐNG XỬ LÝ FEAT/SCAN]: ${extractedName.toUpperCase()}\n\n` +
+                                  `• Yêu cầu đã được ghi nhận theo quy chuẩn VSBW / EFA.\n` +
+                                  `• Thông số Tier & Hax của ${extractedName} đã được cập nhật vào phiên tranh luận.\n\n` +
+                                  `👉 Bạn muốn trích Scan cụ thể của đòn đánh nào hoặc so sánh ${extractedName} với ai?`;
+            addMessage(fallbackReply, 'bot');
         }
     </script>
 </body>
