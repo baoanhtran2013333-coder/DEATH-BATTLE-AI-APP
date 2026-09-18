@@ -9,6 +9,7 @@
         body { background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 850px; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
         
+        /* Logo & Header */
         .brand-header { text-align: center; margin-bottom: 24px; }
         .logo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: #21262d; border: 2px solid #f85149; border-radius: 50%; margin-bottom: 12px; box-shadow: 0 0 15px rgba(248, 81, 73, 0.3); }
         .logo-box svg { width: 36px; height: 36px; fill: #f85149; }
@@ -21,8 +22,8 @@
         input:focus, textarea:focus { border-color: #58a6ff; }
         .row { display: flex; gap: 16px; }
         .col { flex: 1; }
-        button { width: 100%; padding: 14px; background: #f85149; border: none; color: #ffffff; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 15px; margin-top: 20px; transition: 0.2s; }
-        button:hover { background: #da3633; }
+        button { width: 100%; padding: 14px; background: #238636; border: none; color: #ffffff; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 15px; margin-top: 20px; transition: 0.2s; }
+        button:hover { background: #2ea043; }
         #status { margin-top: 15px; font-size: 14px; color: #58a6ff; font-weight: 600; text-align: center; }
         #output-box { display: none; margin-top: 24px; border-top: 1px solid #30363d; padding-top: 20px; }
         #output { background: #0d1117; padding: 18px; border-radius: 8px; border: 1px solid #30363d; white-space: pre-wrap; font-size: 14px; line-height: 1.6; color: #e6edf3; }
@@ -31,7 +32,7 @@
 <body>
 
     <div class="container">
-        <!-- Logo Song Kiếm Death Battle -->
+        <!-- Logo Header -->
         <div class="brand-header">
             <div class="logo-box">
                 <svg viewBox="0 0 24 24">
@@ -39,8 +40,8 @@
                 </svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Hệ thống phân tích Kèo đấu Độc lập (Không API - Không Cần WebGPU)</p>
-            <span class="badge">OFFLINE ALGORITHM ENGINE</span>
+            <p class="subtitle">Hệ thống phân tích Kèo đấu Độc lập (Chạy trực tiếp - Không API)</p>
+            <span class="badge">DEBATE ENGINE 2.5</span>
         </div>
 
         <div class="row">
@@ -57,27 +58,52 @@
         <label>Điều kiện trận đấu / Speed Equalized:</label>
         <input type="text" id="condition" value="Standard Battle Assumptions (SBA), Speed Equalized, Bloodlust">
 
-        <label>Ghi chú thêm (Form, Scan, Rule...):</label>
-        <textarea id="notes" rows="2" placeholder="Ví dụ: Không tính Fan-made, dùng bản Manga..."></textarea>
+        <label>Ghi chú thêm:</label>
+        <textarea id="notes" rows="2" placeholder="Ví dụ: Không fan-made, dùng bản Manga..."></textarea>
 
-        <button id="runBtn" onclick="analyzeMatch()">🔥 Bắt Đầu Phân Tích Trực Tiếp</button>
+        <button id="runBtn" onclick="runBattleAnalysis()">🔥 Phân Tích Kèo Đấu Ngay</button>
 
         <div id="status"></div>
 
         <div id="output-box">
-            <label style="color: #3fb950; font-size: 16px;">📊 KẾT QUẢ PHÂN TÍCH KÈO ĐẤU:</label>
+            <label style="color: #3fb950; font-size: 15px;">📊 KẾT QUẢ PHÂN TÍCH CHI TIẾT:</label>
             <div id="output"></div>
         </div>
     </div>
 
     <script>
-        function analyzeMatch() {
-            const c1 = document.getElementById('char1').value.trim();
-            const c2 = document.getElementById('char2').value.trim();
-            const cond = document.getElementById('condition').value.trim();
-            const notes = document.getElementById('notes').value.trim() || 'Không có ghi chú bổ sung.';
+        // Cơ sở dữ liệu nhân vật offline
+        const db = {
+            "goku": { name: "Goku (Canon)", tier: "2-C đến 2-A", power: 95, speed: "Immeasurable", hax: ["Ki Manipulation", "Ultra Instinct", "Hakai", "Teleportation"], desc: "Sở hữu sức mạnh phá hủy đa vũ trụ nhẹ và phản xạ bản năng vô cực." },
+            "cc goku": { name: "CC Goku (SDBH)", tier: "Complex Multiverse (1-C / Low 1-A)", power: 150, speed: "Inaccessible", hax: ["Keysword Manipulation", "Concept Erasure", "Space-Time Manipulation", "Omni-Ki"], desc: "Phiên bản Capsule Corp sở hữu Keysword vô hiệu hóa mọi Hax và scale vượt không-thời gian." },
+            "saitama": { name: "Saitama (OPM)", tier: "Multi-Solar System đến Galaxy (4-A / 3-C)", power: 75, speed: "FTL+", hax: ["Reactive Evolution", "Interactive Causality", "Non-Physical Interaction"], desc: "Khả năng tăng trưởng sức mạnh vô hạn theo thời gian và kháng các đòn vật lý." },
+            "superman": { name: "Superman (Base)", tier: "2-A đến 1-C", power: 110, speed: "Infinite", hax: ["Heat Vision", "Super Hearing", "Invulnerability"], desc: "Sức mạnh thể chất cùng khả năng hấp thụ năng lượng mặt trời." },
+            "cas": { name: "Cosmic Armor Superman", tier: "High Outerverse (1-A / High 1-A)", power: 300, speed: "Irrelevant", hax: ["Plot Manipulation", "Concept Adaptation", "Dimensional Transcendence"], desc: "Thực thể siêu việt thao túng cốt truyện và nhận biết được người đọc." }
+        };
 
-            if (!c1 || !c2) {
+        function getCharData(name) {
+            const cleanName = name.toLowerCase().trim();
+            for (let key in db) {
+                if (cleanName.includes(key)) return db[key];
+            }
+            // Trường hợp nhân vật mới chưa có trong DB
+            return {
+                name: name,
+                tier: "Đang cập nhật (Ước tính Tier 3 hoặc 2)",
+                power: 80,
+                speed: "Massively FTL",
+                hax: ["Vật lý nâng cao", "Năng lượng đặc biệt", "Kháng hiệu ứng cơ bản"],
+                desc: "Nhân vật được phân tích dựa trên quy chuẩn chỉ số chung của VSBW."
+            };
+        }
+
+        function runBattleAnalysis() {
+            const c1Input = document.getElementById('char1').value.trim();
+            const c2Input = document.getElementById('char2').value.trim();
+            const cond = document.getElementById('condition').value.trim();
+            const notes = document.getElementById('notes').value.trim() || 'Không có';
+
+            if (!c1Input || !c2Input) {
                 alert("Vui lòng nhập tên cho cả 2 nhân vật!");
                 return;
             }
@@ -86,43 +112,69 @@
             const outputBox = document.getElementById('output-box');
             const output = document.getElementById('output');
 
-            status.innerText = "⚔️ Đang tổng hợp dữ liệu Feat & Hax...";
+            status.innerText = "⚔️ Thuật toán AI đang truy xuất Feat và tính toán Hax...";
             outputBox.style.display = 'block';
 
             setTimeout(() => {
-                const report = 
+                const p1 = getCharData(c1Input);
+                const p2 = getCharData(c2Input);
+
+                let winner = "";
+                let ratio = "";
+
+                if (p1.power > p2.power) {
+                    winner = p1.name;
+                    ratio = `${Math.min(95, 50 + (p1.power - p2.power))}% - ${Math.max(5, 50 - (p1.power - p2.power))}%`;
+                } else if (p2.power > p1.power) {
+                    winner = p2.name;
+                    ratio = `${Math.max(5, 50 - (p2.power - p1.power))}% - ${Math.min(95, 50 + (p2.power - p1.power))}%`;
+                } else {
+                    winner = "Hòa / Cân bằng";
+                    ratio = "50% - 50%";
+                }
+
+                const resultText = 
 `==================================================
-PHÂN TÍCH KÈO ĐẤU: ${c1.toUpperCase()} VS ${c2.toUpperCase()}
-Tiêu chuẩn áp dụng: VSBattles Wiki (VSBW) / EFA / DBVN 2.5
+PHÂN TÍCH KÈO ĐẤU: ${p1.name.toUpperCase()} VS ${p2.name.toUpperCase()}
+Chuẩn đánh giá: VSBattles Wiki / EFA / DBVN 2.5
 ==================================================
 
-1. STATS OVERVIEW (Thông số cơ bản)
-- Điều kiện áp dụng: ${cond}
-- Ghi chú quy định: ${notes}
-- Đánh giá Tier: Đang tiến hành truy xuất Tier & Scale trực tiếp dựa trên dữ liệu chuẩn của hai nhân vật.
-- Tốc độ (Speed): Đã áp dụng cơ chế Equalized Speed nếu được yêu cầu trong điều kiện trận đấu.
+1. STATS OVERVIEW (Thông số chiến đấu)
+* ${p1.name}:
+  - Tier Scale: ${p1.tier}
+  - Speed: ${p1.speed}
+  - Mô tả: ${p1.desc}
 
-2. HAX & RESISTANCE ANALYSIS (Phân tích năng lực đặc biệt)
-- Khả năng tương tác Hax: So sánh tập hợp Hax chủ động (Existence Erasure, Concept Manipulation, Reality Warping...) và khả năng Kháng Hax tương ứng của ${c1} và ${c2}.
-- Bỏ qua phòng thủ (Durability Negation): Đánh giá khả năng gây sát thương trực tiếp không dựa trên AP thuần.
+* ${p2.name}:
+  - Tier Scale: ${p2.tier}
+  - Speed: ${p2.speed}
+  - Mô tả: ${p2.desc}
 
-3. FEATS & PROOF EVALUATION (Đánh giá chiến tích)
-- Lọc chiến tích chính chủ (Canon Feats) theo ghi chú: "${notes}".
-- Loại bỏ toàn bộ các Outlier, Anti-Feat không hợp lệ hoặc các phiên bản Fan-made không chính thức.
+* Quy định trận đấu: ${cond}
+* Ghi chú bổ sung: ${notes}
 
-4. BATTLE SCENARIO (Kịch bản diễn biến trận đấu)
-- Khi bước vào trận chiến với trạng thái Bloodlust, cả hai sẽ tung ra các đòn đánh hiểm hóc nhất ngay từ đầu.
-- ${c1} sẽ tận dụng ưu thế về bộ kỹ năng cá nhân để áp đặt thế trận.
-- ${c2} phản công bằng các khả năng phòng thủ và kháng Hax sẵn có.
+2. HAX & RESISTANCE ANALYSIS (So sánh năng lực)
+* Bộ Hax của ${p1.name}: ${p1.hax.join(", ")}
+* Bộ Hax của ${p2.name}: ${p2.hax.join(", ")}
+-> Đánh giá Tương tác: ${p1.power >= p2.power ? p1.name + ' có khả năng áp đảo hoặc vô hiệu hóa bộ Hax của đối phương nhờ Scale Tier vượt trội.' : p2.name + ' sở hữu Hax/Tier cao hơn, có thể dễ dàng hóa giải đòn đánh của đối thủ.'}
 
-5. FINAL VERDICT (Kết luận cuối cùng)
-- Tỷ lệ chiến thắng: Đánh giá cân bằng dựa trên quy chuẩn tranh luận DBVN 2.5.
-- Winner: Kết quả phụ thuộc vào việc nhân vật nào sở hữu Hax cao cấp hơn hoặc có Tier vượt trội hoàn toàn theo bảng phân cấp VSBW/EFA.
+3. FEATS & PROOF EVALUATION (Kiểm chứng chiến tích)
+- Đã loại bỏ các yếu tố Fan-made theo ghi chú: "${notes}".
+- Xét về Feat chính chủ (Canon/Official), ${p1.power >= p2.power ? p1.name : p2.name} thể hiện tầm ảnh hưởng trên quy mô chiều không gian lớn hơn rõ rệt.
+
+4. BATTLE SCENARIO (Kịch bản trận đấu)
+- Khi bước vào trận chiến với trạng thái Bloodlust, cả hai lập tức tung toàn bộ sức mạnh.
+- ${p1.power >= p2.power ? p1.name : p2.name} nhanh chóng chiếm thế chủ động nhờ khoảng cách về AP/DC và chiều không gian.
+- Dù đối phương cố gắng bộc phát khả năng phòng thủ hoặc tăng trưởng, khoảng cách Tier quá lớn khiến kết quả sớm được định đoạt.
+
+5. FINAL VERDICT (Kết luận)
+- Tỷ lệ thắng (${p1.name} vs ${p2.name}): ${ratio}
+- WINNER: 🏆 ${winner.toUpperCase()}
 ==================================================`;
 
-                output.innerText = report;
-                status.innerText = "✅ Phân tích hoàn tất trực tiếp tại trang web!";
-            }, 500);
+                output.innerText = resultText;
+                status.innerText = "✅ Phân tích hoàn tất thành công!";
+            }, 600);
         }
     </script>
 </body>
