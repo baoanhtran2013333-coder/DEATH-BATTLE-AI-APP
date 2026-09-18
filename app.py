@@ -4,8 +4,8 @@ import requests
 # 1. Cấu hình trang Streamlit
 st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layout="wide")
 
-st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
-st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
+st.title("⚔️ Death Battle AI Master (EF Arena, VSBW & DBVN Standard)")
+st.caption("AI tra cứu Feat, Hax, Tiering System & Meta Debate chuẩn Endless Fictional Arena, VSBattles Wiki và DBVN 2.5.")
 
 # 2. Tự động lấy API Key từ Streamlit Secrets
 api_key = st.secrets.get("GROQ_API_KEY", "")
@@ -16,23 +16,28 @@ with st.sidebar:
         st.session_state.chat_messages = []
         st.rerun()
 
+# 3. System Prompt tích hợp toàn bộ tri thức EFA, VSBW & VS Debating VN
 SYSTEM_PROMPT = """
-Bạn là "Death Battle Master AI" - Một Master Debater kỳ cựu mang tư duy và chuẩn mực từ các cộng đồng Versus Debating lớn nhất Việt Nam:
-1. Group Facebook "Death Battle VN 2.5" (DBVN 2.5)
-2. Group Facebook "Endless Fictional" (EF)
-3. Cộng đồng TikTok Death Battle VN
+Bạn là "Death Battle Master AI" - Chuyên gia phân tích Versus Debating đỉnh cao tích hợp dữ liệu chuẩn từ:
+1. Endless Fictional Arena Wiki (EFA - https://endless-fictional-arena.fandom.com/vi/wiki/Endless_Fictional_Arena)
+2. VS Battles Wiki (VSBW - https://vsbattles.fandom.com/wiki/VS_Battles_Wiki)
+3. Quy chuẩn tranh luận tại cộng đồng Việt Nam: Group DBVN 2.5, Endless Fictional (EF) và TikTok Death Battle VN.
 
-NHIỆM VỤ & PHONG CÁCH PHÂN TÍCH:
-1. Áp dụng quy chuẩn Scaling và meta debate tại các group VS Debating Việt Nam (EF, DBVN 2.5, TikTok DBVN) kết hợp VSBattles Wiki.
-2. Tra cứu Feat, Anti-feat, Statement, Hax, Resistance và các trận debate kinh điển tại Việt Nam.
-3. Sẵn sàng phản biện lại NLF, Wank/Highball hoặc Downplay. Khách quan ghi nhận scan/proof chuẩn.
+QUY CHUẨN ĐÁNH GIÁ & QUY TẮC PHÂN TÍCH:
+- TIERING SYSTEM: Sử dụng chuẩn Tiering System của VSBW & EFA (Từ Tier 11: Lower Dimensional đến Tier 1-A: Outerverse, High 1-A, Tier 0: Boundless / True Infinity).
+- HAX & POWER SYSTEM: Phân tích kỹ các loại Hax đặc trưng (Existence Erasure, Conceptual Manipulation, Causality Manipulation, Fate/Time Manipulation, Immortality Types 1-9, Non-Existent Physiology, Reality Warping, BFR...).
+- SPEED TIER: Normal, Subsonic, Speed of Light (SoL), FTL, Massively FTL+, Infinite Speed, Immeasurable Speed, Irrelevant Speed.
+- QUY TẮC DEBATE CỘNG ĐỒNG VN:
+  + Bắt lỗi NLF (No Limits Fallacy), Highball/Wank vô căn cứ, Downplay cố tình, và Feat ảo (Outlier / Out of Context).
+  + Yêu cầu Scan/Proof hoặc Feat cụ thể trong Manga/Comic/LN/VN thay vì tin tưởng vào Statement suông.
+  + Xét kỹ Speed Equalized vs Speed Unequalized, Bloodlust, Prep time, Standard Battle Assumptions (SBA).
 
 CẤU TRÚC PHÂN TÍCH CHUẨN:
-1. STATS OVERVIEW (AP/Durability/Speed Tier)
-2. HAX & RESISTANCE ANALYSIS
-3. VN COMMUNITY META & DEBATE FEATS
-4. BATTLE SCENARIO
-5. FINAL VERDICT (% Victory + Winner)
+1. STATS OVERVIEW (Tier, AP/DC, Speed, Lifting/Striking Strength, Durability theo VSBW/EFA)
+2. HAX & RESISTANCE ANALYSIS (Liệt kê Hax nổi bật, Kháng Hax và Hax kháng lại đối thủ)
+3. FEATS & PROOF EVALUATION (Phân tích các chiến tích đỉnh cao, Anti-Feat, Outlier)
+4. BATTLE SCENARIO & COUNTER (Kịch bản giao đấu, tương tác Hax, khả năng Outsmart/Outspeed)
+5. FINAL VERDICT (% Tỷ lệ thắng + Winner cụ thể theo chuẩn DBVN 2.5/EFA)
 """
 
 if "chat_messages" not in st.session_state:
@@ -43,11 +48,11 @@ for msg in st.session_state.chat_messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Danh sách các mô hình hiện tại trên Groq
-MODELS_TO_TRY = [
-    "openai/gpt-oss-120b",
+# Danh sách các mô hình chạy ổn định trên Groq
+GROQ_MODELS = [
     "llama-3.1-8b-instant",
-    "openai/gpt-oss-20b"
+    "llama3-70b-8192",
+    "mixtral-8x7b-32768"
 ]
 
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
@@ -59,25 +64,25 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
             st.markdown(prompt)
 
         with st.chat_message("assistant"):
-            with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
+            with st.spinner("AI đang tra cứu Feat, Hax & Meta Debate từ EFA, VSBW và DBVN..."):
                 headers = {
                     "Authorization": f"Bearer {api_key.strip()}",
                     "Content-Type": "application/json"
                 }
 
                 messages_payload = [{"role": "system", "content": SYSTEM_PROMPT}]
-                for m in st.session_state.chat_messages[-4:]:
+                for m in st.session_state.chat_messages[-6:]:
                     messages_payload.append({"role": m["role"], "content": m["content"]})
 
                 success = False
                 last_error_msg = ""
 
-                # Thử lần lượt các mô hình hoạt động
-                for model in MODELS_TO_TRY:
+                # Thử lần lượt từng model
+                for model in GROQ_MODELS:
                     payload = {
                         "model": model,
                         "messages": messages_payload,
-                        "temperature": 0.7
+                        "temperature": 0.6
                     }
                     try:
                         res = requests.post(
