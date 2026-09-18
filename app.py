@@ -43,12 +43,10 @@ for msg in st.session_state.chat_messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Danh sách model dự phòng trên Groq
+# Danh sách model chuẩn đang hoạt động trên Groq
 GROQ_MODELS = [
     "llama-3.1-8b-instant",
-    "llama3-70b-8192",
-    "mixtral-8x7b-32768",
-    "gemma2-9b-it"
+    "llama-3.3-70b-versatile"
 ]
 
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
@@ -69,7 +67,7 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
                 success = False
                 last_error = ""
 
-                # Thử lần lượt các model Groq
+                # Thử lần lượt các model Groq chuẩn
                 for model_name in GROQ_MODELS:
                     try:
                         response = client.chat.completions.create(
