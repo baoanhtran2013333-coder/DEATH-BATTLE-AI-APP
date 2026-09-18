@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Death Battle AI Master Prompt Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0e1117; color: #ffffff; padding: 20px; max-width: 800px; margin: auto; }
+        h1 { color: #ff4b4b; text-align: center; font-size: 26px; margin-bottom: 5px; }
+        p.subtitle { text-align: center; color: #8b949e; margin-bottom: 25px; font-size: 14px; }
+        .card { background: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        label { font-weight: bold; display: block; margin-top: 15px; color: #c9d1d9; font-size: 14px; }
+        input, textarea { width: 100%; padding: 12px; margin-top: 6px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #fff; box-sizing: border-box; font-size: 14px; outline: none; }
+        input:focus, textarea:focus { border-color: #58a6ff; }
+        button { width: 100%; padding: 14px; background: #238636; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 20px; transition: 0.2s; }
+        button:hover { background: #2ea043; }
+        .btn-group { display: flex; gap: 12px; margin-top: 15px; }
+        .btn-group a { flex: 1; text-align: center; padding: 12px; background: #1f6feb; color: white; text-decoration: none; font-weight: bold; border-radius: 6px; transition: 0.2s; font-size: 14px; }
+        .btn-group a:hover { background: #388bfd; }
+        .btn-group a.ddg { background: #da3633; }
+        .btn-group a.ddg:hover { background: #f85149; }
+    </style>
+</head>
+<body>
+
+    <h1>⚔️ Death Battle AI Master</h1>
+    <p class="subtitle">Bộ công cụ tạo Prompt chuẩn Endless Fictional Arena, VSBW & DBVN 2.5</p>
+
+    <div class="card">
+        <label>Nhân vật 1:</label>
+        <input type="text" id="char1" placeholder="Ví dụ: CC Goku, Saitama, UI Daniel...">
+
+        <label>Nhân vật 2:</label>
+        <input type="text" id="char2" placeholder="Ví dụ: Cosmic Armor Superman, Rimuru...">
+
+        <label>Điều kiện trận đấu / Speed Equalized:</label>
+        <input type="text" id="condition" value="Standard Battle Assumptions (SBA), Speed Equalized, Bloodlust">
+
+        <label>Ghi chú thêm (Form, Scan, Feat...):</label>
+        <textarea id="notes" rows="2" placeholder="Ví dụ: Không tính Non-canon, dùng bản Manga..."></textarea>
+
+        <button onclick="generatePrompt()">🔥 Tạo Prompt Death Battle</button>
+
+        <div id="result" style="display:none; margin-top: 25px;">
+            <label style="color: #3fb950;">✅ Prompt chuẩn cấu trúc VSBW / EFA:</label>
+            <textarea id="promptText" rows="10" readonly></textarea>
+            
+            <div class="btn-group">
+                <a id="chatgptBtn" href="#" target="_blank">🚀 Mở ChatGPT</a>
+                <a class="ddg" href="https://duckduckgo.com/chat" target="_blank">🚀 Mở DuckDuckGo Chat</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const c1 = document.getElementById('char1').value.trim() || 'Nhân vật A';
+            const c2 = document.getElementById('char2').value.trim() || 'Nhân vật B';
+            const cond = document.getElementById('condition').value.trim();
+            const notes = document.getElementById('notes').value.trim();
+
+            const fullPrompt = `Bạn là "Death Battle Master AI" - Chuyên gia phân tích Versus Debating đỉnh cao tích hợp dữ liệu chuẩn từ:
+1. Endless Fictional Arena Wiki (EFA)
+2. VS Battles Wiki (VSBW)
+3. Quy chuẩn tranh luận tại cộng đồng Việt Nam (DBVN 2.5, Endless Fictional).
+
+HÃY PHÂN TÍCH KÈO ĐẤU: ${c1} VS ${c2}
+- ĐIỀU KIỆN: ${cond}
+- GHI CHÚ BỔ SUNG: ${notes || 'Không có'}
+
+CẤU TRÚC PHÂN TÍCH CHUẨN:
+1. STATS OVERVIEW (Tier, AP/DC, Speed, Lifting/Striking Strength, Durability theo VSBW/EFA)
+2. HAX & RESISTANCE ANALYSIS (Liệt kê Hax nổi bật, Kháng Hax và Hax kháng lại đối thủ)
+3. FEATS & PROOF EVALUATION (Phân tích chiến tích đỉnh cao, Anti-Feat, Outlier)
+4. BATTLE SCENARIO & COUNTER (Kịch bản giao đấu, tương tác Hax, khả năng Outsmart/Outspeed)
+5. FINAL VERDICT (% Tỷ lệ thắng + Winner cụ thể theo chuẩn DBVN 2.5/EFA)`;
+
+            document.getElementById('promptText').value = fullPrompt;
+            document.getElementById('chatgptBtn').href = "https://chatgpt.com/?q=" + encodeURIComponent(fullPrompt);
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
