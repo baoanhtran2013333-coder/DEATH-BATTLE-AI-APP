@@ -1,44 +1,75 @@
-import streamlit as st
 import urllib.parse
+import streamlit as st
 
-st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layout="wide")
+# 1. Cấu hình giao diện Web Streamlit
+st.set_page_config(
+    page_title="Death Battle AI Master", page_icon="⚔️", layout="wide"
+)
 
-st.title("⚔️ Death Battle AI Master Prompt Generator")
-st.caption("Tạo Prompt chuẩn Endless Fictional Arena, VSBW & DBVN 2.5 để chat trực tiếp trên ChatGPT / Gemini / DuckDuckGo AI.")
+st.title("⚔️ Death Battle AI Master (EF Arena, VSBW & DBVN Standard)")
+st.caption(
+    "Hệ thống phân tích Feat, Hax & Meta Debate chuẩn Endless Fictional Arena,"
+    " VSBattles Wiki và DBVN 2.5."
+)
 
-# Form nhập thông tin kèo đấu
-with st.form("versus_form"):
-    char1 = st.text_input("Nhân vật 1 (ví dụ: CC Goku):")
-    char2 = st.text_input("Nhân vật 2 (ví dụ: Cosmic Armor Superman):")
-    condition = st.text_input("Điều kiện trận đấu (ví dụ: Speed Equalized, Bloodlust, SBA):", value="Standard Battle Assumptions (SBA)")
-    
-    submitted = st.form_submit_button("🔥 Tạo Prompt & Phân Tích")
+with st.sidebar:
+  st.header("⚙️ Tùy chọn")
+  if st.button("🔄 Tạo kèo đấu mới", use_container_width=True):
+    st.session_state.chat_messages = []
+    st.rerun()
 
-if submitted and char1 and char2:
-    full_prompt = f"""
+# 2. Bộ tri thức Death Battle đóng gói sẵn
+SYSTEM_PROMPT = """
 Bạn là "Death Battle Master AI" - Chuyên gia phân tích Versus Debating đỉnh cao tích hợp dữ liệu chuẩn từ:
-1. Endless Fictional Arena Wiki (EFA)
-2. VS Battles Wiki (VSBW)
-3. Group DBVN 2.5, Endless Fictional (EF) và TikTok Death Battle VN.
+1. Endless Fictional Arena Wiki (EFA - https://endless-fictional-arena.fandom.com/vi/wiki/Endless_Fictional_Arena)
+2. VS Battles Wiki (VSBW - https://vsbattles.fandom.com/wiki/VS_Battles_Wiki)
+3. Quy chuẩn tranh luận tại cộng đồng Việt Nam: Group DBVN 2.5, Endless Fictional (EF) và TikTok Death Battle VN.
 
-Hãy phân tích kèo đấu: {char1} vs {char2}
-Điều kiện: {condition}
+QUY CHUẨN ĐÁNH GIÁ & QUY TẮC PHÂN TÍCH:
+- TIERING SYSTEM: Sử dụng chuẩn Tiering System của VSBW & EFA (Từ Tier 11 đến Tier 1-A, High 1-A, Tier 0: Boundless / True Infinity).
+- HAX & POWER SYSTEM: Phân tích kỹ các loại Hax đặc trưng (Existence Erasure, Conceptual Manipulation, Causality Manipulation, Fate/Time Manipulation, Immortality Types 1-9, Non-Existent Physiology, Reality Warping, BFR...).
+- SPEED TIER: Normal, Subsonic, SoL, FTL, MFTL+, Infinite Speed, Immeasurable Speed, Irrelevant Speed.
+- QUY TẮC DEBATE CỘNG ĐỒNG VN:
+  + Bắt lỗi NLF (No Limits Fallacy), Highball/Wank vô căn cứ, Downplay cố tình, và Feat ảo (Outlier / Out of Context).
+  + Yêu cầu Scan/Proof hoặc Feat cụ thể trong Manga/Comic/LN/VN thay vì tin tưởng vào Statement suông.
+  + Xét kỹ Speed Equalized vs Speed Unequalized, Bloodlust, Prep time, Standard Battle Assumptions (SBA).
 
-CẤU TRÚC PHÂN TÍCH:
+CẤU TRÚC PHÂN TÍCH CHUẨN:
 1. STATS OVERVIEW (Tier, AP/DC, Speed, Lifting/Striking Strength, Durability theo VSBW/EFA)
-2. HAX & RESISTANCE ANALYSIS (Liệt kê Hax nổi bật, Kháng Hax)
-3. FEATS & PROOF EVALUATION (Phân tích chiến tích, Anti-Feat, Outlier)
-4. BATTLE SCENARIO & COUNTER (Kịch bản giao đấu, tương tác Hax)
-5. FINAL VERDICT (% Tỷ lệ thắng + Winner)
+2. HAX & RESISTANCE ANALYSIS (Liệt kê Hax nổi bật, Kháng Hax và Hax kháng lại đối thủ)
+3. FEATS & PROOF EVALUATION (Phân tích các chiến tích đỉnh cao, Anti-Feat, Outlier)
+4. BATTLE SCENARIO & COUNTER (Kịch bản giao đấu, tương tác Hax, khả năng Outsmart/Outspeed)
+5. FINAL VERDICT (% Tỷ lệ thắng + Winner cụ thể theo chuẩn DBVN 2.5/EFA)
 """
-    st.success("✅ Đã tạo Prompt chuẩn!")
-    st.text_area("Prompt của bạn (Có thể copy):", full_prompt, height=250)
-    
-    # Tạo đường dẫn mở nhanh các trang AI miễn phí
-    encoded_prompt = urllib.parse.quote(full_prompt)
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        st.link_button("🚀 Chat ngay trên ChatGPT (Miễn phí)", f"https://chatgpt.com/?q={encoded_prompt}", use_container_width=True)
-    with col2:
-        st.link_button("🚀 Chat ngay trên DuckDuckGo AI (Không cần tài khoản)", "https://duckduckgo.com/chat", use_container_width=True)
+
+if "chat_messages" not in st.session_state:
+  st.session_state.chat_messages = []
+
+# Hiển thị lịch sử chat trên giao diện
+for msg in st.session_state.chat_messages:
+  with st.chat_message(msg["role"]):
+    st.markdown(msg["content"])
+
+# Xử lý khi người dùng nhập tin nhắn vào khung Chat
+if prompt := st.chat_input(
+    "Nhập kèo đấu hoặc gửi phản biện/scan (Ví dụ: cc goku vs saitama)..."
+):
+  # Lưu và hiển thị tin nhắn người dùng
+  st.session_state.chat_messages.append({"role": "user", "content": prompt})
+  with st.chat_message("user"):
+    st.markdown(prompt)
+
+  # Đóng gói Prompt chứa đầy đủ luật Death Battle
+  full_prompt = f"{SYSTEM_PROMPT}\n\nYÊU CẦU PHÂN TÍCH KÈO ĐẤU:\n{prompt}"
+  encoded_prompt = urllib.parse.quote(full_prompt)
+
+  # Tạo link chuyển tiếp trực tiếp
+  chatgpt_link = f"https://chatgpt.com/?q={encoded_prompt}"
+
+  bot_reply = f"""
+🎯 **Đã xử lý dữ liệu cho kèo:** `{prompt}`
+
+Đoạn Prompt chuẩn cấu trúc EFA / VSBW / DBVN 2.5 đã được tạo xong:
+
+```text
+{full_prompt}
