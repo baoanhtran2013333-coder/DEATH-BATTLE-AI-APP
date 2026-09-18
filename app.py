@@ -1,13 +1,13 @@
 import streamlit as st
 from groq import Groq
 
-# Cấu hình trang Streamlit
+# 1. Cấu hình trang Streamlit
 st.set_page_config(page_title="Death Battle AI Master", page_icon="⚔️", layout="wide")
 
 st.title("⚔️ Death Battle AI Master (Endless Fictional & DBVN 2.5 Standard)")
 st.caption("AI tra cứu Feat, Hax, Meta Debate từ Endless Fictional, DBVN 2.5 và TikTok Death Battle VN.")
 
-# Tự động lấy API Key từ Streamlit Secrets
+# 2. Tự động lấy API Key từ Streamlit Secrets
 api_key = st.secrets.get("GROQ_API_KEY", "")
 
 with st.sidebar:
@@ -16,6 +16,7 @@ with st.sidebar:
         st.session_state.chat_messages = []
         st.rerun()
 
+# 3. System Prompt
 SYSTEM_PROMPT = """
 Bạn là "Death Battle Master AI" - Một Master Debater kỳ cựu mang tư duy và chuẩn mực từ các cộng đồng Versus Debating lớn nhất Việt Nam:
 1. Group Facebook "Death Battle VN 2.5" (DBVN 2.5)
@@ -38,17 +39,12 @@ CẤU TRÚC PHÂN TÍCH CHUẨN:
 if "chat_messages" not in st.session_state:
     st.session_state.chat_messages = []
 
-# Hiển thị lịch sử chat
+# Hiển thị lịch sử tin nhắn
 for msg in st.session_state.chat_messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Danh sách model chuẩn đang hoạt động trên Groq
-GROQ_MODELS = [
-    "llama-3.1-8b-instant",
-    "llama-3.3-70b-versatile"
-]
-
+# Nhận phản hồi từ người dùng
 if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/bằng chứng cho AI..."):
     if not api_key:
         st.error("⚠️ Chưa cài đặt GROQ_API_KEY trong Streamlit Secrets!")
@@ -59,31 +55,22 @@ if prompt := st.chat_input("Nhập kèo đấu hoặc gửi phản biện/scan/b
 
         with st.chat_message("assistant"):
             with st.spinner("AI đang tra cứu Feat & Meta Debate từ cộng đồng VN..."):
-                client = Groq(api_key=api_key)
-                messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-                for m in st.session_state.chat_messages[-4:]:
-                    messages.append({"role": m["role"], "content": m["content"]})
+                try:
+                    client = Groq(api_key=api_key)
+                    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+                    for m in st.session_state.chat_messages[-4:]:
+                        messages.append({"role": m["role"], "content": m["content"]})
 
-                success = False
-                last_error = ""
+                    # Dùng duy nhất model llama-3.1-8b-instant đang hỗ trợ chính thức
+                    response = client.chat.completions.create(
+                        model="llama-3.1-8b-instant",
+                        messages=messages,
+                        temperature=0.7
+                    )
 
-                # Thử lần lượt các model Groq chuẩn
-                for model_name in GROQ_MODELS:
-                    try:
-                        response = client.chat.completions.create(
-                            model=model_name,
-                            messages=messages,
-                            temperature=0.7
-                        )
-                        if response and response.choices:
-                            bot_reply = response.choices[0].message.content
-                            st.markdown(bot_reply)
-                            st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
-                            success = True
-                            break
-                    except Exception as e:
-                        last_error = str(e)
-                        continue
+                    bot_reply = response.choices[0].message.content
+                    st.markdown(bot_reply)
+                    st.session_state.chat_messages.append({"role": "assistant", "content": bot_reply})
 
-                if not success:
-                    st.error(f"Lỗi API Groq: {last_error}")
+                except Exception as e:
+                    st.error(f"Lỗi API Groq: {e}")
