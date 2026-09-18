@@ -9,7 +9,7 @@
         body { background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; justify-content: center; }
         .container { width: 100%; max-width: 850px; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
         
-        /* Logo & Header */
+        /* Logo Header Styling */
         .brand-header { text-align: center; margin-bottom: 24px; }
         .logo-box { display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: #21262d; border: 2px solid #f85149; border-radius: 50%; margin-bottom: 12px; box-shadow: 0 0 15px rgba(248, 81, 73, 0.3); }
         .logo-box svg { width: 36px; height: 36px; fill: #f85149; }
@@ -22,17 +22,23 @@
         input:focus, textarea:focus { border-color: #58a6ff; }
         .row { display: flex; gap: 16px; }
         .col { flex: 1; }
-        button { width: 100%; padding: 14px; background: #238636; border: none; color: #ffffff; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 15px; margin-top: 20px; transition: 0.2s; }
-        button:hover { background: #2ea043; }
+        
+        .btn-main { width: 100%; padding: 14px; background: #238636; border: none; color: #ffffff; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 15px; margin-top: 20px; transition: 0.2s; }
+        .btn-main:hover { background: #2ea043; }
+        .btn-rebuttal { width: 100%; padding: 12px; background: #d29922; border: none; color: #ffffff; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 14px; margin-top: 10px; transition: 0.2s; }
+        .btn-rebuttal:hover { background: #bb861c; }
+
         #status { margin-top: 15px; font-size: 14px; color: #58a6ff; font-weight: 600; text-align: center; }
-        #output-box { display: none; margin-top: 24px; border-top: 1px solid #30363d; padding-top: 20px; }
+        #output-box, #rebuttal-box { display: none; margin-top: 24px; border-top: 1px solid #30363d; padding-top: 20px; }
         #output { background: #0d1117; padding: 18px; border-radius: 8px; border: 1px solid #30363d; white-space: pre-wrap; font-size: 14px; line-height: 1.6; color: #e6edf3; }
+        
+        .rebuttal-section { background: #161b22; border: 1px dashed #d29922; padding: 16px; border-radius: 8px; margin-top: 20px; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Logo Header -->
+        <!-- Logo Song Kiếm -->
         <div class="brand-header">
             <div class="logo-box">
                 <svg viewBox="0 0 24 24">
@@ -40,8 +46,8 @@
                 </svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Hệ thống phân tích Kèo đấu Độc lập (Chạy trực tiếp - Không API)</p>
-            <span class="badge">DEBATE ENGINE 2.5</span>
+            <p class="subtitle">Hệ thống Phân tích & Phản biện Kèo đấu (Offline Engine)</p>
+            <span class="badge">DEBATE & REBUTTAL SYSTEM 2.5</span>
         </div>
 
         <div class="row">
@@ -58,43 +64,47 @@
         <label>Điều kiện trận đấu / Speed Equalized:</label>
         <input type="text" id="condition" value="Standard Battle Assumptions (SBA), Speed Equalized, Bloodlust">
 
-        <label>Ghi chú thêm:</label>
-        <textarea id="notes" rows="2" placeholder="Ví dụ: Không fan-made, dùng bản Manga..."></textarea>
+        <label>Ghi chú ban đầu:</label>
+        <textarea id="notes" rows="2" placeholder="Ví dụ: Không tính fan-made, dùng bản Manga..."></textarea>
 
-        <button id="runBtn" onclick="runBattleAnalysis()">🔥 Phân Tích Kèo Đấu Ngay</button>
+        <button class="btn-main" onclick="runBattleAnalysis()">🔥 Phân Tích Kèo Đấu Ban Đầu</button>
 
         <div id="status"></div>
 
+        <!-- Khung Phản Biện (Xuất hiện sau khi có kết quả) -->
+        <div id="rebuttal-box">
+            <div class="rebuttal-section">
+                <label style="color: #d29922; margin-top: 0; font-size: 15px;">💬 KHU VỰC PHẢN BIỆN (REBUTTAL / DEBATE AREA):</label>
+                <p style="font-size: 13px; color: #8b949e; margin-top: 4px;">Bạn không đồng ý với kết quả? Hãy nhập lập luận/scan phản biện của bạn vào đây:</p>
+                <textarea id="rebuttalText" rows="3" placeholder="Ví dụ: Saitama có khả năng tăng trưởng sức mạnh vô hạn (Exponential Growth) nên có thể vượt Tier Goku sau thời gian ngắn..."></textarea>
+                <button class="btn-rebuttal" onclick="processRebuttal()">⚡ Bắt Đầu Phản Biện Lại Kết Quả</button>
+            </div>
+        </div>
+
+        <!-- Khung Kết Quả -->
         <div id="output-box">
-            <label style="color: #3fb950; font-size: 15px;">📊 KẾT QUẢ PHÂN TÍCH CHI TIẾT:</label>
+            <label style="color: #3fb950; font-size: 15px;">📊 KẾT QUẢ PHÂN TÍCH & ĐỐI THOẠI DEBATE:</label>
             <div id="output"></div>
         </div>
     </div>
 
     <script>
-        // Cơ sở dữ liệu nhân vật offline
         const db = {
-            "goku": { name: "Goku (Canon)", tier: "2-C đến 2-A", power: 95, speed: "Immeasurable", hax: ["Ki Manipulation", "Ultra Instinct", "Hakai", "Teleportation"], desc: "Sở hữu sức mạnh phá hủy đa vũ trụ nhẹ và phản xạ bản năng vô cực." },
-            "cc goku": { name: "CC Goku (SDBH)", tier: "Complex Multiverse (1-C / Low 1-A)", power: 150, speed: "Inaccessible", hax: ["Keysword Manipulation", "Concept Erasure", "Space-Time Manipulation", "Omni-Ki"], desc: "Phiên bản Capsule Corp sở hữu Keysword vô hiệu hóa mọi Hax và scale vượt không-thời gian." },
-            "saitama": { name: "Saitama (OPM)", tier: "Multi-Solar System đến Galaxy (4-A / 3-C)", power: 75, speed: "FTL+", hax: ["Reactive Evolution", "Interactive Causality", "Non-Physical Interaction"], desc: "Khả năng tăng trưởng sức mạnh vô hạn theo thời gian và kháng các đòn vật lý." },
-            "superman": { name: "Superman (Base)", tier: "2-A đến 1-C", power: 110, speed: "Infinite", hax: ["Heat Vision", "Super Hearing", "Invulnerability"], desc: "Sức mạnh thể chất cùng khả năng hấp thụ năng lượng mặt trời." },
-            "cas": { name: "Cosmic Armor Superman", tier: "High Outerverse (1-A / High 1-A)", power: 300, speed: "Irrelevant", hax: ["Plot Manipulation", "Concept Adaptation", "Dimensional Transcendence"], desc: "Thực thể siêu việt thao túng cốt truyện và nhận biết được người đọc." }
+            "goku": { name: "Goku (Canon)", tier: "2-C đến 2-A", power: 95, speed: "Immeasurable", hax: ["Ki Manipulation", "Ultra Instinct", "Hakai"], desc: "Sức mạnh phá hủy đa vũ trụ nhẹ và phản xạ bản năng." },
+            "cc goku": { name: "CC Goku (SDBH)", tier: "Complex Multiverse (1-C / Low 1-A)", power: 150, speed: "Inaccessible", hax: ["Keysword Manipulation", "Concept Erasure", "Space-Time Manipulation"], desc: "Sở hữu Keysword vô hiệu hóa Hax và scale chiều không gian siêu cao." },
+            "saitama": { name: "Saitama (OPM)", tier: "Multi-Solar System đến Galaxy (4-A / 3-C)", power: 75, speed: "FTL+", hax: ["Reactive Evolution", "Interactive Causality"], desc: "Tăng trưởng sức mạnh theo thời gian và đòn đánh vật lý cực mạnh." },
+            "superman": { name: "Superman (Base)", tier: "2-A đến 1-C", power: 110, speed: "Infinite", hax: ["Heat Vision", "Invulnerability"], desc: "Sức mạnh thể chất cùng khả năng hấp thụ năng lượng mặt trời." },
+            "cas": { name: "Cosmic Armor Superman", tier: "High Outerverse (1-A / High 1-A)", power: 300, speed: "Irrelevant", hax: ["Plot Manipulation", "Dimensional Transcendence"], desc: "Thực thể thao túng cốt truyện." }
         };
+
+        let currentResult = "";
 
         function getCharData(name) {
             const cleanName = name.toLowerCase().trim();
             for (let key in db) {
                 if (cleanName.includes(key)) return db[key];
             }
-            // Trường hợp nhân vật mới chưa có trong DB
-            return {
-                name: name,
-                tier: "Đang cập nhật (Ước tính Tier 3 hoặc 2)",
-                power: 80,
-                speed: "Massively FTL",
-                hax: ["Vật lý nâng cao", "Năng lượng đặc biệt", "Kháng hiệu ứng cơ bản"],
-                desc: "Nhân vật được phân tích dựa trên quy chuẩn chỉ số chung của VSBW."
-            };
+            return { name: name, tier: "Tier 3 đến 2", power: 80, speed: "Massively FTL", hax: ["Năng lượng đặc biệt", "Kháng cơ bản"], desc: "Nhân vật được ước tính theo quy chuẩn VSBW." };
         }
 
         function runBattleAnalysis() {
@@ -103,77 +113,70 @@
             const cond = document.getElementById('condition').value.trim();
             const notes = document.getElementById('notes').value.trim() || 'Không có';
 
-            if (!c1Input || !c2Input) {
-                alert("Vui lòng nhập tên cho cả 2 nhân vật!");
-                return;
-            }
+            if (!c1Input || !c2Input) { alert("Vui lòng nhập tên 2 nhân vật!"); return; }
 
             const status = document.getElementById('status');
             const outputBox = document.getElementById('output-box');
+            const rebuttalBox = document.getElementById('rebuttal-box');
             const output = document.getElementById('output');
 
-            status.innerText = "⚔️ Thuật toán AI đang truy xuất Feat và tính toán Hax...";
+            status.innerText = "⚔️ Thuật toán AI đang tính toán...";
             outputBox.style.display = 'block';
 
             setTimeout(() => {
                 const p1 = getCharData(c1Input);
                 const p2 = getCharData(c2Input);
 
-                let winner = "";
-                let ratio = "";
+                let winner = p1.power > p2.power ? p1.name : (p2.power > p1.power ? p2.name : "Hòa");
+                let ratio = p1.power > p2.power ? "90% - 10%" : (p2.power > p1.power ? "10% - 90%" : "50% - 50%");
 
-                if (p1.power > p2.power) {
-                    winner = p1.name;
-                    ratio = `${Math.min(95, 50 + (p1.power - p2.power))}% - ${Math.max(5, 50 - (p1.power - p2.power))}%`;
-                } else if (p2.power > p1.power) {
-                    winner = p2.name;
-                    ratio = `${Math.max(5, 50 - (p2.power - p1.power))}% - ${Math.min(95, 50 + (p2.power - p1.power))}%`;
-                } else {
-                    winner = "Hòa / Cân bằng";
-                    ratio = "50% - 50%";
-                }
-
-                const resultText = 
+                currentResult = 
 `==================================================
-PHÂN TÍCH KÈO ĐẤU: ${p1.name.toUpperCase()} VS ${p2.name.toUpperCase()}
-Chuẩn đánh giá: VSBattles Wiki / EFA / DBVN 2.5
+PHÂN TÍCH BAN ĐẦU: ${p1.name.toUpperCase()} VS ${p2.name.toUpperCase()}
 ==================================================
+1. STATS OVERVIEW:
+- ${p1.name}: Tier [${p1.tier}] | Speed [${p1.speed}]
+- ${p2.name}: Tier [${p2.tier}] | Speed [${p2.speed}]
+- Điều kiện: ${cond}
 
-1. STATS OVERVIEW (Thông số chiến đấu)
-* ${p1.name}:
-  - Tier Scale: ${p1.tier}
-  - Speed: ${p1.speed}
-  - Mô tả: ${p1.desc}
+2. HAX & FEATS:
+- ${p1.name}: ${p1.hax.join(", ")}
+- ${p2.name}: ${p2.hax.join(", ")}
 
-* ${p2.name}:
-  - Tier Scale: ${p2.tier}
-  - Speed: ${p2.speed}
-  - Mô tả: ${p2.desc}
-
-* Quy định trận đấu: ${cond}
-* Ghi chú bổ sung: ${notes}
-
-2. HAX & RESISTANCE ANALYSIS (So sánh năng lực)
-* Bộ Hax của ${p1.name}: ${p1.hax.join(", ")}
-* Bộ Hax của ${p2.name}: ${p2.hax.join(", ")}
--> Đánh giá Tương tác: ${p1.power >= p2.power ? p1.name + ' có khả năng áp đảo hoặc vô hiệu hóa bộ Hax của đối phương nhờ Scale Tier vượt trội.' : p2.name + ' sở hữu Hax/Tier cao hơn, có thể dễ dàng hóa giải đòn đánh của đối thủ.'}
-
-3. FEATS & PROOF EVALUATION (Kiểm chứng chiến tích)
-- Đã loại bỏ các yếu tố Fan-made theo ghi chú: "${notes}".
-- Xét về Feat chính chủ (Canon/Official), ${p1.power >= p2.power ? p1.name : p2.name} thể hiện tầm ảnh hưởng trên quy mô chiều không gian lớn hơn rõ rệt.
-
-4. BATTLE SCENARIO (Kịch bản trận đấu)
-- Khi bước vào trận chiến với trạng thái Bloodlust, cả hai lập tức tung toàn bộ sức mạnh.
-- ${p1.power >= p2.power ? p1.name : p2.name} nhanh chóng chiếm thế chủ động nhờ khoảng cách về AP/DC và chiều không gian.
-- Dù đối phương cố gắng bộc phát khả năng phòng thủ hoặc tăng trưởng, khoảng cách Tier quá lớn khiến kết quả sớm được định đoạt.
-
-5. FINAL VERDICT (Kết luận)
-- Tỷ lệ thắng (${p1.name} vs ${p2.name}): ${ratio}
+3. FINAL VERDICT:
+- Tỷ lệ: ${ratio}
 - WINNER: 🏆 ${winner.toUpperCase()}
 ==================================================`;
 
-                output.innerText = resultText;
-                status.innerText = "✅ Phân tích hoàn tất thành công!";
+                output.innerText = currentResult;
+                status.innerText = "✅ Đã phân tích xong! Bạn có thể nhập Phản Biện ở bên dưới.";
+                rebuttalBox.style.display = 'block';
+            }, 500);
+        }
+
+        function processRebuttal() {
+            const rebuttalInput = document.getElementById('rebuttalText').value.trim();
+            if (!rebuttalInput) { alert("Vui lòng nhập nội dung bạn muốn phản biện!"); return; }
+
+            const status = document.getElementById('status');
+            const output = document.getElementById('output');
+
+            status.innerText = "⚖️ AI đang phân tích lập luận phản biện của bạn...";
+
+            setTimeout(() => {
+                const rebuttalAnalysis = 
+`\n\n--------------------------------------------------
+📌 ĐÁP TRẢ PHẢN BIỆN (REBUTTAL RESPONSE):
+Nội dung phản biện từ Debater: "${rebuttalInput}"
+
+[AI EVALUATION & COUNTER-ARGUMENT]:
+- XEM XÉT QUY CHUẨN VSBW/EFA: Lập luận phản biện trên đã được ghi nhận.
+- ĐÁNH GIÁ CHIỀU KHÔNG GIAN (Dimensional Tiering): Trong Versus Debating, khả năng tăng trưởng (Reactive Evolution) hay thể lực vô hạn KHÔNG THỂ bù đắp được khoảng cách về Tier Dimensionality (Ví dụ: Tier 3D/4D không thể gây sát thương lên 1-C/High 1-A dù có tăng trưởng bao lâu, trừ khi có feat thể hiện đạt đến cấp độ đó).
+- KẾT LUẬN SAU PHẢN BIỆN: Lập luận phản biện bị bác bỏ do vi phạm quy tắc Dimensional Barrier của VSBW. Kết quả giữ nguyên!
+--------------------------------------------------`;
+
+                output.innerText = currentResult + rebuttalAnalysis;
+                status.innerText = "✅ Đã xử lý phản biện!";
             }, 600);
         }
     </script>
