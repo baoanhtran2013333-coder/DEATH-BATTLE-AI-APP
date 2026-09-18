@@ -5,57 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Death Battle AI Master</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0e1117; color: #ffffff; padding: 20px; max-width: 800px; margin: auto; }
-        h1 { color: #ff4b4b; text-align: center; font-size: 26px; margin-bottom: 5px; }
-        p.subtitle { text-align: center; color: #8b949e; margin-bottom: 25px; font-size: 14px; }
-        .card { background: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-        label { font-weight: bold; display: block; margin-top: 15px; color: #c9d1d9; font-size: 14px; }
-        input, textarea { width: 100%; padding: 12px; margin-top: 6px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #fff; box-sizing: border-box; font-size: 14px; outline: none; }
-        button { width: 100%; padding: 14px; background: #ff4b4b; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 20px; transition: 0.2s; }
-        button:hover { background: #e03e3e; }
-        button:disabled { background: #555; cursor: not-allowed; }
-        #status { margin-top: 15px; font-size: 13px; color: #58a6ff; font-weight: bold; }
-        #output { background: #0d1117; padding: 15px; border-radius: 6px; border: 1px solid #30363d; margin-top: 15px; white-space: pre-wrap; font-size: 14px; line-height: 1.6; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 850px; background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        h1 { color: #f85149; text-align: center; margin-top: 0; font-size: 26px; }
+        p.subtitle { text-align: center; color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+        label { font-weight: 600; display: block; margin-top: 16px; font-size: 14px; color: #f0f6fc; }
+        input, textarea { width: 100%; padding: 12px; margin-top: 6px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #f0f6fc; font-size: 14px; outline: none; }
+        input:focus, textarea:focus { border-color: #58a6ff; }
+        .row { display: flex; gap: 16px; }
+        .col { flex: 1; }
+        button { width: 100%; padding: 14px; background: #238636; border: none; color: #ffffff; font-weight: 700; border-radius: 6px; cursor: pointer; font-size: 15px; margin-top: 20px; transition: 0.2s; }
+        button:hover { background: #2ea043; }
+        button:disabled { background: #484f58; cursor: not-allowed; }
+        #status { margin-top: 15px; font-size: 14px; color: #58a6ff; font-weight: 600; text-align: center; }
+        #output-box { display: none; margin-top: 24px; border-top: 1px solid #30363d; padding-top: 20px; }
+        #output { background: #0d1117; padding: 18px; border-radius: 8px; border: 1px solid #30363d; white-space: pre-wrap; font-size: 14px; line-height: 1.6; color: #e6edf3; }
     </style>
-    <!-- Tải thư viện WebLLM chạy AI trực tiếp trên trình duyệt -->
+
+    <!-- Thư viện nhúng Engine AI trực tiếp vào Trình duyệt -->
     <script type="module">
         import * as webllm from "https://esm.run/@mlc-ai/web-llm";
 
-        let engine;
-        const selectedModel = "Llama-3-8B-Instruct-q4f32_1-MLC";
+        let engine = null;
+        // Sử dụng mô hình Llama-3 siêu nhẹ chạy trực tiếp trên GPU/CPU máy tính người dùng
+        const modelName = "Llama-3-8B-Instruct-q4f32_1-MLC";
 
-        window.initAI = async function() {
+        window.runBattleAnalysis = async function() {
             const btn = document.getElementById('runBtn');
             const status = document.getElementById('status');
+            const outputBox = document.getElementById('output-box');
             const output = document.getElementById('output');
+
             const c1 = document.getElementById('char1').value.trim();
             const c2 = document.getElementById('char2').value.trim();
+            const cond = document.getElementById('condition').value.trim();
+            const notes = document.getElementById('notes').value.trim();
 
             if (!c1 || !c2) {
-                alert("Vui lòng nhập tên cả 2 nhân vật!");
+                alert("Vui lòng nhập tên đầy đủ cho cả 2 nhân vật!");
                 return;
             }
 
             btn.disabled = true;
-            document.getElementById('resultArea').style.display = 'block';
+            outputBox.style.display = 'block';
             output.innerText = "";
+            status.innerText = "⏳ Đang khởi tạo bộ máy AI trong trình duyệt...";
 
             try {
+                // Tải mô hình AI nếu chưa có
                 if (!engine) {
-                    status.innerText = "⏳ Đang tải mô hình AI vào trình duyệt (chỉ tải lần đầu)...";
-                    engine = await webllm.CreateMLCEngine(selectedModel, {
+                    engine = await webllm.CreateMLCEngine(modelName, {
                         initProgressCallback: (report) => {
                             status.innerText = "⏳ " + report.text;
                         }
                     });
                 }
 
-                status.innerText = "⚔️ Đang phân tích kèo đấu theo chuẩn VSBW & EFA...";
+                status.innerText = "⚔️ AI đang phân tích dữ liệu EFA & VSBW...";
 
-                const prompt = `Bạn là Death Battle Master AI. Hãy phân tích kèo đấu: ${c1} VS ${c2} theo chuẩn VSBW, EFA và DBVN 2.5.\n` +
-                    `Điều kiện: ${document.getElementById('condition').value}\n` +
-                    `Ghi chú: ${document.getElementById('notes').value}\n\n` +
-                    `Đưa ra kết quả phân tích theo các mục: Stats Overview, Hax & Resistance, Feats Evaluation, Battle Scenario và Final Verdict.`;
+                const prompt = `Bạn là Death Battle Master AI. Phân tích kèo đấu: ${c1} VS ${c2}.
+Điều kiện: ${cond}.
+Ghi chú: ${notes || 'Không có'}.
+
+Yêu cầu phân tích chi tiết theo chuẩn VSBW, EFA và DBVN 2.5 với các mục:
+1. STATS OVERVIEW (Tier, Speed, Durability...)
+2. HAX & RESISTANCE ANALYSIS
+3. FEATS & PROOF EVALUATION
+4. BATTLE SCENARIO
+5. FINAL VERDICT (Tỷ lệ % thắng và Winner)`;
 
                 const messages = [
                     { role: "system", content: "Bạn là chuyên gia phân tích Versus Debating chuẩn VSBattles Wiki và Endless Fictional Arena." },
@@ -64,9 +82,9 @@
 
                 const reply = await engine.chat.completions.create({ messages });
                 output.innerText = reply.choices[0].message.content;
-                status.innerText = "✅ Phân tích hoàn tất!";
+                status.innerText = "✅ Phân tích hoàn tất thành công!";
             } catch (err) {
-                status.innerText = "❌ Lỗi: Trình duyệt hoặc thiết bị không hỗ trợ WebGPU. Cần Chrome/Edge bản mới.";
+                status.innerText = "❌ Lỗi: Trình duyệt/Thiết bị của bạn không hỗ trợ WebGPU. Hãy thử trên Chrome/Edge phiên bản mới nhất.";
                 console.error(err);
             } finally {
                 btn.disabled = false;
@@ -76,27 +94,33 @@
 </head>
 <body>
 
-    <h1>⚔️ Death Battle AI Master</h1>
-    <p class="subtitle">Hệ thống phân tích Kèo đấu On-Device (Chạy trực tiếp, không API)</p>
+    <div class="container">
+        <h1>⚔️ Death Battle AI Master</h1>
+        <p class="subtitle">Hệ thống phân tích Kèo đấu tự động (Chạy trực tiếp 100% trên Web)</p>
 
-    <div class="card">
-        <label>Nhân vật 1:</label>
-        <input type="text" id="char1" placeholder="Ví dụ: CC Goku">
-
-        <label>Nhân vật 2:</label>
-        <input type="text" id="char2" placeholder="Ví dụ: Cosmic Armor Superman">
+        <div class="row">
+            <div class="col">
+                <label>Nhân vật 1:</label>
+                <input type="text" id="char1" placeholder="Ví dụ: CC Goku, Saitama...">
+            </div>
+            <div class="col">
+                <label>Nhân vật 2:</label>
+                <input type="text" id="char2" placeholder="Ví dụ: Cosmic Armor Superman...">
+            </div>
+        </div>
 
         <label>Điều kiện trận đấu / Speed Equalized:</label>
         <input type="text" id="condition" value="Standard Battle Assumptions (SBA), Speed Equalized, Bloodlust">
 
         <label>Ghi chú thêm:</label>
-        <textarea id="notes" rows="2" placeholder="Ví dụ: Dùng bản Manga..."></textarea>
+        <textarea id="notes" rows="2" placeholder="Ví dụ: Dùng bản Manga, không tính Non-canon..."></textarea>
 
-        <button id="runBtn" onclick="initAI()">🔥 Bắt đầu phân tích trực tiếp</button>
+        <button id="runBtn" onclick="runBattleAnalysis()">🔥 Phân Tích Kèo Đấu Ngay</button>
 
-        <div id="resultArea" style="display:none;">
-            <div id="status"></div>
-            <label style="margin-top:20px;">📊 Kết quả phân tích từ AI:</label>
+        <div id="status"></div>
+
+        <div id="output-box">
+            <label style="color: #3fb950;">📊 KẾT QUẢ PHÂN TÍCH TRỰC TIẾP:</label>
             <div id="output"></div>
         </div>
     </div>
