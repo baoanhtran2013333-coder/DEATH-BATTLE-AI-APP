@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Battle AI Master Prompt Generator</title>
+    <title>Death Battle AI Master</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0e1117; color: #ffffff; padding: 20px; max-width: 800px; margin: auto; }
         h1 { color: #ff4b4b; text-align: center; font-size: 26px; margin-bottom: 5px; }
@@ -11,74 +11,95 @@
         .card { background: #161b22; padding: 25px; border-radius: 10px; border: 1px solid #30363d; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
         label { font-weight: bold; display: block; margin-top: 15px; color: #c9d1d9; font-size: 14px; }
         input, textarea { width: 100%; padding: 12px; margin-top: 6px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #fff; box-sizing: border-box; font-size: 14px; outline: none; }
-        input:focus, textarea:focus { border-color: #58a6ff; }
-        button { width: 100%; padding: 14px; background: #238636; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 20px; transition: 0.2s; }
-        button:hover { background: #2ea043; }
-        .btn-group { display: flex; gap: 12px; margin-top: 15px; }
-        .btn-group a { flex: 1; text-align: center; padding: 12px; background: #1f6feb; color: white; text-decoration: none; font-weight: bold; border-radius: 6px; transition: 0.2s; font-size: 14px; }
-        .btn-group a:hover { background: #388bfd; }
-        .btn-group a.ddg { background: #da3633; }
-        .btn-group a.ddg:hover { background: #f85149; }
+        button { width: 100%; padding: 14px; background: #ff4b4b; border: none; color: white; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; margin-top: 20px; transition: 0.2s; }
+        button:hover { background: #e03e3e; }
+        button:disabled { background: #555; cursor: not-allowed; }
+        #status { margin-top: 15px; font-size: 13px; color: #58a6ff; font-weight: bold; }
+        #output { background: #0d1117; padding: 15px; border-radius: 6px; border: 1px solid #30363d; margin-top: 15px; white-space: pre-wrap; font-size: 14px; line-height: 1.6; }
     </style>
+    <!-- Tải thư viện WebLLM chạy AI trực tiếp trên trình duyệt -->
+    <script type="module">
+        import * as webllm from "https://esm.run/@mlc-ai/web-llm";
+
+        let engine;
+        const selectedModel = "Llama-3-8B-Instruct-q4f32_1-MLC";
+
+        window.initAI = async function() {
+            const btn = document.getElementById('runBtn');
+            const status = document.getElementById('status');
+            const output = document.getElementById('output');
+            const c1 = document.getElementById('char1').value.trim();
+            const c2 = document.getElementById('char2').value.trim();
+
+            if (!c1 || !c2) {
+                alert("Vui lòng nhập tên cả 2 nhân vật!");
+                return;
+            }
+
+            btn.disabled = true;
+            document.getElementById('resultArea').style.display = 'block';
+            output.innerText = "";
+
+            try {
+                if (!engine) {
+                    status.innerText = "⏳ Đang tải mô hình AI vào trình duyệt (chỉ tải lần đầu)...";
+                    engine = await webllm.CreateMLCEngine(selectedModel, {
+                        initProgressCallback: (report) => {
+                            status.innerText = "⏳ " + report.text;
+                        }
+                    });
+                }
+
+                status.innerText = "⚔️ Đang phân tích kèo đấu theo chuẩn VSBW & EFA...";
+
+                const prompt = `Bạn là Death Battle Master AI. Hãy phân tích kèo đấu: ${c1} VS ${c2} theo chuẩn VSBW, EFA và DBVN 2.5.\n` +
+                    `Điều kiện: ${document.getElementById('condition').value}\n` +
+                    `Ghi chú: ${document.getElementById('notes').value}\n\n` +
+                    `Đưa ra kết quả phân tích theo các mục: Stats Overview, Hax & Resistance, Feats Evaluation, Battle Scenario và Final Verdict.`;
+
+                const messages = [
+                    { role: "system", content: "Bạn là chuyên gia phân tích Versus Debating chuẩn VSBattles Wiki và Endless Fictional Arena." },
+                    { role: "user", content: prompt }
+                ];
+
+                const reply = await engine.chat.completions.create({ messages });
+                output.innerText = reply.choices[0].message.content;
+                status.innerText = "✅ Phân tích hoàn tất!";
+            } catch (err) {
+                status.innerText = "❌ Lỗi: Trình duyệt hoặc thiết bị không hỗ trợ WebGPU. Cần Chrome/Edge bản mới.";
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
 </head>
 <body>
 
     <h1>⚔️ Death Battle AI Master</h1>
-    <p class="subtitle">Bộ công cụ tạo Prompt chuẩn Endless Fictional Arena, VSBW & DBVN 2.5</p>
+    <p class="subtitle">Hệ thống phân tích Kèo đấu On-Device (Chạy trực tiếp, không API)</p>
 
     <div class="card">
         <label>Nhân vật 1:</label>
-        <input type="text" id="char1" placeholder="Ví dụ: CC Goku, Saitama, UI Daniel...">
+        <input type="text" id="char1" placeholder="Ví dụ: CC Goku">
 
         <label>Nhân vật 2:</label>
-        <input type="text" id="char2" placeholder="Ví dụ: Cosmic Armor Superman, Rimuru...">
+        <input type="text" id="char2" placeholder="Ví dụ: Cosmic Armor Superman">
 
         <label>Điều kiện trận đấu / Speed Equalized:</label>
         <input type="text" id="condition" value="Standard Battle Assumptions (SBA), Speed Equalized, Bloodlust">
 
-        <label>Ghi chú thêm (Form, Scan, Feat...):</label>
-        <textarea id="notes" rows="2" placeholder="Ví dụ: Không tính Non-canon, dùng bản Manga..."></textarea>
+        <label>Ghi chú thêm:</label>
+        <textarea id="notes" rows="2" placeholder="Ví dụ: Dùng bản Manga..."></textarea>
 
-        <button onclick="generatePrompt()">🔥 Tạo Prompt Death Battle</button>
+        <button id="runBtn" onclick="initAI()">🔥 Bắt đầu phân tích trực tiếp</button>
 
-        <div id="result" style="display:none; margin-top: 25px;">
-            <label style="color: #3fb950;">✅ Prompt chuẩn cấu trúc VSBW / EFA:</label>
-            <textarea id="promptText" rows="10" readonly></textarea>
-            
-            <div class="btn-group">
-                <a id="chatgptBtn" href="#" target="_blank">🚀 Mở ChatGPT</a>
-                <a class="ddg" href="https://duckduckgo.com/chat" target="_blank">🚀 Mở DuckDuckGo Chat</a>
-            </div>
+        <div id="resultArea" style="display:none;">
+            <div id="status"></div>
+            <label style="margin-top:20px;">📊 Kết quả phân tích từ AI:</label>
+            <div id="output"></div>
         </div>
     </div>
 
-    <script>
-        function generatePrompt() {
-            const c1 = document.getElementById('char1').value.trim() || 'Nhân vật A';
-            const c2 = document.getElementById('char2').value.trim() || 'Nhân vật B';
-            const cond = document.getElementById('condition').value.trim();
-            const notes = document.getElementById('notes').value.trim();
-
-            const fullPrompt = `Bạn là "Death Battle Master AI" - Chuyên gia phân tích Versus Debating đỉnh cao tích hợp dữ liệu chuẩn từ:
-1. Endless Fictional Arena Wiki (EFA)
-2. VS Battles Wiki (VSBW)
-3. Quy chuẩn tranh luận tại cộng đồng Việt Nam (DBVN 2.5, Endless Fictional).
-
-HÃY PHÂN TÍCH KÈO ĐẤU: ${c1} VS ${c2}
-- ĐIỀU KIỆN: ${cond}
-- GHI CHÚ BỔ SUNG: ${notes || 'Không có'}
-
-CẤU TRÚC PHÂN TÍCH CHUẨN:
-1. STATS OVERVIEW (Tier, AP/DC, Speed, Lifting/Striking Strength, Durability theo VSBW/EFA)
-2. HAX & RESISTANCE ANALYSIS (Liệt kê Hax nổi bật, Kháng Hax và Hax kháng lại đối thủ)
-3. FEATS & PROOF EVALUATION (Phân tích chiến tích đỉnh cao, Anti-Feat, Outlier)
-4. BATTLE SCENARIO & COUNTER (Kịch bản giao đấu, tương tác Hax, khả năng Outsmart/Outspeed)
-5. FINAL VERDICT (% Tỷ lệ thắng + Winner cụ thể theo chuẩn DBVN 2.5/EFA)`;
-
-            document.getElementById('promptText').value = fullPrompt;
-            document.getElementById('chatgptBtn').href = "https://chatgpt.com/?q=" + encodeURIComponent(fullPrompt);
-            document.getElementById('result').style.display = 'block';
-        }
-    </script>
 </body>
 </html>
