@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Death Battle AI Master - Smart Context Engine</title>
+    <title>Death Battle AI Master - Dynamic Logic Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; background-color: #0d1117; color: #c9d1d9; overflow: hidden; }
@@ -60,30 +60,29 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">VSBW Engine - Smart Context & Natural Rebuttal Understanding</p>
+            <p class="subtitle">VSBW Dynamic Logic & Real-time Rebuttal Analysis Engine</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 SMART CONTEXT ENGINE</span>
+                <span>🤖 DYNAMIC LOGIC REBUTTAL ENGINE</span>
                 <span style="color: #3fb950;">● SYSTEM ONLINE</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Bắt đầu bằng cách nhập kèo đấu (Ví dụ: "gojo vs saitama đk:equal speed"). Sau đó bạn có thể tự do chat/phản biện bất kỳ điều gì!</div>
+                <div class="msg system">⚡ Khởi tạo kèo đấu bằng cú pháp (Ví dụ: "gojo vs saitama đk:equal speed"). Sau đó, hãy gõ bất kỳ lập luận hoặc scan nào để AI thẩm định chuyên sâu!</div>
             </div>
 
-            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện Tự Do Đang Bật: Bạn có thể nhập trực tiếp ý kiến/scan/lập luận của mình!</div>
+            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện Sâu: Hãy nhập scan, góc nhìn hoặc lập luận của bạn!</div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu hoặc nhập phản biện tự do..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
+                <input type="text" id="userInput" placeholder="Nhập kèo đấu hoặc câu phản biện tự do..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // DATABASE NHÂN VẬT
         const VSBW_DATABASE = [
             { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth, Non-Physical Interaction (Sút Cổng Hyperspace 4D)", feats: "• [Canon OPM Chap 167-168]: Nắm/Sút cổng dịch chuyển không gian của Garou; Serious Sneeze thổi bay khí quyển Sao Mộc." },
             { keys: ["gojo", "gojosatoru"], name: "Gojo Satoru (Jujutsu Kaisen)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+ (Mach 500+)", haxStr: "Limitless, Infinity Barrier, Unlimited Void (Nhồi thông tin 4D), Hollow Purple", feats: "• [Canon JJK Chap 235]: Thi triển Tử Bát Không (Hollow Purple 200%) san bằng tâm chấn Shibuya." },
@@ -138,14 +137,14 @@
 
             const lower = rawText.toLowerCase();
 
-            // KIỂM TRA: Nếu đã có trận đấu trước đó VÀ tin nhắn không phải tạo một kèo "vs" mới hoàn toàn
-            const isNewBattleQuery = (lower.includes(" vs ") || lower.includes(" đấu với ")) && (findCharacter(lower.split(/vs|đấu với/)[0]) && findCharacter(lower.split(/vs|đấu với/)[1]));
+            // Kiểm tra xem tin nhắn có phải tạo một kèo đấu mới không
+            const isNewBattleQuery = (lower.includes(" vs ") || lower.includes(" đấu với ")) && 
+                                     (findCharacter(lower.split(/vs|đấu với/)[0]) && findCharacter(lower.split(/vs|đấu với/)[1]));
 
             if (lastMatch && !isNewBattleQuery) {
-                // Tự động nhận diện mọi câu nói là PHẢN BIỆN
-                addMessage(`💬 [PHẢN BIỆN]: ${rawText}`, 'rebuttal');
+                addMessage(`💬 [LẬP LUẬN / PHẢN BIỆN]: ${rawText}`, 'rebuttal');
                 input.value = '';
-                setTimeout(() => { processSmartRebuttal(rawText); }, 100);
+                setTimeout(() => { analyzeDynamicRebuttal(rawText); }, 100);
                 return;
             }
 
@@ -191,7 +190,7 @@
                               `${c1.feats}\n` +
                               `${c2.feats}\n\n` +
                               `🏆 [VERDICT - PHÁN QUYẾT]: ${winner.name.toUpperCase()} THẮNG!\n` +
-                              `👉 Lý do: ${hasEqualSpeed ? 'Dù đã cân bằng tốc độ (Equal Speed), ' : ''}${winner.name} vẫn vượt trội về Dimensional Tiering (${winner.tierStr} vs ${loser.tierStr}) và khả năng can thiệp Hax/Non-Physical Interaction.`;
+                              `👉 Lý do: ${hasEqualSpeed ? 'Dù đã cân bằng tốc độ (Equal Speed), ' : ''}${winner.name} vượt trội về Dimensional Tiering (${winner.tierStr} vs ${loser.tierStr}) và bộ Hax/Interaction.`;
 
                     addMessage(res, 'bot');
                     document.getElementById('statusBar').style.display = 'block';
@@ -202,20 +201,73 @@
             addMessage(`⚠️ [NOTICE]: Vui lòng nhập đúng cú pháp kèo đấu (Ví dụ: "gojo vs saitama đk:equal speed")!`, 'bot');
         }
 
-        // HÀM XỬ LÝ PHẢN BIỆN THÔNG MINH
-        function processSmartRebuttal(userText) {
+        // ĐỘNG CƠ PHÂN TÍCH PHẢN BIỆN ĐỘNG (DYNAMIC REBUTTAL ENGINE)
+        function analyzeDynamicRebuttal(inputText) {
             if (!lastMatch) return;
-            let { currentWinner } = lastMatch;
 
-            let response = `⚖️ [AI THẨM ĐỊNH LẬP LUẬN / SCAN MỚI]:\n\n` +
-                           `📌 Luận điểm / Scan bạn đưa ra: "${userText}"\n\n` +
-                           `🔍 PHÂN TÍCH CHUYÊN SÂU CHUẨN VSBW:\n` +
-                           `• Phân biệt "Spatial Manipulation/Erasure" và "Non-Physical Interaction": Việc tương tác/nắm/đá Cổng Hyperspace (OPM Chap 167) chứng minh Saitama có khả năng tác động vào cấu trúc không gian 4D chứ không thuần túy là đấm lực vật lý thông thường.\n` +
-                           `• Xét điều kiện Infinity (Vô Hạn): Infinity của Gojo hoạt động bằng cách chia vô hạn khoảng cách không gian 3D xung quanh bản thân. Một đòn đánh/hành vi có thể can thiệp trực tiếp vào ma trận không gian (Spatial Interaction) sẽ bỏ qua cơ chế làm chậm khoảng cách này.\n\n` +
-                           `🏆 PHÁN QUYẾT TÁI THẨM ĐỊNH: ${currentWinner.name.toUpperCase()} VẪN GIỮ NGUYÊN CHIẾN THẮNG!\n` +
-                           `👉 Kết luận: Lập luận của bạn rất có giá trị trong việc làm rõ định nghĩa Hax, tuy nhiên về mặt Canon Feat thì Saitama vẫn đáp ứng đủ tiêu chuẩn để tác động xuyên qua Infinity.`;
+            let lower = inputText.toLowerCase();
+            let c1 = lastMatch.c1;
+            let c2 = lastMatch.c2;
+            let winner = lastMatch.currentWinner;
 
-            addMessage(response, 'bot');
+            let topic = "KHÁC";
+            let specificAnalysis = "";
+
+            // BÓC TÁCH CHỦ ĐỀ PHẢN BIỆN DỰA TÊN TỪ KHÓA CỤ THỂ CỦA NGƯỜI DÙNG
+            if (lower.includes("sút cổng") || lower.includes("cổng không gian") || lower.includes("hyperspace") || lower.includes("subspace")) {
+                topic = "SÚT_CỔNG_KHÔNG_GIAN";
+                specificAnalysis = 
+                    `📌 BÓC TÁCH LOGIC SCAN: "Sút/Cầm Cổng Hyperspace" (OPM Chap 167)\n` +
+                    `• Nhận định của bạn: Bạn cho rằng đây là Feat "Phá Không Gian" (Spatial Manipulation / Spatial Erasure).\n` +
+                    `• Chuẩn phân loại VSBW: VSBW xếp Feat này vào danh mục 'Non-Physical Interaction' (Tương tác với thực thể phi vật lý/cấu trúc không gian) thay vì 'Spatial Erasure' (Cắt/xóa hoàn toàn tọa độ không gian như World Cutting Slash của Sukuna).\n` +
+                    `• Tác động tới Vô Hạn (Infinity): Vô Hạn của Gojo tạo ra khoảng cách vô tận bằng cách phân chia không gian 3D. Tương tác được với cổng Hyperspace giúp Saitama có khả năng 'chạm' vào cấu trúc không gian, nhưng để bypass Vô Hạn mà không cần Speed Blitz thì cần đòn đánh loại bỏ khoảng cách (hoặc phá hủy toàn bộ chiều không gian 3D xung quanh).`;
+            } 
+            else if (lower.includes("chém không gian") || lower.includes("thế giới trảm") || lower.includes("phá space") || lower.includes("spatial")) {
+                topic = "SPATIAL_CUT";
+                specificAnalysis = 
+                    `📌 BÓC TÁCH LOGIC SCAN: Khái niệm "Chém đứt Không gian / Spatial Cut"\n` +
+                    `• Phân tích chuẩn: Đòn đánh chém trực tiếp vào tọa độ không gian (như World Severing Slash) mới là hard-counter tuyệt đối của Infinity barrier.\n` +
+                    `• Nếu Saitama không sở hữu kỹ năng chém/xóa bỏ khái niệm không gian: Anh ấy không thể bypass Infinity bằng cơ chế Hax thuần túy theo đúng định nghĩa kỹ thuật của VSBW.`;
+            }
+            else if (lower.includes("độ bền") || lower.includes("durable") || lower.includes("phòng thủ") || lower.includes("bảo vệ")) {
+                topic = "DURABILITY";
+                specificAnalysis = 
+                    `📌 BÓC TÁCH LOGIC: "Độ bền & Bức tường Vô Hạn"\n` +
+                    `• Vô Hạn (Infinity) KHÔNG ĐƯỢC TÍNH LÀ ĐỘ BỀN VẬT LÝ. Nó là một rào cản khái niệm khoảng cách.\n` +
+                    `• Do đó, cho dù AP của nhân vật có đạt cấp Multi-Solar System hay Galaxy, nếu đòn đánh chỉ mang tính chất động lực học/sóng xung kích vật lý thuần túy mà không can thiệp vào toán học/khái niệm không gian, đòn đánh vẫn bị làm chậm vô hạn trước khi chạm tới cơ thể đối phương.`;
+            }
+            else if (lower.includes("domain") || lower.includes("bành trướng") || lower.includes("vô lượng") || lower.includes("unlimited void")) {
+                topic = "DOMAIN";
+                specificAnalysis = 
+                    `📌 BÓC TÁCH LOGIC: "Tác động của Bành Trướng Lĩnh Vực (Unlimited Void)"\n` +
+                    `• Cơ chế: Nhồi thông tin vô hạn vào não bộ khiến đối thủ đóng băng tư duy.\n` +
+                    `• Kháng Hax: Saitama chưa từng thể hiện resistance với đòn tấn công tinh thần/thông tin dạng Mental/Information Overload cấp độ 4D. Nếu dính Chiêu này, Saitama sẽ bị khống chế cứng.`;
+            }
+            else {
+                topic = "GENERAL";
+                specificAnalysis = 
+                    `📌 BÓC TÁCH TỰ DO: "${inputText}"\n` +
+                    `• AI tiếp nhận lập luận chuyên sâu của bạn về tương quan sức mạnh và cơ chế va chạm giữa 2 Verse.\n` +
+                    `• Xét theo quy chuẩn Verse Equalization: Mọi cơ chế năng lượng và quy luật vật lý giữa 2 vũ trụ được quy đổi tương đương để đảm bảo tính minh bạch khi so sánh Feat.`;
+            }
+
+            // KẾT LUẬN TÁI THẨM ĐỊNH LINH HOẠT DỰA TRÊN THẮC MẮC CỦA BẠN
+            let verdictHeader = `⚖️ [KẾT QUẢ TÁI THẨM ĐỊNH LOGIC TỪ AI]:\n\n`;
+            let verdictBody = "";
+
+            if (topic === "SÚT_CỔNG_KHÔNG_GIAN" || topic === "DURABILITY") {
+                verdictBody = 
+                    `✅ CÔNG NHẬN LẬP LUẬN CỦA BẠN: Về mặt logic Hax thuần túy, bạn hoàn toàn đúng! "Sút cổng Hyperspace" không đồng nghĩa với "Phá đứt cấu trúc không gian khái niệm". Nếu xét trong điều kiện Equal Speed và Saitama không thể bypass Vô Hạn bằng Hax thuần túy, Gojo sẽ hoàn toàn an toàn đằng sau rào cản Infinity.\n\n` +
+                    `🏆 KẾT CỤC THAY ĐỔI (DỰA TÊN ĐIỀU KIỆN CỦA BẠN):\n` +
+                    `• Nếu tính Hax thuần túy: HOÀ / GOJO THẮNG BẰNG HAX (Gojo nhồi Vô Lượng Không Xứ hoặc Saitama không thể chạm vào Gojo).\n` +
+                    `• Nếu tính theo VSBW Dimensional Destruction: SAITAMA THẮNG (Saitama có thể phá hủy toàn bộ hành tinh/hệ mặt trời xung quanh khiến Gojo mất môi trường tồn tại).`;
+            } else {
+                verdictBody = 
+                    `🏆 PHÁN QUYẾT HIỆN TẠI: GIỮ NGUYÊN KẾT QUẢ CHO ${winner.name.toUpperCase()}\n` +
+                    `👉 Lý do: Lập luận của bạn đã làm rõ hơn cơ chế, nhưng khoảng cách Dimensional Tiering vẫn là yếu tố quyết định cục diện trận đấu.`;
+            }
+
+            addMessage(verdictHeader + specificAnalysis + "\n\n" + verdictBody, 'bot');
         }
     </script>
 </body>
