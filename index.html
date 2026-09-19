@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Battle AI Master - 50+ Characters Offline Engine</title>
+    <title>Death Battle AI Master - 100 Characters VSBW/EFA Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; justify-content: center; }
@@ -15,7 +15,7 @@
         h1 { color: #f85149; margin: 0; font-size: 24px; font-weight: 800; }
         p.subtitle { color: #8b949e; font-size: 13px; margin-top: 4px; }
 
-        .chat-section { border: 1px solid #30363d; border-radius: 8px; background: #0d1117; overflow: hidden; display: flex; flex-direction: column; height: 600px; }
+        .chat-section { border: 1px solid #30363d; border-radius: 8px; background: #0d1117; overflow: hidden; display: flex; flex-direction: column; height: 620px; }
         .chat-header { background: #21262d; padding: 12px 16px; font-weight: 700; color: #f0f6fc; border-bottom: 1px solid #30363d; font-size: 13px; display: flex; justify-content: space-between; }
         .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.6; }
         
@@ -37,17 +37,17 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Mở Rộng Database 50+ Nhân Vật (VSBW / EFA Standard)</p>
+            <p class="subtitle">Đã Mở Rộng Cơ Sở Dữ Liệu 100 Nhân Vật (VSBW / EFA Exact Feats)</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 50+ CHARACTERS OFFLINE ENGINE</span>
-                <span style="color: #3fb950;">● DATABASE LOADED</span>
+                <span>🤖 100 CHARACTERS EXACT ENGINE</span>
+                <span style="color: #3fb950;">● DATABASE LOADED (100/100)</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Đã nạp thành công 50 nhân vật siêu phổ biến! Hãy gõ bất kỳ kèo đấu nào (VD: "Sung Jin Woo vs Rimuru", "UI Daniel vs Gun", "Anos vs Goku", "Gojo vs Sukuna") hoặc xin Feat riêng để xem kết quả ngay!</div>
+                <div class="msg system">⚡ Cơ sở dữ liệu 100 Nhân Vật đã sẵn sàng! Bạn có thể thử các kèo đấu như: "Sung Jin Woo vs Gojo", "Anos vs Rimuru", "UI Daniel vs Gapryong Kim", "Kratos vs Asura", "Goku vs Saitama", "Seongji Yuk vs James Lee"...</div>
             </div>
 
             <div class="chat-input-area">
@@ -58,265 +58,121 @@
     </div>
 
     <script>
-        // CƠ SỞ DỮ LIỆU 50 NHÂN VẬT CHUẨN VSBW / EFA
+        // BẢNG DỮ LIỆU 100 NHÂN VẬT CHUẨN VSBW / EFA
         const VSBW_DATABASE = [
-            // CẤP ĐỘ COSMIC / MULTIVERSE (TIER 1 - TIER 2)
-            {
-                keys: ["anos", "anosvoldigoad"],
-                name: "Anos Voldigoad (Ma Vương Chuyển Sinh)",
-                tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable",
-                haxStr: "Venuzdonoa (Kiếm Diệt Lý - Xóa bỏ nguyên lý, định mệnh, khái niệm), Concept Erasure, Immortality Negation",
-                feats: "• [Canon Vol 8+]: Dùng Venuzdonoa chém đứt sự thật, lý lẽ và mọi nguyên lý vũ trụ; phá hủy Silver Sea (biển chứa vô vàn vũ trụ)."
-            },
-            {
-                keys: ["rimuru", "rimurutempest"],
-                name: "Rimuru Tempest (Tensura / LN)",
-                tierNum: 1.3, tierStr: "1-B (High Multiverse / Complex Multiverse)", speedStr: "Immeasurable",
-                haxStr: "Turn Null (Hư Khống Chi Thần - Tạo/Xóa vũ trụ vô hạn lần), Ciel AI, Conceptual Mastery, Stardust Manipulation",
-                feats: "• [Canon Light Novel Vol 21]: Sở hữu lượng Năng Lượng Hư Khống đủ để tái tạo lại hàng mươi ngàn vũ trụ và toàn bộ dòng thời gian."
-            },
-            {
-                keys: ["featherine", "featherineaugustusaurora"],
-                name: "Featherine Augustus Aurora (Umineko)",
-                tierNum: 1.1, tierStr: "1-A đến High 1-A (Outerverse Level)", speedStr: "Irrelevant",
-                haxStr: "Plot Manipulation (Viết lại kịch bản câu chuyện), Author Authority, Conceptual Transcendence",
-                feats: "• [Canon Umineko]: Đứng trên tất cả các tầng không gian, viết lại cái chết và số phận của đối thủ như một tác giả."
-            },
-            {
-                keys: ["goku", "songoku", "kakarot"],
-                name: "Son Goku (Dragon Ball Super)",
-                tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable (Ultra Instinct)",
-                haxStr: "God Ki, Ultra Instinct (Bản năng vô cực), Hakai (Existence Erasure), Instant Transmission",
-                feats: "• [Canon DBS Chap 13]: Cú đấm va chạm với Beerus tạo sóng xung kích rung chuyển cấu trúc Macrocosm 4D Vũ Trụ 7."
-            },
-            {
-                keys: ["vegeta"],
-                name: "Vegeta (Dragon Ball Super)",
-                tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable",
-                haxStr: "Ultra Ego (Bản năng ngông cuồng), Hakai, Forced Spirit Fission (Tách năng lượng/hợp thể)",
-                feats: "• [Canon DBS Granolah Arc]: Biến đổi Ultra Ego biến sát thương nhận vào thành sức mạnh chiến đấu tăng tiến vô hạn."
-            },
-            {
-                keys: ["sungjinwoo", "jinwoo", "shadowmonarch"],
-                name: "Sung Jin-Woo (Solo Leveling / Ragnarok)",
-                tierNum: 2.1, tierStr: "Low 2-C đến 2-B (Multiverse Level)", speedStr: "Immeasurable (trong Shadow Realm)",
-                haxStr: "Shadow Extraction (Quân đoàn bóng vô hạn), Concept Erasure, Immortality (Type 1, 3, 4, 8), Dimensional Travel",
-                feats: "• [Canon LN / Ragnarok]: Chinh chiến ngoài vũ trụ tiêu diệt Outer Gods; làm chủ Shadow Realm - thế giới vượt khái niệm thời gian."
-            },
-            {
-                keys: ["anti-spiral", "antispiral"],
-                name: "Anti-Spiral (Gurren Lagann)",
-                tierNum: 1.2, tierStr: "1-C (Complex Multiverse Level)", speedStr: "Immeasurable",
-                haxStr: "11D Dimensional Manipulation, Probability Manipulation (Thao túng xác suất), Big Bang Attack",
-                feats: "• [Canon TTGL]: Ném các thiên hà và vũ trụ 11D như vũ khí; giam cầm đối thủ trong chuỗi thực tại song song."
-            },
-            {
-                keys: ["alienx", "ben10alienx"],
-                name: "Alien X (Ben 10)",
-                tierNum: 2.0, tierStr: "2-A (High Multiverse Level)", speedStr: "Immeasurable",
-                haxStr: "Omnipresence, Reality Warping, Causality Manipulation, Spatial Erasure",
-                feats: "• [Canon Ben 10 Omniverse]: Đứng yên tái tạo lại toàn bộ Vũ Trụ sau khi Annihilargh phát nổ mà không hề bị tổn hại."
-            },
-            {
-                keys: ["superman", "supermancomics", "thoughtrobot"],
-                name: "Superman (DC Comics / Base)",
-                tierNum: 2.0, tierStr: "Low 2-C đến 1-C (tùy phiên bản / Base Base Multi-Solar)", speedStr: "Massively FTL+",
-                haxStr: "Heat Vision, Freeze Breath, Super Strength, Invulnerability, Solar Absorption",
-                feats: "• [DC Comics Canon]: Đấm vỡ rào cản thời gian, bay vượt tốc độ ánh sáng hàng triệu lần và kéo hàng chục hành tinh."
-            },
+            // --- CẤP ĐỘ OUTERVERSE / MULTIVERSE (TIER 1 - TIER 2) ---
+            { keys: ["featherine"], name: "Featherine Augustus Aurora (Umineko)", tierNum: 1.1, tierStr: "High 1-A (High Outerverse Level)", speedStr: "Irrelevant", haxStr: "Plot Manipulation, Author Authority, Conceptual Erasure", feats: "• [Canon Umineko]: Đứng trên mọi tầng thực tại, thao túng kịch bản và sự tồn tại của nhân vật như một tác giả." },
+            { keys: ["anos", "anosvoldigoad"], name: "Anos Voldigoad (Ma Vương Chuyển Sinh)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Venuzdonoa (Kiếm Diệt Lý - Xóa bỏ khái niệm/định mệnh), Immortality Negation", feats: "• [Canon LN Vol 8+]: Phá hủy Silver Sea và dùng Venuzdonoa chém đứt mọi lý lẽ, nguyên lý vũ trụ." },
+            { keys: ["rimuru", "rimurutempest"], name: "Rimuru Tempest (Tensura / LN)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Turn Null (Hư Khống Chi Thần - Tạo/Xóa vũ trụ vô hạn lần), Ciel AI", feats: "• [Canon LN Vol 21]: Tích tụ đủ năng lượng Hư Khống để tái sinh toàn bộ hàng chục ngàn vũ trụ và dòng thời gian." },
+            { keys: ["anti-spiral", "antispiral"], name: "Anti-Spiral (Gurren Lagann)", tierNum: 1.2, tierStr: "1-C (Complex Multiverse Level)", speedStr: "Immeasurable", haxStr: "11D Manipulation, Probability Manipulation, Multiversal Labyrinth", feats: "• [Canon TTGL]: Ném các thiên hà 11D như phi tiêu và giam cầm đối thủ trong vô vàn thực tại song song." },
+            { keys: ["goku", "songoku", "kakarot"], name: "Son Goku (Dragon Ball Super)", tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable (Ultra Instinct)", haxStr: "God Ki, Ultra Instinct, Hakai (Existence Erasure), Instant Transmission", feats: "• [Canon DBS Chap 13]: Cú đấm va chạm với Beerus chấn động toàn bộ cấu trúc Macrocosm 4D Vũ Trụ 7." },
+            { keys: ["vegeta"], name: "Vegeta (Dragon Ball Super)", tierNum: 2.0, tierStr: "Low 2-C đến 2-A", speedStr: "Immeasurable", haxStr: "Ultra Ego, Hakai, Forced Spirit Fission", feats: "• [Canon DBS Granolah Arc]: Ultra Ego chuyển hóa sát thương nhận vào thành sức mạnh chiến đấu tăng tiến." },
+            { keys: ["whis"], name: "Whis (Dragon Ball Super)", tierNum: 1.8, tierStr: "2-A (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Angel Ultra Instinct (Phản xạ vô thức thụ động), Time Reversal (Lùi thời gian 3 phút)", feats: "• [Canon DBS]: Dễ dàng hạ gục Beerus bằng một cú chặt tay và đảo ngược thời gian Trái Đất bị nổ." },
+            { keys: ["beerus"], name: "Beerus (Dragon Ball Super)", tierNum: 2.0, tierStr: "2-A (High Multiverse Level)", speedStr: "Massively FTL+", haxStr: "Hakai (Xóa sổ sự tồn tại), God of Destruction Ki", feats: "• [Canon DBS]: Xóa sổ linh hồn Zamasu tức thì bằng Hakai và hắt hơi thổi bay một hành tinh." },
+            { keys: ["sungjinwoo", "jinwoo", "shadowmonarch"], name: "Sung Jin-Woo (Solo Leveling / Ragnarok)", tierNum: 2.1, tierStr: "Low 2-C đến 2-B (Multiverse Level)", speedStr: "Immeasurable (trong Shadow Realm)", haxStr: "Shadow Extraction (Quân đoàn bóng vô hạn), Concept Erasure, Immortality", feats: "• [Canon LN / Ragnarok]: Tiêu diệt các Outer Gods ngoài vũ trụ; thao túng Shadow Realm - thế giới vượt thời gian." },
+            { keys: ["suho", "sungsuho"], name: "Sung Suho (Solo Leveling Ragnarok)", tierNum: 2.2, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Massively FTL+", haxStr: "Ragnarok Shadow Monarch Power, Dragon Monarch Blessing", feats: "• [Canon SL Ragnarok]: Kế thừa sức mạnh Quân Vương Bóng Tối và Long Vương chiến đấu chống cự quái vật vũ trụ." },
+            { keys: ["alienx", "ben10alienx"], name: "Alien X (Ben 10)", tierNum: 2.0, tierStr: "2-A (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Reality Warping, Omnipresence, Causality Manipulation", feats: "• [Canon Ben 10 Omniverse]: Đứng yên tái tạo lại toàn bộ Vũ Trụ sau khi nổ Annihilargh." },
+            { keys: ["superman", "thoughtrobot", "cosmicarmor"], name: "Thought Robot Superman (DC Comics)", tierNum: 1.1, tierStr: "1-A (Outerverse Level)", speedStr: "Irrelevant", haxStr: "Plot Adaptation, Reactive Evolution, Conceptual Defense", feats: "• [DC Comics Canon]: Nhận thức được trang sách truyện tranh và chiến đấu thích ứng với Mandrakk." },
+            { keys: ["supermanbase", "superman"], name: "Superman (DC Comics / Base)", tierNum: 2.0, tierStr: "Low 2-C đến 1-C (Tùy bản)", speedStr: "Massively FTL+", haxStr: "Heat Vision, Freeze Breath, Invulnerability", feats: "• [DC Comics Canon]: Đấm vỡ rào cản thời gian và kéo hàng chục hành tinh liên thiên hà." },
+            { keys: ["drmanhattan", "manhattan"], name: "Doctor Manhattan (Watchmen / DC)", tierNum: 1.2, tierStr: "1-A (Outerverse Level)", speedStr: "Immeasurable", haxStr: "Chronokinesis, Matter Manipulation, Metaverse Editing", feats: "• [Doomsday Clock]: Viết lại toàn bộ dòng thời gian DC Metaverse và tạo ra các đa vũ trụ mới." },
+            { keys: ["dante", "devilmaycry"], name: "Dante (Devil May Cry 5)", tierNum: 2.2, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Immeasurable", haxStr: "Sin Devil Trigger, Royal Guard (Đỡ tuyệt đối), Quicksilver (Dừng thời gian)", feats: "• [Canon DMC5]: Đánh gục Urizen/Vergil và tiêu diệt ma vương Mundus - kẻ tạo ra vũ trụ ma giới." },
+            { keys: ["vergil"], name: "Vergil (Devil May Cry 5)", tierNum: 2.2, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Immeasurable", haxStr: "Yamato (Cắt đứt không gian/thực tại), Sin Devil Trigger, Mirage Blades", feats: "• [Canon DMC5]: Dùng Yamato cắt đôi không gian chia tách nhân cách và chém nát thực tại." },
+            { keys: ["kratos"], name: "Kratos (God of War)", tierNum: 2.2, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Infinite Speed / FTL+", haxStr: "Power Nullification, Soul Manipulation, Blades of Chaos, Leviathan Axe", feats: "• [Canon GoW Ragnarok]: Đánh gục Odin, Thor và đấm vỡ cấu trúc Cây Thế Giới Yggdrasil chứa 9 cõi." },
+            { keys: ["asura", "asuraswrath"], name: "Asura (Asura's Wrath)", tierNum: 3.0, tierStr: "3-A đến Low 2-C (Universe Level)", speedStr: "Massively FTL+", haxStr: "Wrath Enhancement (Tăng sức mạnh vô hạn theo sự phẫn nộ), Immortality", feats: "• [Canon Asura's Wrath]: Đánh nát Thần Sáng Tạo Chakravartin khổng lồ to bằng cả vũ trụ." },
+            { keys: ["mori", "jinmori"], name: "Jin Mori (God of High School)", tierNum: 2.1, tierStr: "Low 2-C (Supreme God Nirvana)", speedStr: "Immeasurable", haxStr: "Nirvana, Law Manipulation, Conceptual Mastery, Renewal Taekwondo", feats: "• [Canon GOH End]: Đạt trạng thái Nirvana, chi phối mọi định luật tự nhiên và tiêu diệt Mubong Park." },
+            { keys: ["madoka"], name: "Madoka Kaname (Ultimate Madoka)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Omnipresent", haxStr: "Conceptual Rewriting, Causality Manipulation, Law Creation", feats: "• [Canon Puella Magi]: Viết lại quy luật vũ trụ, xóa bỏ khái niệm Quỷ Phù Thủy trên toàn dòng thời gian." },
 
-            // CẤP ĐỘ PLANET / GALAXY / SOLAR SYSTEM (TIER 3 - TIER 5)
-            {
-                keys: ["saitama", "onepunchman"],
-                name: "Saitama (One Punch Man)",
-                tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy Level)", speedStr: "Massively FTL+",
-                haxStr: "Exponential Growth (Tăng trưởng sức mạnh vô hạn), Non-Physical Interaction (Cầm nắm cổng 4D)",
-                feats: "• [Canon OPM Chap 167-168]: Serious Punch Squall xóa sổ hàng triệu hệ sao; Serious Sneeze thổi bay khí quyển Sao Mộc."
-            },
-            {
-                keys: ["garou", "cosmicgarou"],
-                name: "Cosmic Fear Garou (One Punch Man)",
-                tierNum: 3.5, tierStr: "4-A (Multi-Solar System Level)", speedStr: "Massively FTL+",
-                haxStr: "All Force Knowledge (Thao túng mọi lực vũ trụ), Cosmic Rays, Power Mimicry (Sao chép dạng Saitama)",
-                feats: "• [Canon OPM Chap 166-167]: Bộc phát Gamma Ray Burst quy mô vũ trụ và tạo cú đấm bẻ cong không gian cùng Saitama."
-            },
-            {
-                keys: ["mori", "jinmori", "godofhighschool"],
-                name: "Jin Mori (God of High School / Supreme God)",
-                tierNum: 2.1, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Massively FTL+ / Immeasurable",
-                haxStr: "Nirvana (Đạt trạng thái Đắc Đạo), Renewal Taekwondo, Conceptual Manipulation, Law Manipulation",
-                feats: "• [Canon GOH End]: Đạt cấp độ Supreme God Nirvana, tiêu diệt Mubong Park và chi phối mọi định luật tự nhiên."
-            },
-            {
-                keys: ["ichigo", "ichigokurosaki"],
-                name: "Ichigo Kurosaki (Bleach / True Bankai)",
-                tierNum: 5.0, tierStr: "5-A đến Low 2-C (Planet / Low Multiverse Scaling)", speedStr: "FTL+",
-                haxStr: "Getsuga Tensho, Gran Rey Cero, Soul Manipulation, Reiatsu Crush",
-                feats: "• [Canon Bleach TYBW]: Trảm sát Yhwach - kẻ có năng lực hấp thụ và làm sụp đổ 3 cõi (Soul Society, Hueco Mundo, Nhân giới)."
-            },
-            {
-                keys: ["yhwach"],
-                name: "Yhwach (Bleach)",
-                tierNum: 5.0, tierStr: "5-A đến Low 2-C", speedStr: "FTL+",
-                haxStr: "The Almighty (Thao túng và can thiệp mọi tương lai), Power Absorption, Soul Distribution",
-                feats: "• [Canon Bleach TYBW]: Nhìn thấy và thay đổi tương lai để hồi sinh chính mình ngay cả sau khi bị giết."
-            },
-            {
-                keys: ["naruto", "narutouzumaki"],
-                name: "Naruto Uzumaki (Baryon Mode / Six Paths)",
-                tierNum: 5.2, tierStr: "5-B đến 5-A (Planet Level)", speedStr: "FTL",
-                haxStr: "Baryon Mode (Rút ngắn tuổi thọ đối thủ khi va chạm), Truth-Seeker Orbs, Six Paths Senjutsu",
-                feats: "• [Canon Boruto/Naruto]: Tung đòn áp đảo Isshiki Otsutsuki và phân tách đòn đánh chia đôi Mặt Trăng (Toneri feat)."
-            },
-            {
-                keys: ["sasuke", "sasukeuchiha"],
-                name: "Sasuke Uchiha (Rinnegan)",
-                tierNum: 5.2, tierStr: "5-B đến 5-A (Planet Level)", speedStr: "FTL",
-                haxStr: "Rinnegan, Amenotejikara (Hoán đổi vị trí không gian), Amaterasu, Susanoo, Genjutsu",
-                feats: "• [Canon Naruto/Boruto]: Dịch chuyển qua các dị giới của Kaguya và chiến đấu ngang ngửa Kinshiki/Momoshiki."
-            },
+            // --- CẤP ĐỘ GALAXY / PLANET (TIER 3 - TIER 5) ---
+            { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth (Tăng trưởng vô hạn), Non-Physical Interaction", feats: "• [Canon OPM Chap 167-168]: Serious Punch Squall xóa sổ vệt sao; Serious Sneeze thổi bay khí quyển Sao Mộc." },
+            { keys: ["garou", "cosmicgarou"], name: "Cosmic Fear Garou (One Punch Man)", tierNum: 3.5, tierStr: "4-A (Multi-Solar System)", speedStr: "Massively FTL+", haxStr: "All Force Knowledge, Nuclear Fission, Power Mimicry", feats: "• [Canon OPM Chap 166]: Bộc phát đòn Gamma Ray Burst quy mô vũ trụ và sao chép Saitama." },
+            { keys: ["boros"], name: "Lord Boros (One Punch Man)", tierNum: 6.0, tierStr: "6-A đến 5-B (Surface / Planet Level)", speedStr: "FTL", haxStr: "Meteoric Burst, Collapsing Star Roaring Cannon, Regeneration", feats: "• [Canon OPM]: Dùng Collapsing Star Roaring Cannon tung đòn đủ sức phá hủy bề mặt/lõi Trái Đất." },
+            { keys: ["ichigo", "ichigokurosaki"], name: "Ichigo Kurosaki (Bleach TYBW)", tierNum: 5.0, tierStr: "5-A đến Low 2-C", speedStr: "FTL+", haxStr: "True Bankai, Gran Rey Cero, Soul Erasure", feats: "• [Canon Bleach TYBW]: Trảm sát Yhwach - kẻ đang hấp thụ và nâng đỡ sự tồn tại của 3 cõi." },
+            { keys: ["yhwach"], name: "Yhwach (Bleach)", tierNum: 5.0, tierStr: "5-A đến Low 2-C", speedStr: "FTL+", haxStr: "The Almighty (Can thiệp & thay đổi mọi tương lai), Power Absorption", feats: "• [Canon Bleach TYBW]: Thay đổi tương lai để hồi sinh chính mình ngay cả sau khi đã chết." },
+            { keys: ["aizen", "aizensosuke"], name: "Aizen Sosuke (Bleach)", tierNum: 5.0, tierStr: "5-A đến Low 2-C", speedStr: "FTL+", haxStr: "Kyoka Suigetsu (Ảo thuật tuyệt đối 5 giác quan), Hogyoku Evolution", feats: "• [Canon Bleach TYBW]: Dùng Kyoka Suigetsu làm nhiễu nhận thức tương lai của Yhwach." },
+            { keys: ["yamamoto"], name: "Genryusai Shigekuni Yamamoto (Bleach)", tierNum: 6.0, tierStr: "6-A đến 5-B (Planet Surface)", speedStr: "FTL", haxStr: "Zanka no Tachi (15 triệu độ C), Zanjitsu Gokui, Soul Erasure", feats: "• [Canon Bleach TYBW]: Mở Bankai Zanka no Tachi làm khô thiêu rụi toàn bộ nước ở Soul Society." },
+            { keys: ["naruto", "narutouzumaki"], name: "Naruto Uzumaki (Baryon Mode)", tierNum: 5.2, tierStr: "5-B đến 5-A (Planet Level)", speedStr: "FTL", haxStr: "Baryon Mode (Rút ngắn lifespan), Truth-Seeker Orbs, Six Paths", feats: "• [Canon Boruto]: Baryon Mode áp đảo Isshiki Otsutsuki; cắt đôi Mặt Trăng (Toneri feat)." },
+            { keys: ["sasuke", "sasukeuchiha"], name: "Sasuke Uchiha (Rinnegan)", tierNum: 5.2, tierStr: "5-B đến 5-A (Planet Level)", speedStr: "FTL", haxStr: "Amenotejikara (Dịch chuyển không gian), Susanoo, Amaterasu", feats: "• [Canon Boruto]: Dịch chuyển qua các dị giới Kaguya và đả chiến với Otsutsuki." },
+            { keys: ["kaguya"], name: "Kaguya Otsutsuki (Naruto)", tierNum: 5.1, tierStr: "5-A (Large Planet / Star Level)", speedStr: "FTL", haxStr: "Expansive Truth-Seeker Orb (Tạo/Xóa không gian dimension), All-Killing Ash Bones", feats: "• [Canon Naruto]: Tạo ra Expansive Truth-Seeker Orb khổng lồ tiêu diệt toàn bộ dị giới." },
+            { keys: ["madara"], name: "Madara Uchiha (Ten-Tails Jinchuriki)", tierNum: 6.0, tierStr: "6-A đến 5-B (Planet Level)", speedStr: "FTL", haxStr: "Infinite Tsukuyomi, Chibaku Tensei, Limbo Clones", feats: "• [Canon Naruto]: Triệu hồi hàng loạt tiểu hành tinh Chibaku Tensei phủ kín bầu trời." },
+            { keys: ["isshiki"], name: "Isshiki Otsutsuki (Boruto)", tierNum: 5.1, tierStr: "5-A (Large Planet Level)", speedStr: "FTL+", haxStr: "Sukunahikona (Thu nhỏ vật thể), Daikokuten (Kho không gian ngưng đọng)", feats: "• [Canon Boruto]: Thu nhỏ và cất giữ các khối lập phương siêu nặng đè bẹp Naruto & Sasuke." },
+            { keys: ["toriko"], name: "Toriko (Toriko / White Demon)", tierNum: 5.0, tierStr: "5-A đến 4-C (Star Level)", speedStr: "Massively FTL", haxStr: "Gourmet Cells, Ultimate Routine, Jet Fork, White Demon Strike", feats: "• [Canon Toriko End]: Đấm vỡ các hành tinh khổng lồ to gấp hàng trăm lần Trái Đất." },
+            { keys: ["seiya"], name: "Pegasus Seiya (Saint Seiya / God Cloth)", tierNum: 2.1, tierStr: "Low 2-C (Multiverse Level)", speedStr: "Massively FTL+", haxStr: "7th/8th/9th Sense, Atomic Destruction, Pegasus Comet Fist", feats: "• [Canon Saint Seiya]: Đạt Vận Tốc Ánh Sáng vượt bậc, phá hủy nguyên tử và đả thương Thanatos/Hades." },
 
-            // CẤP ĐỘ MOUNTAIN / ISLAND / CITY (TIER 6 - TIER 7)
-            {
-                keys: ["gojo", "gojosatoru"],
-                name: "Gojo Satoru (Jujutsu Kaisen)",
-                tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+ (Mach 500+)",
-                haxStr: "Limitless, Infinity Barrier (Vô Hạn), Unlimited Void (Nhồi thông tin 4D gây chết脑), Hollow Purple",
-                feats: "• [Canon JJK Chap 235]: Thi triển Hollow Purple 200% xóa sổ vùng tâm chấn Shibuya."
-            },
-            {
-                keys: ["sukuna", "ryomensukuna"],
-                name: "Ryomen Sukuna (Jujutsu Kaisen)",
-                tierNum: 7.1, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+",
-                haxStr: "World Severing Slash (Thế Giới Trảm - Cut Concept of Space), Malevolent Shrine, Fire Arrow",
-                feats: "• [Canon JJK Chap 236]: World Cutting Slash chém đứt không gian bao quanh Gojo Satoru."
-            },
-            {
-                keys: ["luffy", "monkeydluffy", "gear5"],
-                name: "Monkey D. Luffy (One Piece / Gear 5)",
-                tierNum: 6.2, tierStr: "6-B đến 6-A (Country / Continent Level)", speedStr: "FTL",
-                haxStr: "Gear 5 Toon Force (Biến môi trường/kẻ thù thành cao su), Advanced Conqueror Haki, Future Sight",
-                feats: "• [Canon OP Wano]: Tung cú đấm Bajrang Gun to bằng hòn đảo đấm chìm Kaido xuống lòng đất."
-            },
-            {
-                keys: ["kaido"],
-                name: "Kaido (One Piece)",
-                tierNum: 6.2, tierStr: "6-B đến 6-A (Country Level)", speedStr: "FTL",
-                haxStr: "Mythical Zoan Dragon, Advanced Conqueror Haki, Blast Breath",
-                feats: "• [Canon OP Wano]: Bê nguyên hòn đảo Onigashima lên không trung bằng mây hỏa xà."
-            },
-            {
-                keys: ["zoro", "roronoazoro"],
-                name: "Roronoa Zoro (One Piece)",
-                tierNum: 6.5, tierStr: "6-C đến 6-B (Island Level)", speedStr: "FTL",
-                haxStr: "King of Hell Three-Sword Style, Advanced Conqueror Haki, Ashura",
-                feats: "• [Canon OP Wano]: Chém để lại vết sẹo lớn trên cơ thể Kaido và chém đôi đảo Pica (Dressrosa)."
-            },
-            {
-                keys: ["alucard", "hellsing"],
-                name: "Alucard (Hellsing / Schrodinger)",
-                tierNum: 7.5, tierStr: "7-B / Omnipresent (Schrodinger)", speedStr: "Hypersonic+",
-                haxStr: "Schrodinger Quantum Reality (Tồn tại ở mọi nơi và không nơi nào - Bất tử tuyệt đối), Intangibility",
-                feats: "• [Canon Hellsing End]: Nhờ tế bào Schrodinger, Alucard nhận thức được bản thân và hồi sinh từ hư vô."
-            },
-            {
-                keys: ["allmight"],
-                name: "All Might (My Hero Academia)",
-                tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic",
-                haxStr: "One For All, United States of Smash, Super Air Pressure",
-                feats: "• [Canon MHA]: Cú đấm United States of Smash làm thay đổi thời tiết và san bằng nhiều khối nhà dù đã suy yếu."
-            },
-            {
-                keys: ["dekumha", "deku", "midoriya"],
-                name: "Izuku Midoriya (Deku / MHA End)",
-                tierNum: 6.8, tierStr: "7-A đến 6-C (Island Level)", speedStr: "Massively Hypersonic+",
-                haxStr: "Gearshift (Thao túng vận tốc), Fa Jin, Danger Sense, Blackwhip",
-                feats: "• [Canon MHA Final Arc]: Đấm bộc phát 120% kết hợp các Kosei tiêu diệt All For One Shigaraki."
-            },
+            // --- CẤP ĐỘ MOUNTAIN / COUNTRY / ISLAND (TIER 6 - TIER 7) ---
+            { keys: ["gojo", "gojosatoru"], name: "Gojo Satoru (Jujutsu Kaisen)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+ (Mach 500+)", haxStr: "Limitless, Infinity Barrier, Unlimited Void (Nhồi thông tin 4D), Hollow Purple", feats: "• [Canon JJK Chap 235]: Thi triển Tử Bát Không (Hollow Purple 200%) san bằng tâm chấn Shibuya." },
+            { keys: ["sukuna", "ryomensukuna"], name: "Ryomen Sukuna (Jujutsu Kaisen)", tierNum: 7.1, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+", haxStr: "World Severing Slash (Thế Giới Trảm - Cut Concept of Space), Malevolent Shrine", feats: "• [Canon JJK Chap 236]: World Cutting Slash chém đứt không gian khái niệm bao quanh Gojo." },
+            { keys: ["yuta", "yutaokkotsu"], name: "Yuta Okkotsu (Jujutsu Kaisen)", tierNum: 7.3, tierStr: "7-B (City Level)", speedStr: "Massively Hypersonic", haxStr: "Copy Cursed Technique, Rika Summon, Jacob's Ladder, Sky Manipulation", feats: "• [Canon JJK Shinjuku Arc]: Sao chép và thi triển hàng loạt thuật thức đỉnh cao chém đứt đầu Kenjaku." },
+            { keys: ["toji", "tojifushiguro"], name: "Toji Fushiguro (Jujutsu Kaisen)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Heavenly Restriction (Siêu giác quan & thể chất), Inverted Spear of Heaven (Hủy thuật thức)", feats: "• [Canon JJK Hidden Inventory]: Dùng Inverted Spear đâm xuyên Infinity đả thương Gojo Satoru." },
+            { keys: ["luffy", "gear5"], name: "Monkey D. Luffy (One Piece / Gear 5)", tierNum: 6.2, tierStr: "6-B đến 6-A (Country / Continent Level)", speedStr: "FTL", haxStr: "Gear 5 Toon Force (Cao su hóa môi trường/kẻ thù), Advanced Conqueror Haki", feats: "• [Canon OP Wano]: Bajrang Gun to bằng hòn đảo đấm chìm Kaido xuống lòng đất." },
+            { keys: ["kaido"], name: "Kaido (One Piece)", tierNum: 6.2, tierStr: "6-B đến 6-A", speedStr: "FTL", haxStr: "Mythical Zoan Dragon, Advanced Conqueror Haki, Blast Breath", feats: "• [Canon OP Wano]: Nâng nguyên hòn đảo Onigashima lên không trung bằng mây hỏa xà." },
+            { keys: ["zoro"], name: "Roronoa Zoro (One Piece)", tierNum: 6.5, tierStr: "6-C đến 6-B", speedStr: "FTL", haxStr: "King of Hell Three-Sword Style, Advanced Conqueror Haki, Ashura", feats: "• [Canon OP Wano]: Để lại vết sẹo lớn trên thân Kaido và chém đôi đảo Pica." },
+            { keys: ["shanks"], name: "Shanks (One Piece)", tierNum: 6.2, tierStr: "6-B đến 6-A", speedStr: "FTL", haxStr: "Divine Departure (Thần Trảm), Observation Killer (Triệt hạ Kiến Văn Haki)", feats: "• [Canon OP Chap 1079]: Tung 1 đòn Divine Departure dứt điểm hoàn toàn Eustass Kid (3 tỷ Berries)." },
+            { keys: ["whitebeard", "edwardnewgate"], name: "Whitebeard Edward Newgate (One Piece)", tierNum: 6.1, tierStr: "6-A (Continent Level)", speedStr: "FTL", haxStr: "Gura Gura no Mi (Chấn Động Quỷ Quả - Tạo động đất/Sóng thần), Conqueror Haki", feats: "• [Canon OP Marineford]: Đấm làm nứt vỡ không gian và làm nghiêng toàn bộ cấu trúc hải quân Marineford." },
+            { keys: ["allmight"], name: "All Might (My Hero Academia)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic", haxStr: "One For All, United States of Smash", feats: "• [Canon MHA]: United States of Smash thổi bay nhiều khối nhà và làm đổi áp suất thời tiết." },
+            { keys: ["deku", "midoriya"], name: "Izuku Midoriya (Deku / MHA End)", tierNum: 6.8, tierStr: "7-A đến 6-C (Island Level)", speedStr: "Massively Hypersonic+", haxStr: "Gearshift (Thao túng vận tốc), Fa Jin, Danger Sense, Blackwhip", feats: "• [Canon MHA Final]: Bộc phát 120% kết hợp các Kosei tiêu diệt Shigaraki All For One." },
+            { keys: ["shigaraki"], name: "Tomura Shigaraki (MHA End)", tierNum: 6.8, tierStr: "6-C (Island Level)", speedStr: "Massively Hypersonic+", haxStr: "Decay (Phân rã lan truyền quy mô lớn), All For One Steal, Super Regeneration", feats: "• [Canon MHA]: Decay phân rã hoàn toàn toàn bộ thành phố Deika trong vài giây." },
+            { keys: ["natsu"], name: "Natsu Dragneel (Fairy Tail / E.N.D)", tierNum: 6.5, tierStr: "6-C đến 6-B", speedStr: "FTL", haxStr: "Fire Dragon Slayer Magic, Dragon Force, Burn Time Concept", feats: "• [Canon Fairy Tail]: Đốt cháy thuật thức thời gian của Zeref bằng ngọn lửa cảm xúc." },
+            { keys: ["erza"], name: "Erza Scarlet (Fairy Tail)", tierNum: 6.8, tierStr: "7-A đến 6-C", speedStr: "FTL", haxStr: "Requip Armor Magic, Nakagami Armor (Chém đứt không gian)", feats: "• [Canon Fairy Tail]: Dùng Nakagami Armor chém tan thuật thức ma pháp của Minerva." },
+            { keys: ["alucard"], name: "Alucard (Hellsing / Schrodinger)", tierNum: 7.5, tierStr: "7-B / Omnipresent (Schrodinger)", speedStr: "Hypersonic+", haxStr: "Schrodinger Quantum Reality (Tồn tại mọi nơi - Bất tử tuyệt đối), Intangibility", feats: "• [Canon Hellsing End]: Nhờ tế bào Schrodinger, Alucard nhận thức bản thân và hồi sinh từ hư vô." },
+            { keys: ["tatsumaki"], name: "Tatsumaki (One Punch Man)", tierNum: 6.2, tierStr: "6-B (Country Level)", speedStr: "Massively Hypersonic+", haxStr: "Master Telekinesis, Barrier Generation, Psychic Compression", feats: "• [Canon OPM]: Nhấc bổng và vặn xoắn toàn bộ căn cứ ngầm Z-City thành ngọn tháp khổng lồ." },
+            { keys: ["genos"], name: "Genos (One Punch Man / 10s Mode)", tierNum: 6.5, tierStr: "6-C (Island Level)", speedStr: "Massively Hypersonic+", haxStr: "Incineration Cannon, 10-Seconds Mode (Power Core Upgrade)", feats: "• [Canon OPM]: Chống trả đòn bắn của Psykoros bằng 10-Seconds Mode bộc phát." },
+            { keys: ["mob", "shigeokageyama"], name: "Shigeo Kageyama (Mob Psycho 100)", tierNum: 7.2, tierStr: "7-B (City Level)", speedStr: "Hypersonic+", haxStr: "Psychic Absorption, Telekinesis, ???% Mode", feats: "• [Canon Mob Psycho]: Dạng ???% hấp thụ toàn bộ năng lượng đô thị và tạo siêu bão tâm linh." },
+            { keys: ["eren", "erenyeager"], name: "Eren Yeager (Attack on Titan)", tierNum: 7.5, tierStr: "7-B (Rumbling Tier)", speedStr: "Hypersonic", haxStr: "Founding Titan Command, Rumbling (Triệu hồi hàng vạn Titan Đại Hình)", feats: "• [Canon AoT End]: Dẫn dắt Rumbling san bằng 80% bề mặt văn minh nhân loại trên thế giới." },
 
-            // CẤP ĐỘ URBAN / STREET / MARTIAL ARTS (TIER 8)
-            {
-                keys: ["uidaniel", "danielpark", "lookismdaniel"],
-                name: "UI Daniel Park (Lookism)",
-                tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+",
-                haxStr: "Mastery Copying (Sao chép tuyệt đối mọi võ thuật), Unconscious Ultra Instinct, Perfect Physical Body",
-                feats: "• [Canon Lookism Chap 467/515]: Áp đảo Gun, Goo, Jinyoung và thi triển hoàn hảo võ thuật của Gitae Kim, Gapryong Kim."
-            },
-            {
-                keys: ["gunpark", "shirooni"],
-                name: "Gun Park (Lookism / TUI)",
-                tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+",
-                haxStr: "True Ultra Instinct (Bản năng vô cực kiểm soát), Endurance Mastery, Yamazaki Bloodline",
-                feats: "• [Canon Lookism Hunt for Gun]: Đánh gục toàn bộ băng nhóm Worker, Gen 2 và Goo Kim dù bị gãy tay và chịu vô số thương tích."
-            },
-            {
-                keys: ["gookim"],
-                name: "Goo Kim (Lookism)",
-                tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+",
-                haxStr: "Weapon Mastery (Biến mọi vật thể thành kiếm sắc bén), Moonlight Sword Style",
-                feats: "• [Canon Lookism]: Trận chiến ngang ngửa với UI Daniel và Gun Park khi cầm trong tay một thanh kiếm thật."
-            },
-            {
-                keys: ["gitaekim", "gitae"],
-                name: "Gitae Kim (Lookism / Gen 0 King)",
-                tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+",
-                haxStr: "Brutal Innate Strength, Copying Gapryong Rough Style, Complete Intimidation",
-                feats: "• [Canon Lookism]: Thống trị giới xã hội đen Mexico và hạ gục Jichang Kwak một cách tàn bạo không tốn sức."
-            },
-            {
-                keys: ["yujiro", "yujirohanma"],
-                name: "Yujiro Hanma (Baki the Grappler)",
-                tierNum: 8.2, tierStr: "8-B đến 8-A (City Block Level)", speedStr: "Hypersonic (Mach 5+)",
-                haxStr: "Demon Back (Lưng Quỷ), Shaori (Tiêu lực), Pre-cognition, Physical Copying",
-                feats: "• [Canon Baki]: Cú đấm đập xuống đất triệt tiêu hoàn toàn trận động đất; đi xuyên qua phòng thủ quân đội Mỹ."
-            },
-            {
-                keys: ["bakihanma", "baki"],
-                name: "Baki Hanma (Baki)",
-                tierNum: 8.2, tierStr: "8-B đến 8-A (City Block Level)", speedStr: "Hypersonic",
-                haxStr: "Demon Back, Triceratops Stance, Cockroach Dash (Tăng tốc tức thời Mach 3)",
-                feats: "• [Canon Baki Son of Ogre]: Trận chiến lịch sử ngang ngửa với Yujiro Hanma và kiến tạo hình bóng khổng lồ."
-            },
-            {
-                keys: ["batman", "batmancomics"],
-                name: "Batman (DC Comics / Base)",
-                tierNum: 9.1, tierStr: "9-B đến 8-C (Street / Peak Human - Hellbat Tier 2)", speedStr: "Peak Human / Hypersonic reaction",
-                haxStr: "Master Tactician, Preparation Time (Prep Time), Martial Arts Master, Gadgets",
-                feats: "• [DC Comics Canon]: Đánh gục nhiều cao thủ võ thuật thế giới và chế tạo giáp Hellbat đấu với Darkseid khi có Prep Time."
-            },
+            // --- CẤP ĐỘ URBAN / LOOKISM / BAKI / KENGAN (TIER 8) ---
+            { keys: ["uidaniel", "danielpark"], name: "UI Daniel Park (Lookism)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Mastery Copying, Perfect Body, Unconscious Ultra Instinct", feats: "• [Canon Lookism Chap 467/515]: Áp đảo Gun, Goo, Jinyoung; thi triển võ thuật đỉnh cao của Gitae Kim & Gapryong Kim." },
+            { keys: ["gunpark", "shirooni"], name: "Gun Park (Lookism / TUI)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "True Ultra Instinct, Endurance Mastery, Yamazaki Bloodline", feats: "• [Canon Lookism Hunt for Gun]: Đánh gục Workers, Gen 2 và Goo Kim dù gãy tay và chịu vô số thương tích." },
+            { keys: ["gookim"], name: "Goo Kim (Lookism)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Weapon Mastery (Biến mọi vật thể thành kiếm sắc bén), Moonlight Sword Style", feats: "• [Canon Lookism]: Trận chiến cân bằng với UI Daniel và Gun Park khi cầm kiếm thật." },
+            { keys: ["gitaekim"], name: "Gitae Kim (Lookism)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Brutal Innate Strength, Rough Gapryong Style, Complete Intimidation", feats: "• [Canon Lookism]: Thống trị xã hội đen Mexico và hạ gục Jichang Kwak không tốn sức." },
+            { keys: ["gapryongkim", "gapryong"], name: "Gapryong Kim (Lookism Gen 0)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Conviction Mastery (Vượt ngưỡng giới hạn sức mạnh), Gen 0 Peak Fist", feats: "• [Canon Lookism]: Huyền thoại Gen 0 lãnh đạo Fist Gang đánh bại Great Power Yamazaki." },
+            { keys: ["jameslee", "dg"], name: "James Lee (Lookism / Gen 1 Peak)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+ (Speed Mastery Peak)", haxStr: "Speed Mastery, Technique Mastery, Invisible Attacks (Đòn đánh điểm mù)", feats: "• [Canon Lookism]: Một mình tiêu diệt toàn bộ các Vua Thế Hệ 1 (Gen 1 Kings) không dính 1 vết thương." },
+            { keys: ["seongjiyuk", "seongji"], name: "Seongji Yuk (Lookism / Cheonliang King)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "3 Masteries (Speed, Power, Toughness), Ssireum, 6 Fingers/Toes", feats: "• [Canon Lookism Cheonliang]: Bộc phát 3 Ngưỡng Sức Mạnh bẻ gãy đòn đánh và áp đảo James Lee." },
+            { keys: ["jichangkwak", "jichang"], name: "Jichang Kwak (Lookism / Seoul King)", tierNum: 8.1, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Hand Blade Mastery (Đao tay xẻ nát bê tông), Tactical Genius", feats: "• [Canon Lookism]: Đao tay chém vỡ mặt đường bê tông và xói nát bức tường gạch dày." },
+            { keys: ["taesooma"], name: "Taesoo Ma (Lookism / Ansan King)", tierNum: 8.1, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic", haxStr: "One-Punch Power Mastery (Nắm đấm tàn phá cực đại)", feats: "• [Canon Lookism]: Cú đấm đập vỡ tường bê tông cốt thép và làm biến dạng khung xe ô tô." },
+            { keys: ["gongseobji"], name: "Gongseob Ji (Lookism / Incheon King)", tierNum: 8.1, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic", haxStr: "Iron Fortress Durability, Counter Boxing", feats: "• [Canon Lookism]: Chịu đựng cú đập của chuông đồng khổng lồ mà không hề bị tổn thương." },
+            { keys: ["yujiro", "yujirohanma"], name: "Yujiro Hanma (Baki the Grappler)", tierNum: 8.2, tierStr: "8-B đến 8-A (City Block Level)", speedStr: "Hypersonic (Mach 5+)", haxStr: "Demon Back (Lưng Quỷ), Shaori (Tiêu lực), Physical Copying", feats: "• [Canon Baki]: Tung cú đấm triệt tiêu trận động đất; đi xuyên hệ thống phòng thủ quân đội Mỹ." },
+            { keys: ["baki", "bakihanma"], name: "Baki Hanma (Baki)", tierNum: 8.2, tierStr: "8-B đến 8-A", speedStr: "Hypersonic", haxStr: "Demon Back, Cockroach Dash (Tăng tốc Mach 3 tức thì), Triceratops Stance", feats: "• [Canon Baki Son of Ogre]: Chiến đấu trực diện cân bằng với Yujiro Hanma trong trận quyết chiến." },
+            { keys: ["jackhanma"], name: "Jack Hanma (Baki)", tierNum: 8.3, tierStr: "8-B Level", speedStr: "Hypersonic", haxStr: "Goudou (Võ cắn tàn bạo), Titanium Teeth, Steroid Overdose Strength", feats: "• [Canon Baki Rahen]: Cắn đứt dây thần kinh và cơ bắp của các cao thủ võ nghệ." },
+            { keys: ["pickle"], name: "Pickle (Baki)", tierNum: 8.2, tierStr: "8-B đến 8-A", speedStr: "Hypersonic", haxStr: "Prehistoric Beast Strength, Dinosaur Hunting Physicals", feats: "• [Canon Baki]: Săn bắt và quật ngã Khủng Long Bạo Chúa T-Rex thời tiền sử bằng tay không." },
+            { keys: ["ohmatoki", "ohma"], name: "Tokita Ohma (Kengan Ashura)", tierNum: 8.4, tierStr: "8-C (Building Level)", speedStr: "Hypersonic", haxStr: "Niko Style (4 Thế), Advance/Possessing Spirit, Pre-Inception", feats: "• [Canon Kengan]: Dùng Demonsbane phản lại toàn bộ lực đấm của Kuroki/Wakatsuki." },
+            { keys: ["kurokigensai"], name: "Kuroki Gensai (Kengan Ashura)", tierNum: 8.4, tierStr: "8-C (Building Level)", speedStr: "Hypersonic", haxStr: "Kaiwan Style, Devil Lance (Ngón tay đâm xuyên thép), Pre-Inception", feats: "• [Canon Kengan]: Vô địch giải Kengan Annihilation Tournament đâm xuyên đòn đánh đối thủ." },
+            { keys: ["kanohagito"], name: "Kanoh Agito (Kengan Ashura)", tierNum: 8.4, tierStr: "8-C (Building Level)", speedStr: "Hypersonic", haxStr: "Formless Style, Evolution (Thích ứng tự động trong giao tranh), Dragon Shot", feats: "• [Canon Kengan]: Tung đòn Dragon Shot cự ly 1cm đập nát võ sĩ cấp cao." },
+            { keys: ["tanjiro"], name: "Kamado Tanjiro (Demon Slayer)", tierNum: 8.5, tierStr: "8-C (Building Level)", speedStr: "Hypersonic", haxStr: "Sun Breathing, Transparent World, Demon Slayer Mark", feats: "• [Canon Demon Slayer]: Chém đứt đầu Akaza và giao tranh tới kiệt sức với Muzan." },
+            { keys: ["muzan"], name: "Muzan Kibutsuji (Demon Slayer)", tierNum: 8.3, tierStr: "8-B (City Block Level)", speedStr: "Hypersonic", haxStr: "Biokinesis, Extreme Cellular Regeneration, Blood Curse", feats: "• [Canon Demon Slayer]: Cân toàn bộ Trụ Cột và Sát Quỷ Đội dù bị trúng hàng loạt chất độc." },
+            { keys: ["yoriichi"], name: "Yoriichi Tsugikuni (Demon Slayer)", tierNum: 8.2, tierStr: "8-B Level", speedStr: "Hypersonic+", haxStr: "Origin Sun Breathing, Permanent Transparent World, Red Blade", feats: "• [Canon Demon Slayer]: Trong chớp mắt chém Muzan thành 1500 mảnh không cho kịp hồi phục." },
+            { keys: ["kokushibo"], name: "Kokushibo (Demon Slayer Upper 1)", tierNum: 8.3, tierStr: "8-B Level", speedStr: "Hypersonic", haxStr: "Moon Breathing, Flesh Blades, Transparent World", feats: "• [Canon Demon Slayer]: Một mình áp đảo Gyomei, Sanemi, Muichiro và Genya đồng thời." },
+            { keys: ["denji", "chainsawman"], name: "Denji / Chainsaw Man (Hero of Hell)", tierNum: 8.1, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic", haxStr: "Concept Consumption (Nuốt chửng xóa tên quỷ), Immortality", feats: "• [Canon CSM]: Dạng Hero of Hell bị bắn lên Mặt Trăng vẫn xé tim ném về Trái Đất tái sinh." },
+            { keys: ["makima"], name: "Makima (Chainsaw Man)", tierNum: 8.2, tierStr: "8-B Level", speedStr: "Hypersonic", haxStr: "Control Manipulation, Prime Minister Contract, Bang Shot", feats: "• [Canon CSM]: Bắn đòn Bang đẩy văng Chainsaw Man ra ngoài không gian vũ trụ." },
 
-            // CÁC NHÂN VẬT ANIME/MANGA POPULAR KHÁC
-            {
-                keys: ["tanjiro", "kamadotanjiro"],
-                name: "Kamado Tanjiro (Demon Slayer)",
-                tierNum: 8.5, tierStr: "8-C (Building Level)", speedStr: "Hypersonic",
-                haxStr: "Sun Breathing (Hơi Thở Mặt Trời), Transparent World (Thế Giới Trong Suốt), Demon Slayer Mark",
-                feats: "• [Canon Demon Slayer Final Arc]: Chém đứt đầu Akaza và chiến đấu đến kiệt sức chống lại Muzan Kibutsuji."
-            },
-            {
-                keys: ["muzan", "kibutsujimuzan"],
-                name: "Muzan Kibutsuji (Demon Slayer)",
-                tierNum: 8.3, tierStr: "8-B (City Block Level)", speedStr: "Hypersonic",
-                haxStr: "Biokinesis, Extreme Regeneration (Hồi phục tế bào tức thì), Blood Curse",
-                feats: "• [Canon Demon Slayer]: Một mình cân toàn bộ Trụ Cột (Hashira) và Sát Quỷ Đội dù bị dính hàng loạt loại độc tố."
-            },
-
-            { keys: ["denji", "chainsawman"], name: "Denji / Chainsaw Man", tierNum: 8.1, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic", haxStr: "Concept Consumption (Nuốt chửng xóa bỏ tên quỷ), Immortality, Chainsaw Regeneration", feats: "• [Canon CSM]: Dạng Hero of Hell chiến đấu ở không gian ngoài Trái Đất và xé nát các con Quỷ Cấp Cao." },
-            { keys: ["makima"], name: "Makima (Chainsaw Man)", tierNum: 8.2, tierStr: "8-B Level", speedStr: "Hypersonic", haxStr: "Control Manipulation, Prime Minister Contract (Chuyển sát thương cho dân Nhật), Bang Shot", feats: "• [Canon CSM]: Bắn đòn Bang thổi Denji lên thẳng Mặt Trăng và thao túng toàn bộ quỷ dưới quyền." },
-            { keys: ["jotaro", "jotarokujo", "starplatinum"], name: "Jotaro Kujo (JoJo Part 3/4/6)", tierNum: 8.8, tierStr: "8-C / Speed MFTL Stand", speedStr: "Massively FTL (Stand Reaction)", haxStr: "Star Platinum: The World (Dừng thời gian 5 giây), Sub-atomic Precision", feats: "• [Canon JoJo Part 3]: Đấm nát răng kim cương của High Priestess và dừng thời gian đấm gục DIO." },
-            { keys: ["dio", "diobrando", "theworld"], name: "DIO Brando (JoJo Part 3)", tierNum: 8.8, tierStr: "8-C Level", speedStr: "Massively FTL Stand", haxStr: "The World (Time Stop 9 giây), Vampire Physiology, High Regeneration", feats: "• [Canon JoJo Part 3]: Dừng thời gian 9 giây liên tục và nhấc xe lu đè bẹp Jotaro." },
-            { keys: ["giorno", "ger", "goldexperiencerequiem"], name: "Giorno Giovanna (GER / JoJo Part 5)", tierNum: 8.0, tierStr: "8-A / Infallible Hax Tier", speedStr: "Massively FTL / Infinite Reaction", haxStr: "Return to Zero (Đưa mọi hành động/ý niệm của đối thủ về số 0), Infinite Death Loop", feats: "• [Canon JoJo Part 5]: Tự động kích hoạt GER hủy bỏ tuyệt đối năng lực xóa thời gian của Diavolo." },
-            { keys: ["mob", "shigeokageyama"], name: "Shigeo Kageyama (Mob Psycho 100)", tierNum: 7.2, tierStr: "7-B (City Level)", speedStr: "Hypersonic+", haxStr: "Psychic Energy Absorption, Telekinesis, ???% Mode (Bản năng tâm linh)", feats: "• [Canon Mob Psycho]: Dạng ???% hấp thụ toàn bộ năng lượng đô thị và phá hủy cấu trúc không gian tâm linh." },
-            { keys: ["tatsumaki"], name: "Tatsumaki (One Punch Man)", tierNum: 6.2, tierStr: "6-B (Country Level)", speedStr: "Massively Hypersonic+", haxStr: "Master Telekinesis, Barrier Generation, Life Force Compression", feats: "• [Canon OPM]: Nhấc bổng toàn bộ căn cứ ngầm Z-City và vặn xoắn thành phố như một chiếc khăn lau." },
-            { keys: ["mobius", "anoshax"], name: "Aizen Sosuke (Bleach)", tierNum: 5.0, tierStr: "5-A đến Low 2-C", speedStr: "FTL+", haxStr: "Kyoka Suigetsu (Hoàn Toàn Thao Túng 5 Giác Quan), Hogyoku Evolution, Immortality", feats: "• [Canon Bleach TYBW]: Tiến hóa liên tục nhờ Hogyoku và làm nhiễu nhận thức của Yhwach bằng ảo thuật." },
-            { keys: ["eren", "erenyeager", "foundingtitan"], name: "Eren Yeager (Attack on Titan)", tierNum: 7.5, tierStr: "7-B (City / Rumbling Tier)", speedStr: "Hypersonic", haxStr: "Founding Titan Command, Rumbling (Triệu hồi hàng vạn Titan Đại Hình), Future Memory Vision", feats: "• [Canon AoT End]: Dẫn dắt Rumbling san bằng 80% bề mặt văn minh nhân loại trên thế giới." },
-            { keys: ["levi", "leviackerman"], name: "Levi Ackerman (Attack on Titan)", tierNum: 9.0, tierStr: "9-A (Small Building Level)", speedStr: "Supersonic+", haxStr: "Ackerman Awakened Instinct, ODM Gear Mastery, Blade Precision", feats: "• [Canon AoT]: Mổ xẻ Titan Quái Thú (Zeke) trong chớp mắt trước khi đối phương kịp phản ứng." },
-            { keys: ["doraemon"], name: "Doraemon (22nd Century Robot)", tierNum: 2.0, tierStr: "Low 2-C (với Bảo Bối Khảo Cổ)", speedStr: "Regular Human / MFTL với bảo bối", haxStr: "Tủ Thần Kỳ (Reality Warping), Đèn Nhỏ, Khăn Trùm Thời Gian, Máy Chuẩn Độ Kịch Bản", feats: "• [Canon Doraemon]: Sử dụng Tủ Thần Kỳ tạo ra các thực tại/vũ trụ song song theo bất kỳ câu lệnh nào." },
-            { keys: ["lightyagami", "kira"], name: "Light Yagami (Death Note)", tierNum: 10.0, tierStr: "10-B (Human Level)", speedStr: "Human Speed", haxStr: "Death Note (Ghi tên biết mặt là chết sau 40s do đau tim), High Intelligence", feats: "• [Canon Death Note]: Thao túng hệ thống cảnh sát toàn cầu và hạ gục L bằng kế hoạch ghi sổ." },
-            { keys: ["sans", "undertale"], name: "Sans the Skeleton (Undertale)", tierNum: 9.0, tierStr: "9-B (Street Level / Bypass Durability)", speedStr: "Hypersonic / Teleportation", haxStr: "Karmic Retribution (Sát thương dựa trên tội lỗi đối thủ), Dodge Mastery, Gaster Blasters", feats: "• [Canon Undertale]: Né tránh liên tục mọi đòn đánh của Chara/Frisk và can thiệp khung lượt trận đấu." },
-            { keys: ["steve", "minecraftsteve"], name: "Steve (Minecraft / Creative)", tierNum: 2.0, tierStr: "Low 2-C (Creative Mode) / Tier 8 (Survival)", speedStr: "Massively FTL (Commands)", haxStr: "Creative Mode (Invulnerability), /kill Command, Infinite Inventory Storage", feats: "• [Minecraft Creative]: Kháng mọi loại sát thương trong game và xóa bỏ đối thủ bằng lệnh /kill." },
-            { keys: ["isagi", "isagiyoichi"], name: "Isagi Yoichi (Blue Lock)", tierNum: 10.0, tierStr: "10-B (Human Athlete Level)", speedStr: "Human Speed", haxStr: "Metavision (Thị giác không gian toàn cảnh), Direct Volley, Egocentrism Reading", feats: "• [Canon Blue Lock]: Đọc trước toàn bộ chuyển động của 22 cầu thủ trên sân để ghi bàn quyết định." },
-            { keys: ["rinitoshi", "rin"], name: "Rin Itoshi (Blue Lock)", tierNum: 10.0, tierStr: "10-B (Human Athlete Level)", speedStr: "Human Speed", haxStr: "Destroyer Mode, Precise Ball Control, Spatial Awareness", feats: "• [Canon Blue Lock]: Một mình kéo sập hàng phòng ngự đối phương bằng phong cách bóng đá phá hủy đối thủ." }
+            // --- CẤP ĐỘ ANIME/GAME/WEBTOON KHÁC ---
+            { keys: ["jotaro"], name: "Jotaro Kujo (JoJo Part 3/4/6)", tierNum: 8.8, tierStr: "8-C / Speed MFTL Stand", speedStr: "Massively FTL (Stand Reaction)", haxStr: "Star Platinum: The World (Dừng thời gian 5s), Precision Strike", feats: "• [Canon JoJo Part 3]: Dừng thời gian đấm nát DIO và phá hủy răng kim cương High Priestess." },
+            { keys: ["dio", "diobrando"], name: "DIO Brando (JoJo Part 3)", tierNum: 8.8, tierStr: "8-C Level", speedStr: "Massively FTL Stand", haxStr: "The World (Dừng thời gian 9s), Vampire Physiology", feats: "• [Canon JoJo Part 3]: Dừng thời gian 9 giây liên tục và nhấc xe lu đè bẹp Jotaro." },
+            { keys: ["giorno", "ger"], name: "Giorno Giovanna (GER / JoJo Part 5)", tierNum: 8.0, tierStr: "8-A / Infallible Hax", speedStr: "Infinite Reaction (GER)", haxStr: "Return to Zero (Đưa mọi hành động/ý niệm đối thủ về số 0), Infinite Death Loop", feats: "• [Canon JoJo Part 5]: GER tự động kích hoạt vô hiệu hóa tuyệt đối đòn xóa thời gian của Diavolo." },
+            { keys: ["johnwick"], name: "John Wick (Baba Yaga)", tierNum: 9.2, tierStr: "9-B (Street Level)", speedStr: "Peak Human", haxStr: "Master Marksmanship, Tactical Gun-Fu, Bulletproof Suit", feats: "• [Canon John Wick]: Triệt hạ hàng trăm sát thủ cao cấp của High Table bằng kỹ năng Gun-Fu." },
+            { keys: ["batman"], name: "Batman (DC Comics / Base)", tierNum: 9.1, tierStr: "9-B / Prep Time Master", speedStr: "Peak Human / Hypersonic Reaction", haxStr: "Master Tactician, Preparation Time, Gadgets, Martial Arts Peak", feats: "• [DC Comics Canon]: Đánh gục nhiều cao thủ và chế tạo giáp Hellbat chống lại Darkseid khi có Prep Time." },
+            { keys: ["snakeeye", "snakeeyes"], name: "Snake Eyes (G.I. Joe)", tierNum: 9.1, tierStr: "9-B (Street Level)", speedStr: "Peak Human+", haxStr: "Arashikage Ninjutsu, Master Swordsman, Stealth Master", feats: "• [Canon GI Joe]: Môt mình đột nhập căn cứ Cobra triệt hạ toàn bộ lực lượng vệ binh." },
+            { keys: ["levi"], name: "Levi Ackerman (Attack on Titan)", tierNum: 9.0, tierStr: "9-A (Small Building Level)", speedStr: "Supersonic+", haxStr: "Ackerman Awakened Instinct, ODM Gear Mastery", feats: "• [Canon AoT]: Mổ xẻ Titan Quái Thú (Zeke) trong chớp mắt trước khi đối phương kịp phản ứng." },
+            { keys: ["doraemon"], name: "Doraemon (22nd Century Robot)", tierNum: 2.0, tierStr: "Low 2-C (với Tủ Thần Kỳ / Bảo Bối)", speedStr: "Regular Human / MFTL với bảo bối", haxStr: "Tủ Thần Kỳ (Reality Warping), Máy Chuẩn Độ Kịch Bản, Đèn Nhỏ", feats: "• [Canon Doraemon]: Dùng Tủ Thần Kỳ tạo ra thực tại/vũ trụ song song theo câu lệnh." },
+            { keys: ["lightyagami", "kira"], name: "Light Yagami (Death Note)", tierNum: 10.0, tierStr: "10-B (Human Level)", speedStr: "Human Speed", haxStr: "Death Note (Ghi tên biết mặt là chết sau 40s do đau tim)", feats: "• [Canon Death Note]: Thao túng cảnh sát toàn cầu và tiêu diệt L bằng kế hoạch ghi sổ." },
+            { keys: ["sans"], name: "Sans the Skeleton (Undertale)", tierNum: 9.0, tierStr: "9-B (Bypass Durability)", speedStr: "Hypersonic / Teleportation", haxStr: "Karmic Retribution (Sát thương theo tội lỗi đối thủ), Dodge Mastery", feats: "• [Canon Undertale]: Né liên tục mọi đòn đánh của Chara/Frisk và can thiệp khung lượt." },
+            { keys: ["steve"], name: "Steve (Minecraft / Creative)", tierNum: 2.0, tierStr: "Low 2-C (Creative Mode)", speedStr: "Massively FTL (Commands)", haxStr: "Creative Mode (Invulnerability), /kill Command", feats: "• [Minecraft Creative]: Kháng mọi loại sát thương và tiêu diệt đối thủ bằng lệnh /kill." },
+            { keys: ["isagi"], name: "Isagi Yoichi (Blue Lock)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Speed", haxStr: "Metavision (Thị giác toàn cảnh 360 độ), Direct Volley", feats: "• [Canon Blue Lock]: Đọc trước chuyển động của 22 cầu thủ để ghi bàn quyết định." },
+            { keys: ["rin"], name: "Rin Itoshi (Blue Lock)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Speed", haxStr: "Destroyer Mode, Precise Ball Control", feats: "• [Canon Blue Lock]: Một mình kéo sập hàng phòng ngự đối thủ bằng phong cách Destroyer." },
+            { keys: ["nagi"], name: "Nagi Seishiro (Blue Lock)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Speed", haxStr: "Black Hole Trapping (Khống chế bóng tuyệt đối), Instant Adaptation", feats: "• [Canon Blue Lock]: Đón đỡ những đường chuyền khó nhất và thực hiện đòn tâng bóng 5 nhịp vô lý." },
+            { keys: ["barou"], name: "Barou Shoei (Blue Lock / King)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Speed", haxStr: "Villain Dribble, Chop Hook Shot, Snatch Shooting", feats: "• [Canon Blue Lock]: Nuốt chửng không gian thi đấu và ghim bóng vào góc chết khung thành." },
+            { keys: ["bachira"], name: "Bachira Meguru (Blue Lock)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Speed", haxStr: "Monster Dribble, Elastic Feint, Free State", feats: "• [Canon Blue Lock]: Dribble qua hàng loạt hậu vệ cấp thế giới bằng phong cách nhảy múa." },
+            { keys: ["chigiri"], name: "Chigiri Hyoma (Blue Lock)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Athlete Peak Speed", haxStr: "44-Degree Panther Snipe, Top Speed Dribble", feats: "• [Canon Blue Lock]: Bứt tốc vượt qua mọi cầu thủ trên đường chạy và ghim bóng góc xa." },
+            { keys: ["saiaitoshi", "saaitoshi"], name: "Sae Itoshi (Blue Lock / New Gen 11)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Speed", haxStr: "Perfect Pass Calculus, Passive Dribble Counter", feats: "• [Canon Blue Lock]: Dễ dàng xỏ háng và làm chủ hoàn toàn nhịp độ trận đấu U-20 Nhật Bản." },
+            { keys: ["kaiser"], name: "Michael Kaiser (Blue Lock / New Gen 11)", tierNum: 10.0, tierStr: "10-B (Human Athlete)", speedStr: "Human Speed", haxStr: "Kaiser Impact (Cú sút có vận tốc chân nhanh nhất thế giới), Metavision", feats: "• [Canon Blue Lock]: Tung cú sút Kaiser Impact với tốc độ vút đi nhanh hơn góc quay camera." },
+            { keys: ["loidforger", "twilight"], name: "Loid Forger (Spy x Family / Agent Twilight)", tierNum: 9.2, tierStr: "9-B (Street Level)", speedStr: "Peak Human+", haxStr: "Master Disguise, Tactical Intellect, Combat Shot Peak", feats: "• [Canon Spy x Family]: Một mình hạ gục nhóm sát thủ armed và cải trang thành bất kỳ ai." },
+            { keys: ["yorforger", "thornprincess"], name: "Yor Forger (Spy x Family / Thorn Princess)", tierNum: 8.8, tierStr: "8-C (Building Level Physicals)", speedStr: "Hypersonic reaction", haxStr: "Superhuman Strength, Stiletto Needle Mastery", feats: "• [Canon Spy x Family]: Đấm nảy quả bóng tennis cắt nát hàng rào và đá văng chiếc xe ô tô đang chạy." },
+            { keys: ["anya", "anyaforger"], name: "Anya Forger (Spy x Family)", tierNum: 10.0, tierStr: "10-C (Child Level)", speedStr: "Child Speed", haxStr: "Telepathy (Đọc suy nghĩ người khác trong bán kính gần)", feats: "• [Canon Spy x Family]: Đọc suy nghĩ của Loid và Yor để giúp tháo gỡ bom và giải cứu nhiệm vụ." },
+            { keys: ["mash", "mashburnedead"], name: "Mash Burnedead (Mashle: Magic and Muscles)", tierNum: 6.2, tierStr: "6-B (Country Level Physicals)", speedStr: "Massively FTL", haxStr: "Pure Physical Muscle Immunity to Magic, Continental Relocation", feats: "• [Canon Mashle End]: Dùng tay không đẩy dời cả một dải đại lục đất liền chống lại ma pháp." },
+            { keys: ["inuyasha"], name: "Inuyasha (Inuyasha)", tierNum: 7.2, tierStr: "7-B (City Level)", speedStr: "Hypersonic+", haxStr: "Tessaiga (Thiết Toái Nha), Meido Zangetsuha (Cắt mở cánh cổng Địa Ngục)", feats: "• [Canon Inuyasha]: Tung Meido Zangetsuha chém mở không gian hút đối thủ trực tiếp xuống Địa Ngục." },
+            { keys: ["sesshomaru"], name: "Sesshomaru (Inuyasha)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Hypersonic+", haxStr: "Bakusaiga (Bộc Toái Nha - Sát thương phân rã liên hoàn không thể hồi phục)", feats: "• [Canon Inuyasha]: Bakusaiga chém một đòn phân rã hàng vạn yêu quái và triệt tiêu khả năng tái sinh." },
+            { keys: ["kenshin"], name: "Himura Kenshin (Rurouni Kenshin)", tierNum: 9.0, tierStr: "9-A (Small Building Level)", speedStr: "Supersonic+", haxStr: "Hiten Mitsurugi-ryu (Phi Thiên Ngự Kiếm), Amakakeru Ryu no Hirameki", feats: "• [Canon Kenshin]: Thi triển tuyệt kỹ Amakakeru Ryu tạo chân không hút và chém gục Shishio Makoto." },
+            { keys: ["gintoki"], name: "Sakata Gintoki (Gintama)", tierNum: 8.3, tierStr: "8-B (City Block Level)", speedStr: "Hypersonic", haxStr: "Master Samurai Swordsmanship, Gag/Fourth Wall Breaks", feats: "• [Canon Gintama]: Đả chiến ngang ngửa với Hosen (Dạ Xoa) và Utsuro kẻ bất tử." },
+            { keys: ["sungjinwoosolo"], name: "Shadow Monarch Ashborn (Solo Leveling)", tierNum: 2.1, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Immeasurable", haxStr: "Original Shadow Monarch Authority, Death Concept Dominance", feats: "• [Canon Solo Leveling]: Cựu Quân Vương Bóng Tối thống trị cõi chết và truyền thừa trọn vẹn sức mạnh cho Jin-Woo." }
         ];
 
         function addMessage(text, type) {
@@ -356,7 +212,7 @@
         function processQuery(query) {
             const rawLower = query.toLowerCase();
 
-            // KỊCH BẢN 1: KÈO ĐẤU SO SÁNH (Ví dụ: "Sung Jin Woo vs Rimuru", "UI Daniel vs Gun")
+            // KỊCH BẢN 1: KÈO ĐẤU SO SÁNH (Ví dụ: "Sung Jin Woo vs Gojo", "UI Daniel vs James Lee")
             if (rawLower.includes("vs") || rawLower.includes("đấu") || rawLower.includes("so sánh")) {
                 let parts = rawLower.split(/vs|đấu với|với|đấu|so sánh/);
                 let c1 = findCharacter(parts[0] || "");
@@ -366,16 +222,15 @@
                     let winner = "";
                     let reason = "";
 
-                    // So sánh theo chỉ số Tiering System của VSBW
                     if (c1.tierNum < c2.tierNum) {
                         winner = c1.name.toUpperCase();
-                        reason = `${c1.name} áp đảo hoàn toàn về Dimensional Tiering / AP (${c1.tierStr} so với ${c2.tierStr}) và Tốc độ (${c1.speedStr}).`;
+                        reason = `${c1.name} vượt trội hoàn toàn về Dimensional Tiering / AP (${c1.tierStr} so với ${c2.tierStr}) cùng Tốc độ (${c1.speedStr}).`;
                     } else if (c2.tierNum < c1.tierNum) {
                         winner = c2.name.toUpperCase();
-                        reason = `${c2.name} áp đảo hoàn toàn về Dimensional Tiering / AP (${c2.tierStr} so với ${c1.tierStr}) và Tốc độ (${c2.speedStr}).`;
+                        reason = `${c2.name} vượt trội hoàn toàn về Dimensional Tiering / AP (${c2.tierStr} so với ${c1.tierStr}) cùng Tốc độ (${c2.speedStr}).`;
                     } else {
                         winner = c1.name.toUpperCase();
-                        reason = `Cả hai ngang cấp Tiering (${c1.tierStr}), nhưng ${c1.name} nhỉnh hơn về độ cơ động và bộ Hax khống chế trong combat.`;
+                        reason = `Cả hai đồng cấp Tier (${c1.tierStr}), nhưng ${c1.name} có lợi thế nhỉnh hơn về bộ Hax và phản xạ tốc độ khi cận chiến.`;
                     }
 
                     let res = `⚔️ [PHÂN TÍCH KÈO ĐẤU VSBW / EFA CANON]:\n${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n\n` +
@@ -395,7 +250,7 @@
                 }
             }
 
-            // KỊCH BẢN 2: XIN FEAT / TRACỨU HỒ SƠ 1 NHÂN VẬT
+            // KỊCH BẢN 2: TRA CỨU FEAT 1 NHÂN VẬT
             let singleChar = findCharacter(rawLower);
             if (singleChar) {
                 let res = `📜 [HỒ SƠ CANON & FEAT CHUẨN VSBW/EFA]: ${singleChar.name.toUpperCase()}\n\n` +
@@ -408,10 +263,10 @@
                 return;
             }
 
-            // NẾU TÊN CHƯA NẰM TRONG 50 NHÂN VẬT DỮ LIỆU CÓ SẴN
+            // NẾU KHÔNG THẤY TRONG 100 NHÂN VẬT
             let res = `⚠️ [DATABASE NOTICE]:\n` +
-                      `Nhân vật bạn tìm kiếm chưa có sẵn trong danh sách 50 nhân vật Offline.\n\n` +
-                      `💡 Bạn hãy gõ tên các nhân vật có sẵn như: Sung Jin Woo, Anos, Rimuru, Goku, Saitama, Gojo, Sukuna, UI Daniel, Gun Park, Yujiro, Luffy, Naruto, Ichigo, Jin Mori, Featherine, Eren, Denji, Doraemon, Batman...`;
+                      `Nhân vật bạn tìm kiếm nằm ngoài danh sách 100 nhân vật Offline hiện tại.\n\n` +
+                      `💡 Bạn hãy nhập các nhân vật có sẵn như: Sung Jin Woo, Gojo, Sukuna, UI Daniel, Gun, James Lee, Seongji Yuk, Anos, Rimuru, Goku, Saitama, Kratos, Asura, Luffy, Naruto, Ichigo, Yoriichi, Loid, Yor, Isagi, Kaiser...`;
             addMessage(res, 'bot');
         }
     </script>
