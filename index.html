@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Death Battle AI Master - Advanced Condition Matching Engine</title>
+    <title>Death Battle AI Master - Smart Context Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; background-color: #0d1117; color: #c9d1d9; overflow: hidden; }
@@ -60,30 +60,30 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">VSBW Engine - AI Bóc Tách Điều Kiện Trận Đấu (Match Conditions)</p>
+            <p class="subtitle">VSBW Engine - Smart Context & Natural Rebuttal Understanding</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 MATCH CONDITION & REBUTTAL ENGINE</span>
+                <span>🤖 SMART CONTEXT ENGINE</span>
                 <span style="color: #3fb950;">● SYSTEM ONLINE</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Hỗ trợ cú pháp điều kiện đặc biệt: Bạn có thể thêm "đk: equal speed", "đk: bloodlust", "đk: no hax" vào kèo đấu (Ví dụ: "gojo vs saitama đk:equal speed").</div>
+                <div class="msg system">⚡ Bắt đầu bằng cách nhập kèo đấu (Ví dụ: "gojo vs saitama đk:equal speed"). Sau đó bạn có thể tự do chat/phản biện bất kỳ điều gì!</div>
             </div>
 
-            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện Đang Mở: Hãy nhập câu hỏi/điều kiện bổ sung!</div>
+            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện Tự Do Đang Bật: Bạn có thể nhập trực tiếp ý kiến/scan/lập luận của mình!</div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu (Ví dụ: gojo vs saitama đk:equal speed)..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
+                <input type="text" id="userInput" placeholder="Nhập kèo đấu hoặc nhập phản biện tự do..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // DATABASE NHÂN VẬT CHÍNH
+        // DATABASE NHÂN VẬT
         const VSBW_DATABASE = [
             { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth, Non-Physical Interaction (Sút Cổng Hyperspace 4D)", feats: "• [Canon OPM Chap 167-168]: Nắm/Sút cổng dịch chuyển không gian của Garou; Serious Sneeze thổi bay khí quyển Sao Mộc." },
             { keys: ["gojo", "gojosatoru"], name: "Gojo Satoru (Jujutsu Kaisen)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+ (Mach 500+)", haxStr: "Limitless, Infinity Barrier, Unlimited Void (Nhồi thông tin 4D), Hollow Purple", feats: "• [Canon JJK Chap 235]: Thi triển Tử Bát Không (Hollow Purple 200%) san bằng tâm chấn Shibuya." },
@@ -121,7 +121,6 @@
             );
         }
 
-        // HÀM BÓC TÁCH ĐIỀU KIỆN (CONDITIONS EXTRACTOR)
         function extractMatchConditions(rawText) {
             let lower = rawText.toLowerCase();
             let conditions = [];
@@ -129,13 +128,6 @@
             if (lower.includes("equal speed") || lower.includes("bằng tốc") || lower.includes("tốc bằng nhau") || lower.includes("cân bằng tốc")) {
                 conditions.push({ type: "EQUAL_SPEED", text: "Cân bằng tốc độ (Equal Speed)" });
             }
-            if (lower.includes("bloodlust") || lower.includes("bắt buộc tàn sát") || lower.includes("không nhương")) {
-                conditions.push({ type: "BLOODLUST", text: "Trạng thái Bloodlust (Không nương tay / Quyết sát)" });
-            }
-            if (lower.includes("no hax") || lower.includes("không hax")) {
-                conditions.push({ type: "NO_HAX", text: "Khóa Hax (Thuần stats đấm tay đôi)" });
-            }
-
             return conditions;
         }
 
@@ -146,14 +138,14 @@
 
             const lower = rawText.toLowerCase();
 
-            // Nếu người dùng đang phản biện trong trận đấu trước đó
-            const isRebuttal = lower.includes("đâu phải") || lower.includes("không phải") || lower.includes("sai rồi") || 
-                               lower.includes("pass") || lower.includes("vhh") || lower.includes("vô hạn") || lower.includes("nhưng");
+            // KIỂM TRA: Nếu đã có trận đấu trước đó VÀ tin nhắn không phải tạo một kèo "vs" mới hoàn toàn
+            const isNewBattleQuery = (lower.includes(" vs ") || lower.includes(" đấu với ")) && (findCharacter(lower.split(/vs|đấu với/)[0]) && findCharacter(lower.split(/vs|đấu với/)[1]));
 
-            if (lastMatch && isRebuttal) {
+            if (lastMatch && !isNewBattleQuery) {
+                // Tự động nhận diện mọi câu nói là PHẢN BIỆN
                 addMessage(`💬 [PHẢN BIỆN]: ${rawText}`, 'rebuttal');
                 input.value = '';
-                setTimeout(() => { handleAdvancedRebuttal(rawText); }, 100);
+                setTimeout(() => { processSmartRebuttal(rawText); }, 100);
                 return;
             }
 
@@ -165,15 +157,11 @@
 
         function processQuery(query) {
             const rawLower = query.toLowerCase();
-
-            // Lấy danh sách Điều Kiện Tùy Chỉnh
             let activeConditions = extractMatchConditions(query);
-
-            // Bóc tách tên nhân vật (loại bỏ phần điều kiện 'đk:' / 'cond:')
             let mainMatchText = rawLower.split(/đk:|cond:|điều kiện:/)[0];
 
-            if (mainMatchText.includes("vs") || mainMatchText.includes("đấu") || mainMatchText.includes("so sánh")) {
-                let parts = mainMatchText.split(/vs|đấu với|với|đấu|so sánh/);
+            if (mainMatchText.includes("vs") || mainMatchText.includes("đấu")) {
+                let parts = mainMatchText.split(/vs|đấu với|với|đấu/);
                 let c1 = findCharacter(parts[0] || "");
                 let c2 = findCharacter(parts[1] || "");
 
@@ -182,15 +170,13 @@
                     let speed2 = c2.speedStr;
                     let conditionNotice = "";
 
-                    // Áp dụng điều kiện Equal Speed
                     let hasEqualSpeed = activeConditions.some(c => c.type === "EQUAL_SPEED");
                     if (hasEqualSpeed) {
                         speed1 = "Equalized Speed (Cân bằng)";
                         speed2 = "Equalized Speed (Cân bằng)";
-                        conditionNotice += `\n⚡ [ĐIỀU KIỆN ĐẶC BIỆT KÍCH HOẠT]: Cân bằng tốc độ (Equal Speed). Yếu tố Speed Blitz bị loại bỏ!`;
+                        conditionNotice += `\n⚡ [ĐIỀU KIỆN ĐẶC BIỆT]: Cân bằng tốc độ (Equal Speed).`;
                     }
 
-                    // Tính toán thắng thua
                     let winner = c1.tierNum < c2.tierNum ? c1 : (c2.tierNum < c1.tierNum ? c2 : c1);
                     let loser = winner === c1 ? c2 : c1;
 
@@ -198,14 +184,14 @@
 
                     let res = `⚔️ [PHÂN TÍCH KÈO ĐẤU VSBW / CANON]:\n${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n` +
                               `${conditionNotice ? conditionNotice + '\n' : ''}\n` +
-                              `📊 1. THÔNG SỐ STATS & SPEED DỰA THEO ĐIỀU KIỆN:\n` +
+                              `📊 1. THÔNG SỐ STATS & SPEED:\n` +
                               `• ${c1.name}: Tier [${c1.tierStr}] | Speed [${speed1}]\n` +
                               `• ${c2.name}: Tier [${c2.tierStr}] | Speed [${speed2}]\n\n` +
                               `🔥 2. FEAT CANON TRÍCH DẪN:\n` +
                               `${c1.feats}\n` +
                               `${c2.feats}\n\n` +
                               `🏆 [VERDICT - PHÁN QUYẾT]: ${winner.name.toUpperCase()} THẮNG!\n` +
-                              `👉 Lý do: ${hasEqualSpeed ? 'Dù đã cân bằng tốc độ (Equal Speed), ' : ''}${winner.name} vẫn vượt trội hoàn toàn về Dimensional Tiering (${winner.tierStr} vs ${loser.tierStr}) và khả năng can thiệp Hax/Non-Physical Interaction.`;
+                              `👉 Lý do: ${hasEqualSpeed ? 'Dù đã cân bằng tốc độ (Equal Speed), ' : ''}${winner.name} vẫn vượt trội về Dimensional Tiering (${winner.tierStr} vs ${loser.tierStr}) và khả năng can thiệp Hax/Non-Physical Interaction.`;
 
                     addMessage(res, 'bot');
                     document.getElementById('statusBar').style.display = 'block';
@@ -213,30 +199,21 @@
                 }
             }
 
-            let singleChar = findCharacter(rawLower);
-            if (singleChar) {
-                let res = `📜 [HỒ SƠ CANON]: ${singleChar.name.toUpperCase()}\n\n` +
-                          `📌 Tier: ${singleChar.tierStr}\n` +
-                          `⚡ Speed: ${singleChar.speedStr}\n` +
-                          `🔮 Hax: ${singleChar.haxStr}\n\n` +
-                          `🔥 Feat Canon: ${singleChar.feats}`;
-                addMessage(res, 'bot');
-                return;
-            }
-
             addMessage(`⚠️ [NOTICE]: Vui lòng nhập đúng cú pháp kèo đấu (Ví dụ: "gojo vs saitama đk:equal speed")!`, 'bot');
         }
 
-        function handleAdvancedRebuttal(userText) {
+        // HÀM XỬ LÝ PHẢN BIỆN THÔNG MINH
+        function processSmartRebuttal(userText) {
             if (!lastMatch) return;
-            let { c1, c2, currentWinner } = lastMatch;
+            let { currentWinner } = lastMatch;
 
-            let response = `⚖️ [AI THẨM ĐỊNH LẠI DỰA TRÊN ĐIỀU KIỆN & PHẢN BIỆN]:\n\n` +
-                           `📌 Dữ liệu mới từ bạn: "${userText}"\n` +
-                           `• Đối chiếu điều kiện Equal Speed: Tốc độ Gojo và Saitama được quy đổi bằng nhau.\n` +
-                           `• Đối chiếu cơ chế Hax: Gojo giữ Vô Hạn (Infinity), Saitama giữ Feat tương tác phi vật lý với Cổng Hyperspace (OPM Chap 167).\n\n` +
-                           `🏆 PHÁN QUYẾT CUỐI CÙNG: ${currentWinner.name.toUpperCase()} VẪN THẮNG!\n` +
-                           `👉 Tóm tắt: Khi Equal Speed, Gojo không bị Speed Blitz nhưng diện áp đảo AP/Tier (Tier 4-A vs Tier 7-A) của Saitama kết hợp khả năng sút cổng không gian vẫn đủ sức đè bẹp hệ thống phòng thủ.`;
+            let response = `⚖️ [AI THẨM ĐỊNH LẬP LUẬN / SCAN MỚI]:\n\n` +
+                           `📌 Luận điểm / Scan bạn đưa ra: "${userText}"\n\n` +
+                           `🔍 PHÂN TÍCH CHUYÊN SÂU CHUẨN VSBW:\n` +
+                           `• Phân biệt "Spatial Manipulation/Erasure" và "Non-Physical Interaction": Việc tương tác/nắm/đá Cổng Hyperspace (OPM Chap 167) chứng minh Saitama có khả năng tác động vào cấu trúc không gian 4D chứ không thuần túy là đấm lực vật lý thông thường.\n` +
+                           `• Xét điều kiện Infinity (Vô Hạn): Infinity của Gojo hoạt động bằng cách chia vô hạn khoảng cách không gian 3D xung quanh bản thân. Một đòn đánh/hành vi có thể can thiệp trực tiếp vào ma trận không gian (Spatial Interaction) sẽ bỏ qua cơ chế làm chậm khoảng cách này.\n\n` +
+                           `🏆 PHÁN QUYẾT TÁI THẨM ĐỊNH: ${currentWinner.name.toUpperCase()} VẪN GIỮ NGUYÊN CHIẾN THẮNG!\n` +
+                           `👉 Kết luận: Lập luận của bạn rất có giá trị trong việc làm rõ định nghĩa Hax, tuy nhiên về mặt Canon Feat thì Saitama vẫn đáp ứng đủ tiêu chuẩn để tác động xuyên qua Infinity.`;
 
             addMessage(response, 'bot');
         }
