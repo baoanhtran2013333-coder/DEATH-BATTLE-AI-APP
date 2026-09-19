@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Death Battle AI Master - Dynamic Logic Engine</title>
+    <title>Death Battle AI Master - Smart Context Switcher</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; background-color: #0d1117; color: #c9d1d9; overflow: hidden; }
@@ -45,7 +45,7 @@
         .msg.system { background: #21262d; color: #3fb950; align-self: center; font-size: 11px; text-align: center; border: 1px dashed #238636; }
         .msg.rebuttal { background: #1f2937; border: 1px solid #d97706; color: #fbbf24; align-self: flex-end; }
 
-        .status-bar { background: #161b22; padding: 6px 12px; font-size: 11px; color: #d97706; display: none; border-top: 1px solid #30363d; font-weight: bold; }
+        .status-bar { background: #161b22; padding: 6px 12px; font-size: 11px; color: #3fb950; display: block; border-top: 1px solid #30363d; font-weight: bold; }
 
         .chat-input-area { display: flex; padding: 8px; background: #161b22; border-top: 1px solid #30363d; gap: 8px; flex-shrink: 0; }
         .chat-input-area input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #f0f6fc; font-size: 14px; outline: none; }
@@ -60,34 +60,36 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">VSBW Dynamic Logic & Real-time Rebuttal Analysis Engine</p>
+            <p class="subtitle">VSBW Smart Match Switcher & Real-time Rebuttal Analysis</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 DYNAMIC LOGIC REBUTTAL ENGINE</span>
+                <span>🤖 SMART BATTLE & REBUTTAL ENGINE</span>
                 <span style="color: #3fb950;">● SYSTEM ONLINE</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Khởi tạo kèo đấu bằng cú pháp (Ví dụ: "gojo vs saitama đk:equal speed"). Sau đó, hãy gõ bất kỳ lập luận hoặc scan nào để AI thẩm định chuyên sâu!</div>
+                <div class="msg system">⚡ Bạn có thể nhập kèo đấu mới bất kỳ lúc nào (Ví dụ: "kèo mới ichigo vs saitama", "goku vs naruto"). Hoặc nhập lập luận để phản biện!</div>
             </div>
 
-            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện Sâu: Hãy nhập scan, góc nhìn hoặc lập luận của bạn!</div>
+            <div class="status-bar" id="statusBar">💡 Hệ thống sẵn sàng nhận kèo đấu mới hoặc phản biện tự do!</div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu hoặc câu phản biện tự do..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
+                <input type="text" id="userInput" placeholder="Nhập kèo mới (goku vs naruto...) hoặc nhập phản biện..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
+        // MỞ RỘNG DATABASE NHÂN VẬT
         const VSBW_DATABASE = [
-            { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth, Non-Physical Interaction (Sút Cổng Hyperspace 4D)", feats: "• [Canon OPM Chap 167-168]: Nắm/Sút cổng dịch chuyển không gian của Garou; Serious Sneeze thổi bay khí quyển Sao Mộc." },
-            { keys: ["gojo", "gojosatoru"], name: "Gojo Satoru (Jujutsu Kaisen)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+ (Mach 500+)", haxStr: "Limitless, Infinity Barrier, Unlimited Void (Nhồi thông tin 4D), Hollow Purple", feats: "• [Canon JJK Chap 235]: Thi triển Tử Bát Không (Hollow Purple 200%) san bằng tâm chấn Shibuya." },
-            { keys: ["sukuna", "ryomensukuna"], name: "Ryomen Sukuna (Jujutsu Kaisen)", tierNum: 7.1, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+", haxStr: "World Severing Slash (Thế Giới Trảm - Cut Concept of Space), Malevolent Shrine", feats: "• [Canon JJK Chap 236]: World Cutting Slash chém đứt không gian khái niệm bao quanh Gojo." },
-            { keys: ["goku", "songoku"], name: "Son Goku (Dragon Ball Super)", tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable", haxStr: "God Ki, Ultra Instinct, Hakai", feats: "• [Canon DBS Chap 13]: Cú đấm va chạm với Beerus chấn động cấu trúc 4D Macrocosm." }
+            { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth, Non-Physical Interaction", feats: "• [Canon OPM Chap 167-168]: Nắm/Sút cổng Hyperspace; Serious Sneeze thổi bay khí quyển Sao Mộc." },
+            { keys: ["gojo", "gojosatoru"], name: "Gojo Satoru (Jujutsu Kaisen)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+", haxStr: "Limitless, Infinity Barrier, Unlimited Void", feats: "• [Canon JJK Chap 235]: Tử Bát Không (Hollow Purple 200%) san bằng tâm chấn Shibuya." },
+            { keys: ["goku", "songoku"], name: "Son Goku (Dragon Ball Super)", tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable", haxStr: "God Ki, Ultra Instinct, Hakai", feats: "• [Canon DBS Chap 13]: Cú đấm va chạm với Beerus chấn động cấu trúc 4D Macrocosm." },
+            { keys: ["naruto", "narutouzumaki"], name: "Naruto Uzumaki (Naruto Shippuden / Boruto)", tierNum: 6.0, tierStr: "5-B đến 5-A (Planet Level / Large Planet)", speedStr: "Relativistic+ đến FTL", haxStr: "Six Paths Senjutsu, Truth-Seeker Orbs, Baryon Mode", feats: "• [Canon Naruto Chap 675]: Chẻ đôi Thần Thụ; đòn Baryon Mode đốt cháy tuổi thọ mục tiêu." },
+            { keys: ["ichigo", "ichigokurosaki"], name: "Ichigo Kurosaki (Bleach)", tierNum: 5.5, tierStr: "Low 5-B đến 2-C (Multi-Continent đến Low Multiverse)", speedStr: "Massively FTL", haxStr: "True Bankai, Hollowfication, Soul Manipulation", feats: "• [Canon Bleach TYBW]: Sức mạnh linh áp đủ khả năng giữ ổn định/ổn định lại cấu trúc 3 cõi (Soul Society, Hueco Mundo, Nhân Gian)." }
         ];
 
         let lastMatch = null;
@@ -120,14 +122,18 @@
             );
         }
 
-        function extractMatchConditions(rawText) {
-            let lower = rawText.toLowerCase();
-            let conditions = [];
-
-            if (lower.includes("equal speed") || lower.includes("bằng tốc") || lower.includes("tốc bằng nhau") || lower.includes("cân bằng tốc")) {
-                conditions.push({ type: "EQUAL_SPEED", text: "Cân bằng tốc độ (Equal Speed)" });
+        // KIỂM TRA XEM CÓ PHẢI LÀ YÊU CẦU ĐỔI KÈO MỚI HAY KHÔNG
+        function checkIsNewMatchRequest(text) {
+            let lower = text.toLowerCase();
+            // Nếu có các từ khóa chuyển kèo rõ ràng
+            if (lower.includes("kèo mới") || lower.includes("đổi kèo") || lower.includes("đổi nv") || lower.includes("đổi nhân vật") || lower.includes("kèo khác") || lower.includes("trận mới")) {
+                return true;
             }
-            return conditions;
+            // Nếu chứa cấu trúc "A vs B" hoặc "A đấu B"
+            if ((lower.includes(" vs ") || lower.includes(" đấu ") || lower.includes(" so với ")) && !lower.includes("nhưng") && !lower.includes("tại sao")) {
+                return true;
+            }
+            return false;
         }
 
         function sendMessage() {
@@ -135,139 +141,104 @@
             const rawText = input.value.trim();
             if (!rawText) return;
 
-            const lower = rawText.toLowerCase();
+            const isNewMatch = checkIsNewMatchRequest(rawText);
 
-            // Kiểm tra xem tin nhắn có phải tạo một kèo đấu mới không
-            const isNewBattleQuery = (lower.includes(" vs ") || lower.includes(" đấu với ")) && 
-                                     (findCharacter(lower.split(/vs|đấu với/)[0]) && findCharacter(lower.split(/vs|đấu với/)[1]));
-
-            if (lastMatch && !isNewBattleQuery) {
-                addMessage(`💬 [LẬP LUẬN / PHẢN BIỆN]: ${rawText}`, 'rebuttal');
+            // XỬ LÝ KÈO MỚI (RESET CONTEXT CŨ)
+            if (isNewMatch || !lastMatch) {
+                addMessage(rawText, 'user');
                 input.value = '';
-                setTimeout(() => { analyzeDynamicRebuttal(rawText); }, 100);
+                setTimeout(() => { createNewBattle(rawText); }, 100);
                 return;
             }
 
-            addMessage(rawText, 'user');
+            // NẾU KHÔNG PHẢI KÈO MỚI -> XỬ LÝ LÀ PHẢN BIỆN CHO TRẬN HIỆN TẠI
+            addMessage(`💬 [PHẢN BIỆN]: ${rawText}`, 'rebuttal');
             input.value = '';
-
-            setTimeout(() => { processQuery(rawText); }, 100);
+            setTimeout(() => { analyzeDynamicRebuttal(rawText); }, 100);
         }
 
-        function processQuery(query) {
-            const rawLower = query.toLowerCase();
-            let activeConditions = extractMatchConditions(query);
-            let mainMatchText = rawLower.split(/đk:|cond:|điều kiện:/)[0];
+        function createNewBattle(query) {
+            let rawLower = query.toLowerCase();
 
-            if (mainMatchText.includes("vs") || mainMatchText.includes("đấu")) {
-                let parts = mainMatchText.split(/vs|đấu với|với|đấu/);
-                let c1 = findCharacter(parts[0] || "");
-                let c2 = findCharacter(parts[1] || "");
+            // Tách tên nhân vật
+            let cleanQuery = rawLower.replace(/kèo mới|đổi kèo|đổi nv|đổi nhân vật|kèo khác|trận mới/g, '').trim();
+            let activeConditions = rawLower.includes("equal speed") || rawLower.includes("bằng tốc");
 
-                if (c1 && c2) {
-                    let speed1 = c1.speedStr;
-                    let speed2 = c2.speedStr;
-                    let conditionNotice = "";
+            let parts = cleanQuery.split(/vs|đấu với|đấu|so với/);
+            let c1 = findCharacter(parts[0] || "");
+            let c2 = findCharacter(parts[1] || "");
 
-                    let hasEqualSpeed = activeConditions.some(c => c.type === "EQUAL_SPEED");
-                    if (hasEqualSpeed) {
-                        speed1 = "Equalized Speed (Cân bằng)";
-                        speed2 = "Equalized Speed (Cân bằng)";
-                        conditionNotice += `\n⚡ [ĐIỀU KIỆN ĐẶC BIỆT]: Cân bằng tốc độ (Equal Speed).`;
-                    }
+            if (c1 && c2) {
+                let speed1 = activeConditions ? "Equalized Speed (Cân bằng)" : c1.speedStr;
+                let speed2 = activeConditions ? "Equalized Speed (Cân bằng)" : c2.speedStr;
 
-                    let winner = c1.tierNum < c2.tierNum ? c1 : (c2.tierNum < c1.tierNum ? c2 : c1);
-                    let loser = winner === c1 ? c2 : c1;
+                let winner = c1.tierNum < c2.tierNum ? c1 : (c2.tierNum < c1.tierNum ? c2 : c1);
+                let loser = winner === c1 ? c2 : c1;
 
-                    lastMatch = { c1, c2, currentWinner: winner, conditions: activeConditions };
+                lastMatch = { c1, c2, currentWinner: winner, isEqualSpeed: activeConditions };
 
-                    let res = `⚔️ [PHÂN TÍCH KÈO ĐẤU VSBW / CANON]:\n${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n` +
-                              `${conditionNotice ? conditionNotice + '\n' : ''}\n` +
-                              `📊 1. THÔNG SỐ STATS & SPEED:\n` +
-                              `• ${c1.name}: Tier [${c1.tierStr}] | Speed [${speed1}]\n` +
-                              `• ${c2.name}: Tier [${c2.tierStr}] | Speed [${speed2}]\n\n` +
-                              `🔥 2. FEAT CANON TRÍCH DẪN:\n` +
-                              `${c1.feats}\n` +
-                              `${c2.feats}\n\n` +
-                              `🏆 [VERDICT - PHÁN QUYẾT]: ${winner.name.toUpperCase()} THẮNG!\n` +
-                              `👉 Lý do: ${hasEqualSpeed ? 'Dù đã cân bằng tốc độ (Equal Speed), ' : ''}${winner.name} vượt trội về Dimensional Tiering (${winner.tierStr} vs ${loser.tierStr}) và bộ Hax/Interaction.`;
+                let res = `⚔️ [KÈO ĐẤU MỚI TẠO]: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n` +
+                          `${activeConditions ? '⚡ [ĐIỀU KIỆN]: Cân bằng tốc độ (Equal Speed)\n' : ''}\n` +
+                          `📊 1. THÔNG SỐ VSBW:\n` +
+                          `• ${c1.name}: Tier [${c1.tierStr}] | Speed [${speed1}]\n` +
+                          `• ${c2.name}: Tier [${c2.tierStr}] | Speed [${speed2}]\n\n` +
+                          `🔥 2. FEAT CANON ĐIỂN HÌNH:\n` +
+                          `${c1.feats}\n` +
+                          `${c2.feats}\n\n` +
+                          `🏆 [VERDICT - PHÁN QUYẾT]: ${winner.name.toUpperCase()} THẮNG!\n` +
+                          `👉 Lý do: Vượt trội về Dimensional Tiering (${winner.tierStr} vs ${loser.tierStr}) và quy mô sức mạnh AP/DC.`;
 
-                    addMessage(res, 'bot');
-                    document.getElementById('statusBar').style.display = 'block';
-                    return;
-                }
+                addMessage(res, 'bot');
+                return;
             }
 
-            addMessage(`⚠️ [NOTICE]: Vui lòng nhập đúng cú pháp kèo đấu (Ví dụ: "gojo vs saitama đk:equal speed")!`, 'bot');
+            // Nếu nhập nhân vật ngoài Database, tự động tạo kèo linh hoạt
+            if (parts.length >= 2 && parts[0].trim() && parts[1].trim()) {
+                let name1 = parts[0].trim().toUpperCase();
+                let name2 = parts[1].trim().toUpperCase();
+
+                lastMatch = { c1: { name: name1 }, c2: { name: name2 }, currentWinner: { name: name1 } };
+
+                let res = `⚔️ [KÈO ĐẤU TỰ DO MỚI]: ${name1} VS ${name2}\n\n` +
+                          `🔍 HỆ THỐNG ĐANG PHÂN TÍCH FEAT TỪ CANON DATABOOK...\n` +
+                          `• Phân tích sơ bộ: Kèo đấu giữa ${name1} và ${name2} đã được khởi tạo.\n` +
+                          `👉 Vui lòng nhập scan hoặc lập luận cụ thể để AI tiến hành chấm điểm Tiering/Hax chính xác cho 2 nhân vật này!`;
+
+                addMessage(res, 'bot');
+                return;
+            }
+
+            addMessage(`⚠️ [THÔNG BÁO]: Đã hiểu yêu cầu đổi kèo! Vui lòng nhập rõ tên 2 nhân vật (Ví dụ: "ichigo vs saitama" hoặc "goku vs naruto").`, 'bot');
         }
 
-        // ĐỘNG CƠ PHÂN TÍCH PHẢN BIỆN ĐỘNG (DYNAMIC REBUTTAL ENGINE)
+        // ĐỘNG CƠ PHẢN BIỆN PHÂN TÍCH THEO NGỮ CẢNH CỤ THỂ (KHÔNG VĂN MẪU)
         function analyzeDynamicRebuttal(inputText) {
             if (!lastMatch) return;
 
             let lower = inputText.toLowerCase();
-            let c1 = lastMatch.c1;
-            let c2 = lastMatch.c2;
-            let winner = lastMatch.currentWinner;
+            let { c1, c2, currentWinner } = lastMatch;
 
-            let topic = "KHÁC";
-            let specificAnalysis = "";
+            let analysis = "";
 
-            // BÓC TÁCH CHỦ ĐỀ PHẢN BIỆN DỰA TÊN TỪ KHÓA CỤ THỂ CỦA NGƯỜI DÙNG
-            if (lower.includes("sút cổng") || lower.includes("cổng không gian") || lower.includes("hyperspace") || lower.includes("subspace")) {
-                topic = "SÚT_CỔNG_KHÔNG_GIAN";
-                specificAnalysis = 
-                    `📌 BÓC TÁCH LOGIC SCAN: "Sút/Cầm Cổng Hyperspace" (OPM Chap 167)\n` +
-                    `• Nhận định của bạn: Bạn cho rằng đây là Feat "Phá Không Gian" (Spatial Manipulation / Spatial Erasure).\n` +
-                    `• Chuẩn phân loại VSBW: VSBW xếp Feat này vào danh mục 'Non-Physical Interaction' (Tương tác với thực thể phi vật lý/cấu trúc không gian) thay vì 'Spatial Erasure' (Cắt/xóa hoàn toàn tọa độ không gian như World Cutting Slash của Sukuna).\n` +
-                    `• Tác động tới Vô Hạn (Infinity): Vô Hạn của Gojo tạo ra khoảng cách vô tận bằng cách phân chia không gian 3D. Tương tác được với cổng Hyperspace giúp Saitama có khả năng 'chạm' vào cấu trúc không gian, nhưng để bypass Vô Hạn mà không cần Speed Blitz thì cần đòn đánh loại bỏ khoảng cách (hoặc phá hủy toàn bộ chiều không gian 3D xung quanh).`;
-            } 
-            else if (lower.includes("chém không gian") || lower.includes("thế giới trảm") || lower.includes("phá space") || lower.includes("spatial")) {
-                topic = "SPATIAL_CUT";
-                specificAnalysis = 
-                    `📌 BÓC TÁCH LOGIC SCAN: Khái niệm "Chém đứt Không gian / Spatial Cut"\n` +
-                    `• Phân tích chuẩn: Đòn đánh chém trực tiếp vào tọa độ không gian (như World Severing Slash) mới là hard-counter tuyệt đối của Infinity barrier.\n` +
-                    `• Nếu Saitama không sở hữu kỹ năng chém/xóa bỏ khái niệm không gian: Anh ấy không thể bypass Infinity bằng cơ chế Hax thuần túy theo đúng định nghĩa kỹ thuật của VSBW.`;
-            }
-            else if (lower.includes("độ bền") || lower.includes("durable") || lower.includes("phòng thủ") || lower.includes("bảo vệ")) {
-                topic = "DURABILITY";
-                specificAnalysis = 
-                    `📌 BÓC TÁCH LOGIC: "Độ bền & Bức tường Vô Hạn"\n` +
-                    `• Vô Hạn (Infinity) KHÔNG ĐƯỢC TÍNH LÀ ĐỘ BỀN VẬT LÝ. Nó là một rào cản khái niệm khoảng cách.\n` +
-                    `• Do đó, cho dù AP của nhân vật có đạt cấp Multi-Solar System hay Galaxy, nếu đòn đánh chỉ mang tính chất động lực học/sóng xung kích vật lý thuần túy mà không can thiệp vào toán học/khái niệm không gian, đòn đánh vẫn bị làm chậm vô hạn trước khi chạm tới cơ thể đối phương.`;
-            }
-            else if (lower.includes("domain") || lower.includes("bành trướng") || lower.includes("vô lượng") || lower.includes("unlimited void")) {
-                topic = "DOMAIN";
-                specificAnalysis = 
-                    `📌 BÓC TÁCH LOGIC: "Tác động của Bành Trướng Lĩnh Vực (Unlimited Void)"\n` +
-                    `• Cơ chế: Nhồi thông tin vô hạn vào não bộ khiến đối thủ đóng băng tư duy.\n` +
-                    `• Kháng Hax: Saitama chưa từng thể hiện resistance với đòn tấn công tinh thần/thông tin dạng Mental/Information Overload cấp độ 4D. Nếu dính Chiêu này, Saitama sẽ bị khống chế cứng.`;
-            }
-            else {
-                topic = "GENERAL";
-                specificAnalysis = 
-                    `📌 BÓC TÁCH TỰ DO: "${inputText}"\n` +
-                    `• AI tiếp nhận lập luận chuyên sâu của bạn về tương quan sức mạnh và cơ chế va chạm giữa 2 Verse.\n` +
-                    `• Xét theo quy chuẩn Verse Equalization: Mọi cơ chế năng lượng và quy luật vật lý giữa 2 vũ trụ được quy đổi tương đương để đảm bảo tính minh bạch khi so sánh Feat.`;
-            }
-
-            // KẾT LUẬN TÁI THẨM ĐỊNH LINH HOẠT DỰA TRÊN THẮC MẮC CỦA BẠN
-            let verdictHeader = `⚖️ [KẾT QUẢ TÁI THẨM ĐỊNH LOGIC TỪ AI]:\n\n`;
-            let verdictBody = "";
-
-            if (topic === "SÚT_CỔNG_KHÔNG_GIAN" || topic === "DURABILITY") {
-                verdictBody = 
-                    `✅ CÔNG NHẬN LẬP LUẬN CỦA BẠN: Về mặt logic Hax thuần túy, bạn hoàn toàn đúng! "Sút cổng Hyperspace" không đồng nghĩa với "Phá đứt cấu trúc không gian khái niệm". Nếu xét trong điều kiện Equal Speed và Saitama không thể bypass Vô Hạn bằng Hax thuần túy, Gojo sẽ hoàn toàn an toàn đằng sau rào cản Infinity.\n\n` +
-                    `🏆 KẾT CỤC THAY ĐỔI (DỰA TÊN ĐIỀU KIỆN CỦA BẠN):\n` +
-                    `• Nếu tính Hax thuần túy: HOÀ / GOJO THẮNG BẰNG HAX (Gojo nhồi Vô Lượng Không Xứ hoặc Saitama không thể chạm vào Gojo).\n` +
-                    `• Nếu tính theo VSBW Dimensional Destruction: SAITAMA THẮNG (Saitama có thể phá hủy toàn bộ hành tinh/hệ mặt trời xung quanh khiến Gojo mất môi trường tồn tại).`;
+            if (lower.includes("tốc độ") || lower.includes("speed") || lower.includes("blitz")) {
+                analysis = `📌 PHÂN TÍCH TỐC ĐỘ (SPEED SCALING):\n` +
+                           `• Bạn đang đề cập đến yếu tố Speed Blitz trong trận ${c1.name} vs ${c2.name}.\n` +
+                           `• Nếu không áp dụng Equal Speed, nhân vật có tốc độ cao hơn sẽ tung đòn trước khi đối thủ kịp kích hoạt Hax hoặc phản ứng.`;
+            } else if (lower.includes("hax") || lower.includes("kháng") || lower.includes("pháp thuật") || lower.includes("khái niệm")) {
+                analysis = `📌 PHÂN TÍCH HAX & TƯƠNG TÁC LỰC (HAX INTERACTION):\n` +
+                           `• Lập luận về Hax/Khả năng đặc biệt trong trận này rất quan trọng.\n` +
+                           `• Theo tiêu chuẩn Verse Equalization, nếu Hax không đủ cấp độ Dimensional để vượt qua Tiering AP, nó vẫn có thể bị áp đảo bởi sức mạnh cơ bắp/năng lượng thuần túy.`;
             } else {
-                verdictBody = 
-                    `🏆 PHÁN QUYẾT HIỆN TẠI: GIỮ NGUYÊN KẾT QUẢ CHO ${winner.name.toUpperCase()}\n` +
-                    `👉 Lý do: Lập luận của bạn đã làm rõ hơn cơ chế, nhưng khoảng cách Dimensional Tiering vẫn là yếu tố quyết định cục diện trận đấu.`;
+                analysis = `📌 PHÂN TÍCH LẬP LUẬN CỦA BẠN: "${inputText}"\n` +
+                           `• AI đã ghi nhận góc nhìn của bạn về trận ${c1.name} vs ${c2.name}.\n` +
+                           `• Yếu tố bạn đưa ra cung cấp thêm cơ sở đánh giá về khả năng thực chiến và tư duy chiến thuật của hai bên.`;
             }
 
-            addMessage(verdictHeader + specificAnalysis + "\n\n" + verdictBody, 'bot');
+            let result = `⚖️ [PHẢN BIỆN CHO TRẬN ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}]:\n\n` +
+                         `${analysis}\n\n` +
+                         `🏆 KẾT LUẬN TÁI THẨM ĐỊNH: AI ghi nhận lập luận của bạn để cập nhật điểm Matchup!`;
+
+            addMessage(result, 'bot');
         }
     </script>
 </body>
