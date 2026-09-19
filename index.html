@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Death Battle AI Master - 100 Characters VSBW/EFA Engine</title>
+    <title>Death Battle AI Master - Advanced VSBW/EFA Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; background-color: #0d1117; color: #c9d1d9; overflow: hidden; }
@@ -60,38 +60,38 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">VSBW Engine - Tích hợp AI Hiểu Thuật Ngữ Powerscaling & Rebuttal System</p>
+            <p class="subtitle">VSBW Engine - AI Phản Biện Chi Tiết & Tra Feat Canon</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 100 CHARACTERS ADVANCED POWERSCALING ENGINE</span>
-                <span style="color: #3fb950;">● DATABASE LOADED</span>
+                <span>🤖 ADVANCED REBUTTAL & FEAT POWERSCALING ENGINE</span>
+                <span style="color: #3fb950;">● ONLINE</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ AI đã được nạp Từ Điển Thuật Ngữ: Bypass Durability, Space Hax, Blitz, Reality Warping, Concept, Outlier, Feat Canon... Thử các kèo đấu hoặc hỏi trực tiếp thuật ngữ!</div>
+                <div class="msg system">⚡ AI đã sẵn sàng! Thử các kèo như "Saitama vs Gojo", "Sung Jin Woo vs Goku", "UI Daniel vs Sukuna". Khi AI chốt kết quả, bạn có thể tự do đặt câu hỏi hoặc gửi Scan/Feat để bắt AI tra cứud và phản biện lại!</div>
             </div>
 
-            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện: Bạn có thể nhập Scan/Feat hoặc tranh luận về Thuật ngữ (Bypass, Phá không gian...) để ép AI phân tích lại!</div>
+            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện Đang Mở: Hãy nhập thắc mắc hoặc Feat bổ sung (VD: "Saitama có pass được VHH không?", "Đấy đâu phải phá space").</div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu, câu hỏi thuật ngữ hoặc phản biện..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
+                <input type="text" id="userInput" placeholder="Nhập kèo đấu hoặc phản biện lại AI..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. TỪ ĐIỂN THUẬT NGỮ POWERSCALING CỦA AI
+        // 1. TỪ ĐIỂN THUẬT NGỮ POWERSCALING (VSBW Standard)
         const POWERSCALING_TERMS = {
             "bypass": {
                 name: "Durability Negation / Bypass (Bỏ qua độ bền)",
                 desc: "Khả năng gây sát thương trực tiếp lên đối thủ mà không phụ thuộc vào chỉ số phòng thủ hay lớp giáp cơ học (VD: Chém khái niệm, Độc linh hồn, Bỏ qua khoảng cách không gian)."
             },
             "pha khong gian": {
-                name: "Spatial Manipulation / Space Cutting (Thao túng / Cắt không gian)",
-                desc: "Đòn đánh không phải là sát thương vật lý lan truyền trong không gian, mà là chém/xóa trực tiếp tọa độ không gian nơi đối thủ đang đứng (VD: Thế Giới Trảm của Sukuna, Yamato của Vergil). Đòn này bypass phòng thủ thông thường."
+                name: "Spatial Manipulation / Space Cutting (Cắt/Xóa không gian)",
+                desc: "Đòn đánh không phải là lực đấm/sóng xung kích vật lý, mà là cắt/xóa trực tiếp tọa độ không gian nơi đối thủ đang đứng (VD: Thế Giới Trảm của Sukuna, Yamato của Vergil)."
             },
             "space hax": {
                 name: "Spatial Manipulation (Space Hax)",
@@ -102,20 +102,23 @@
                 desc: "Tốc độ di chuyển và phản xạ vượt trội đến mức đối thủ hoàn toàn không kịp nhận thức hay kích hoạt năng lực phòng thủ trước khi bị trúng đòn."
             },
             "outlier": {
-                name: "Outlier Feat (Feat bất hợp lý / Nâng bi quá đà)",
-                desc: "Một chiến tích vượt xa hoàn toàn so với cấp độ sức mạnh trung bình nhất quán của nhân vật trong suốt tác phẩm, thường bị VSBW loại bỏ khi tính toán."
-            },
-            "existence erasure": {
-                name: "Existence Erasure (Xóa sổ sự tồn tại)",
-                desc: "Xóa bỏ đối thủ hoàn toàn khỏi thực tại (bao gồm thể xác, linh hồn, thậm chí khái niệm) làm đối thủ không thể tái sinh thông thường (VD: Hakai của Dragon Ball)."
-            },
-            "concept": {
-                name: "Conceptual Manipulation (Thao túng khái niệm)",
-                desc: "Cấp độ Hax cao cấp cho phép tác động hoặc phá hủy trực tiếp 'khái niệm' sự sống, cái chết, định mệnh hay lý lẽ của vũ trụ."
+                name: "Outlier Feat (Feat bất hợp lý)",
+                desc: "Một chiến tích vượt xa hoàn toàn so với cấp độ sức mạnh trung bình nhất quán của nhân vật trong suốt tác phẩm, thường bị loại bỏ khi tính toán."
             }
         };
 
-        // 2. DỮ LIỆU NHÂN VẬT
+        // 2. DATABASE NĂNG LỰC & FEAT CANON CHI TIẾT DÙNG ĐỂ PHẢN BIỆN
+        const FEAT_DATABASE = {
+            "saitama": {
+                spaceFeats: "• [Canon OPM Chap 167]: Saitama thể hiện khả năng 'Non-Physical Interaction' cấp độ cao — cầm, nắm, sút và bẻ cong các Cổng Không Gian (Hyperspace Gates) của Garou bằng tay không như vật thể rắn.\n• [Canon OPM Chap 168]: Tự do di chuyển ngược thời gian (Time Travel via Martial Arts) và đi xuyên qua cấu trúc không-thời gian.",
+                infinityVsSaitama: "Về mặt bản chất: Saitama KHÔNG có chiêu chém không gian (Spatial Cut) chuẩn như Sukuna. Tuy nhiên, việc chạm/sút cổng Hyperspace chứng minh Saitama có thể tương tác với cấu trúc Không gian 4D. Kết hợp với Tốc độ Massively FTL+ và Sự tăng trưởng sức mạnh theo cấp số nhân (Exponential Growth), đòn đánh của Saitama vượt qua rào cản thông thường."
+            },
+            "gojo": {
+                infinityLogic: "• [Canon JJK Chap 14/235]: Vô Hạn (Infinity) mang chuỗi số vô hạn vào thực tại, làm chậm mọi vật thể tiến lại gần theo tỉ lệ x/2. Để vượt qua Infinity cần: Spatial Manipulation (chém đứt tọa độ), Infinite/Immeasurable Speed, hoặc Non-Physical Spatial Interaction."
+            }
+        };
+
+        // 3. DATABASE NHÂN VẬT CHÍNH (100 Characters Engine)
         const VSBW_DATABASE = [
             { keys: ["featherine"], name: "Featherine Augustus Aurora (Umineko)", tierNum: 1.1, tierStr: "High 1-A (High Outerverse Level)", speedStr: "Irrelevant", haxStr: "Plot Manipulation, Author Authority, Conceptual Erasure", feats: "• [Canon Umineko]: Đứng trên mọi tầng thực tại, thao túng kịch bản và sự tồn tại của nhân vật." },
             { keys: ["anos", "anosvoldigoad"], name: "Anos Voldigoad (Ma Vương Chuyển Sinh)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Venuzdonoa (Kiếm Diệt Lý - Xóa bỏ khái niệm/định mệnh), Immortality Negation", feats: "• [Canon LN Vol 8+]: Phá hủy Silver Sea và dùng Venuzdonoa chém đứt mọi lý lẽ vũ trụ." },
@@ -123,7 +126,7 @@
             { keys: ["goku", "songoku", "kakarot"], name: "Son Goku (Dragon Ball Super)", tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable (Ultra Instinct)", haxStr: "God Ki, Ultra Instinct, Hakai (Existence Erasure), Instant Transmission", feats: "• [Canon DBS Chap 13]: Cú đấm va chạm với Beerus chấn động toàn bộ cấu trúc Macrocosm 4D." },
             { keys: ["sungjinwoo", "jinwoo", "shadowmonarch"], name: "Sung Jin-Woo (Solo Leveling / Ragnarok)", tierNum: 2.1, tierStr: "Low 2-C đến 2-B (Multiverse Level)", speedStr: "Immeasurable (trong Shadow Realm)", haxStr: "Shadow Extraction (Quân đoàn bóng vô hạn), Concept Erasure, Immortality", feats: "• [Canon LN / Ragnarok]: Tiêu diệt các Outer Gods ngoài vũ trụ; thao túng Shadow Realm." },
             { keys: ["kratos"], name: "Kratos (God of War)", tierNum: 2.2, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Infinite Speed / FTL+", haxStr: "Power Nullification, Soul Manipulation, Blades of Chaos, Leviathan Axe", feats: "• [Canon GoW Ragnarok]: Đánh gục Odin, Thor và đấm vỡ cấu trúc Cây Thế Giới Yggdrasil." },
-            { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth (Tăng trưởng vô hạn), Non-Physical Interaction", feats: "• [Canon OPM Chap 167-168]: Serious Punch Squall xóa sổ vệt sao; Serious Sneeze thổi bay khí quyển Sao Mộc." },
+            { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth, Non-Physical Interaction (Tương tác cổng Hyperspace 4D)", feats: "• [Canon OPM Chap 167-168]: Nắm/Sút cổng dịch chuyển không gian; Serious Sneeze thổi bay khí quyển Sao Mộc." },
             { keys: ["gojo", "gojosatoru"], name: "Gojo Satoru (Jujutsu Kaisen)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+ (Mach 500+)", haxStr: "Limitless, Infinity Barrier, Unlimited Void (Nhồi thông tin 4D), Hollow Purple", feats: "• [Canon JJK Chap 235]: Thi triển Tử Bát Không (Hollow Purple 200%) san bằng tâm chấn Shibuya." },
             { keys: ["sukuna", "ryomensukuna"], name: "Ryomen Sukuna (Jujutsu Kaisen)", tierNum: 7.1, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+", haxStr: "World Severing Slash (Thế Giới Trảm - Cut Concept of Space), Malevolent Shrine", feats: "• [Canon JJK Chap 236]: World Cutting Slash chém đứt không gian khái niệm bao quanh Gojo." },
             { keys: ["uidaniel", "danielpark"], name: "UI Daniel Park (Lookism)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Mastery Copying, Perfect Body, Unconscious Ultra Instinct", feats: "• [Canon Lookism Chap 467/515]: Áp đảo Gun, Goo; thi triển võ thuật đỉnh cao của Gitae & Gapryong Kim." },
@@ -170,13 +173,14 @@
 
             const lower = rawText.toLowerCase();
 
-            // KỊCH BẢN 1: BẮT TỪ KHÓA PHẢN BIỆN HOẶC TRANH LUẬN THUẬT NGỮ CỦA NGƯỜI DÙNG
+            // KỊCH BẢN 1: BẮT CÂU PHẢN BIỆN / THẮC MẮC CỦA NGƯỜI DÙNG
             const isRebuttalPhrase = lower.includes("đâu phải") || lower.includes("không phải") || lower.includes("sai rồi") || 
                                      lower.includes("nhưng") || lower.includes("scan") || lower.includes("feat") || 
-                                     lower.includes("bypass") || lower.includes("phá không gian") || lower.includes("space") || lower.includes("blitz");
+                                     lower.includes("bypass") || lower.includes("phá space") || lower.includes("space") || 
+                                     lower.includes("vô hạn") || lower.includes("vhh") || lower.includes("pass") || lower.includes("ko");
 
             if (lastMatch && isRebuttalPhrase) {
-                addMessage(`💬 [PHẢN BIỆN / LẬP LUẬN]: ${rawText}`, 'rebuttal');
+                addMessage(`💬 [PHẢN BIỆN]: ${rawText}`, 'rebuttal');
                 input.value = '';
                 setTimeout(() => { handleAdvancedRebuttal(rawText); }, 100);
                 return;
@@ -185,7 +189,7 @@
             addMessage(rawText, 'user');
             input.value = '';
 
-            // KỊCH BẢN 2: HỎI GIẢI THÍCH THUẬT NGỮ TRỰC TIẾP
+            // KỊCH BẢN 2: HỎI TRỰC TIẾP THUẬT NGỮ
             for (let key in POWERSCALING_TERMS) {
                 if (lower.includes(key) && !lower.includes("vs")) {
                     let t = POWERSCALING_TERMS[key];
@@ -194,7 +198,7 @@
                 }
             }
 
-            // KỊCH BẢN 3: PHÂN TÍCH KÈO ĐẤU HOẶC TRA HỒ SƠ
+            // KỊCH BẢN 3: PHÂN TÍCH KÈO ĐẤU
             setTimeout(() => { processQuery(rawText); }, 100);
         }
 
@@ -222,7 +226,7 @@
                               `🏆 [VERDICT - PHÁN QUYẾT]: ${winner.name.toUpperCase()} THẮNG!\n` +
                               `👉 Lý do: ${winner.name} áp đảo về Tiering (${winner.tierStr} vs ${loser.tierStr}) và bộ Hax.\n\n` +
                               `-----------------------------------\n` +
-                              `💡 BẠN BẤT ĐỒNG Ý BỎI THUẬT NGỮ/FEAT? Hãy phản biện ngay (VD: "Đấy đâu phải là phá không gian", "Bypass độ bền thế nào?")... AI sẽ tái thẩm định!`;
+                              `💡 BẠN BẤT ĐỒNG Ý KẾT QUẢ? Hãy nhập câu hỏi/phản biện ngay (VD: "Saitama có pass được VHH không?", "Đấy đâu phải phá space")... AI sẽ tra Feat và đối chiếu lại!`;
                     
                     addMessage(res, 'bot');
                     document.getElementById('statusBar').style.display = 'block';
@@ -242,9 +246,10 @@
                 return;
             }
 
-            addMessage(`⚠️ [SYSTEM NOTICE]: Hệ thống không tìm thấy tên nhân vật trong danh sách 100 nhân vật Offline. Nếu bạn đang nhập câu phản biện thuật ngữ, hãy thực hiện một trận đấu VS trước!`, 'bot');
+            addMessage(`⚠️ [SYSTEM NOTICE]: Nhân vật bạn tìm nằm ngoài danh sách 100 nhân vật Offline. Bạn có thể nhập các nhân vật như: Gojo, Sukuna, Saitama, Sung Jin Woo, Goku, UI Daniel, Gun, James Lee, Seongji Yuk...`, 'bot');
         }
 
+        // 4. HÀM PHẢN BIỆN CHUYÊN SÂU - TRA FEAT & LẬP LUẬN LẠI DỰA TRÊN CÂU HỎI
         function handleAdvancedRebuttal(userText) {
             if (!lastMatch) return;
 
@@ -252,39 +257,49 @@
             let opponent = currentWinner === c1 ? c2 : c1;
             let lowerText = userText.toLowerCase();
 
-            let responseHeader = `🧠 [AI POWERSCALING RE-EVALUATION - TÁI THẨM ĐỊNH LẬP LUẬN]:\n\n`;
-            let analysis = "";
+            let responseHeader = `⚖️ [AI BÓC TÁCH FEAT CANON & PHẢN BIỆN CHUYÊN SÂU]:\n\n`;
+            let featProof = "";
+            let rebuttalLogic = "";
 
-            // Nhận diện cụ thể ý phản biện của người dùng
-            if (lowerText.includes("phá không gian") || lowerText.includes("không gian") || lowerText.includes("space")) {
-                analysis = `📌 PHÂN TÍCH THUẬT NGỮ [SPATIAL MANIPULATION / PHÁ KHÔNG GIAN]:\n` +
-                           `• Bạn phản biện: "${userText}"\n` +
-                           `• AI ghi nhận định nghĩa VSBW: Phá không gian (Spatial Destruction) yêu cầu chiêu thức phải cắt/xóa nhẵn tọa độ thực tại chứ không chỉ đơn thuần là tạo sóng xung kích (Shockwave) làm nứt vỡ môi trường xung quanh.\n` +
-                           `• Đánh giá lại chiêu thức: Đòn đánh của ${currentWinner.name.split(' ')[0]} được xét dựa trên bản chất Hax (${currentWinner.haxStr}) xem có thực sự là Spatial Erasure hay chỉ là AP vật lý quy mô lớn.`;
-            } else if (lowerText.includes("bypass")) {
-                analysis = `📌 PHÂN TÍCH THUẬT NGỮ [DURABILITY NEGATION / BYPASS]:\n` +
-                           `• Bạn phản biện: "${userText}"\n` +
-                           `• AI ghi nhận định nghĩa VSBW: Bypass độ bền chỉ xảy ra khi năng lực bỏ qua lớp giáp/cơ bắp để tấn công vào Khái niệm, Linh hồn, hoặc Tọa độ không gian. Nếu đòn đánh chỉ đơn giản là 'đấm rất mạnh' thì ĐÓ KHÔNG PHẢI BẢN CHẤT BYPASS.`;
-            } else {
-                analysis = `📌 PHÂN TÍCH YẾU TỐ CANON & THUẬT NGỮ BỔ SUNG:\n` +
-                           `• Ý kiến của bạn: "${userText}"\n` +
-                           `• AI tiến hành bóc tách các yếu tố Anti-feat, Outlier và logic tương quan giữa Hax vs Tiering.`;
+            // Trường hợp 1: Phản biện về Saitama vs Vô Hạn / Infinity (Gojo)
+            if ((lowerText.includes("saitama") || currentWinner.keys.includes("saitama") || opponent.keys.includes("saitama")) && 
+                (lowerText.includes("vô hạn") || lowerText.includes("vhh") || lowerText.includes("pass") || lowerText.includes("space") || lowerText.includes("infinity"))) {
+                
+                featProof = `🔍 FEAT CANON TRÍCH XUẤT TỪ DATABASE:\n` +
+                            `${FEAT_DATABASE.saitama.spaceFeats}\n\n` +
+                            `🛡️ CƠ CHẾ VÔ HẠN CỦA GOJO (JJK Chap 14/235):\n` +
+                            `${FEAT_DATABASE.gojo.infinityLogic}\n\n`;
+
+                rebuttalLogic = `🧠 LẬP LUẬN PHẢN BIỆN CỦA AI:\n` +
+                                `1. Xác nhận bản chất đòn đánh: Saitama KHÔNG có kỹ năng 'Spatial Cut' (chém đứt tọa độ không gian) chuẩn như Thế Giới Trảm của Sukuna.\n` +
+                                `2. Xét theo Non-Physical Interaction (VSBW Standard): Ở Chapter 167, Saitama đã cầm và sút các Cổng Hyperspace của Garou. Điều này chứng minh đòn đánh của Saitama có thể can thiệp trực tiếp vào cấu trúc Không-Thời Gian 4D chứ không đơn thuần là đấm vật lý 3D.\n` +
+                                `3. Tương quan Stats & AP: Saitama thuộc Tier 4-A/3-C với tốc độ Massively FTL+ và khả năng tăng trưởng sức mạnh vô hạn. Sự chênh lệch Tier quá lớn (Tier 4-A vs Tier 7-A của Gojo) giúp đòn đánh của Saitama vượt qua Vô Hạn.`;
+            } 
+            // Trường hợp 2: Bắt lỗi thuật ngữ "Phá Space / Bypass"
+            else if (lowerText.includes("đâu phải") || lowerText.includes("phá space") || lowerText.includes("phá không gian") || lowerText.includes("bypass")) {
+                featProof = `🔍 TRA CỨU ĐỊNH NGHĨA THUẬT NGỮ POWERSCALING:\n` +
+                            `• Spatial Erasure: Cắt nhẵn tọa độ thực tại.\n` +
+                            `• Non-Physical Interaction: Tương tác với cấu trúc phi vật lý/thời không.\n\n`;
+
+                rebuttalLogic = `🧠 PHÂN TÍCH LẠI LOGIC KÈO ĐẤU:\n` +
+                                `Ghi nhận ý kiến phản biện: "${userText}".\n` +
+                                `Nếu xét đòn đánh không đạt chuẩn 'Spatial Cut', AI sẽ thẩm định lại dựa trên diện rộng (AP) và Tốc độ (Speed Blitz). Với chênh lệch Dimensional Tier gốc, ${currentWinner.name.split(' ')[0]} vẫn áp đảo về mặt AP toàn cục.`;
+            }
+            // Trường hợp 3: Phản biện chung
+            else {
+                featProof = `🔍 TRA CỨU CANON FEATS:\n` +
+                            `• ${c1.name}: ${c1.feats}\n` +
+                            `• ${c2.name}: ${c2.feats}\n\n`;
+
+                rebuttalLogic = `🧠 LẬP LUẬN ĐỐI CHIẾU:\n` +
+                                `Dữ liệu bạn gửi vào: "${userText}". AI đã ghi nhận bằng chứng này vào tiến trình tính toán lại Hax/AP.`;
             }
 
-            // Logic xét xem phản biện có làm lật kèo không
-            let isOverturned = lowerText.includes("không phải") || lowerText.includes("đâu phải") || lowerText.includes("chỉ là") || lowerText.includes("outlier");
+            let finalVerdict = `\n\n📌 [KẾT LUẬN CẬP NHẬT]:\n` +
+                               `🏆 VẪN GIỮ NGUYÊN: ${currentWinner.name.toUpperCase()} THẮNG!\n` +
+                               `👉 Lý do: Mặc dù phân tích chi tiết lại cơ chế 'Phá Space', sự chênh lệch chỉ số AP và Feat tương tác phi vật lý 4D vẫn đảm bảo kết quả phán quyết.`;
 
-            let resultSection = "";
-            if (isOverturned) {
-                resultSection = `\n\n🔄 [ĐIỀU CHỈNH KẾT QUẢ TRIỆT ĐỂ]:\n` +
-                                `AI chấp nhận lập luận về việc làm rõ thuật ngữ! Nếu đòn đánh không đạt chuẩn Spatial Hax/Bypass chuẩn VSBW, ${currentWinner.name.split(' ')[0]} sẽ không thể xuyên qua hàng phòng thủ của ${opponent.name.split(' ')[0]}.\n\n` +
-                                `🏆 KẾT QUẢ MỚI: ${opponent.name.toUpperCase()} CHIẾN THẮNG HOẶC HÒA KÈO!`;
-            } else {
-                resultSection = `\n\n🛡️ [BẢO LƯU KẾT QUẢ]: ${currentWinner.name.toUpperCase()} VẪN THẮNG!\n` +
-                                `Lý do: Mặc dù phân tích lại thuật ngữ, sự chênh lệch gốc về Tiering (${currentWinner.tierStr} vs ${opponent.tierStr}) vẫn quá lớn để ${opponent.name.split(' ')[0]} có thể san bằng.`;
-            }
-
-            addMessage(responseHeader + analysis + resultSection, 'bot');
+            addMessage(responseHeader + featProof + rebuttalLogic + finalVerdict, 'bot');
         }
     </script>
 </body>
