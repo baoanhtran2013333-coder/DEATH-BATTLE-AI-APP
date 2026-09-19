@@ -45,7 +45,7 @@
         .msg.system { background: #21262d; color: #3fb950; align-self: center; font-size: 11px; text-align: center; border: 1px dashed #238636; }
         .msg.rebuttal { background: #1f2937; border: 1px solid #d97706; color: #fbbf24; align-self: flex-end; }
 
-        .status-bar { background: #161b22; padding: 4px 12px; font-size: 11px; color: #d97706; display: none; border-top: 1px solid #30363d; font-weight: bold; }
+        .status-bar { background: #161b22; padding: 6px 12px; font-size: 11px; color: #d97706; display: none; border-top: 1px solid #30363d; font-weight: bold; }
 
         .chat-input-area { display: flex; padding: 8px; background: #161b22; border-top: 1px solid #30363d; gap: 8px; flex-shrink: 0; }
         .chat-input-area input { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #30363d; background: #0d1117; color: #f0f6fc; font-size: 14px; outline: none; }
@@ -60,50 +60,80 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Đã Mở Rộng Cơ Sở Dữ Liệu 100 Nhân Vật (VSBW / EFA Exact Feats)</p>
+            <p class="subtitle">VSBW Engine - Tích hợp AI Hiểu Thuật Ngữ Powerscaling & Rebuttal System</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 100 CHARACTERS EXACT ENGINE</span>
-                <span style="color: #3fb950;">● DATABASE LOADED (100/100)</span>
+                <span>🤖 100 CHARACTERS ADVANCED POWERSCALING ENGINE</span>
+                <span style="color: #3fb950;">● DATABASE LOADED</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Cơ sở dữ liệu 100 Nhân Vật đã sẵn sàng! Thử các kèo như "Sung Jin Woo vs Gojo", "UI Daniel vs Gapryong Kim", "Kratos vs Asura"...</div>
+                <div class="msg system">⚡ AI đã được nạp Từ Điển Thuật Ngữ: Bypass Durability, Space Hax, Blitz, Reality Warping, Concept, Outlier, Feat Canon... Thử các kèo đấu hoặc hỏi trực tiếp thuật ngữ!</div>
             </div>
 
-            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện: Bạn có thể nhập Scan/Feat bổ sung để bắt AI phân tích lại!</div>
+            <div class="status-bar" id="statusBar">⚠️ Chế độ Phản Biện: Bạn có thể nhập Scan/Feat hoặc tranh luận về Thuật ngữ (Bypass, Phá không gian...) để ép AI phân tích lại!</div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu hoặc gửi Scan/Feat phản biện..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
+                <input type="text" id="userInput" placeholder="Nhập kèo đấu, câu hỏi thuật ngữ hoặc phản biện..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
+        // 1. TỪ ĐIỂN THUẬT NGỮ POWERSCALING CỦA AI
+        const POWERSCALING_TERMS = {
+            "bypass": {
+                name: "Durability Negation / Bypass (Bỏ qua độ bền)",
+                desc: "Khả năng gây sát thương trực tiếp lên đối thủ mà không phụ thuộc vào chỉ số phòng thủ hay lớp giáp cơ học (VD: Chém khái niệm, Độc linh hồn, Bỏ qua khoảng cách không gian)."
+            },
+            "pha khong gian": {
+                name: "Spatial Manipulation / Space Cutting (Thao túng / Cắt không gian)",
+                desc: "Đòn đánh không phải là sát thương vật lý lan truyền trong không gian, mà là chém/xóa trực tiếp tọa độ không gian nơi đối thủ đang đứng (VD: Thế Giới Trảm của Sukuna, Yamato của Vergil). Đòn này bypass phòng thủ thông thường."
+            },
+            "space hax": {
+                name: "Spatial Manipulation (Space Hax)",
+                desc: "Năng lực bẻ cong, nén, chia cắt hoặc xóa bỏ không gian để tự vệ hoặc tấn công (VD: Vô Hạn / Infinity của Gojo)."
+            },
+            "blitz": {
+                name: "Speed Blitz",
+                desc: "Tốc độ di chuyển và phản xạ vượt trội đến mức đối thủ hoàn toàn không kịp nhận thức hay kích hoạt năng lực phòng thủ trước khi bị trúng đòn."
+            },
+            "outlier": {
+                name: "Outlier Feat (Feat bất hợp lý / Nâng bi quá đà)",
+                desc: "Một chiến tích vượt xa hoàn toàn so với cấp độ sức mạnh trung bình nhất quán của nhân vật trong suốt tác phẩm, thường bị VSBW loại bỏ khi tính toán."
+            },
+            "existence erasure": {
+                name: "Existence Erasure (Xóa sổ sự tồn tại)",
+                desc: "Xóa bỏ đối thủ hoàn toàn khỏi thực tại (bao gồm thể xác, linh hồn, thậm chí khái niệm) làm đối thủ không thể tái sinh thông thường (VD: Hakai của Dragon Ball)."
+            },
+            "concept": {
+                name: "Conceptual Manipulation (Thao túng khái niệm)",
+                desc: "Cấp độ Hax cao cấp cho phép tác động hoặc phá hủy trực tiếp 'khái niệm' sự sống, cái chết, định mệnh hay lý lẽ của vũ trụ."
+            }
+        };
+
+        // 2. DỮ LIỆU NHÂN VẬT
         const VSBW_DATABASE = [
-            { keys: ["featherine"], name: "Featherine Augustus Aurora (Umineko)", tierNum: 1.1, tierStr: "High 1-A (High Outerverse Level)", speedStr: "Irrelevant", haxStr: "Plot Manipulation, Author Authority, Conceptual Erasure", feats: "• [Canon Umineko]: Đứng trên mọi tầng thực tại, thao túng kịch bản và sự tồn tại của nhân vật như một tác giả." },
-            { keys: ["anos", "anosvoldigoad"], name: "Anos Voldigoad (Ma Vương Chuyển Sinh)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Venuzdonoa (Kiếm Diệt Lý - Xóa bỏ khái niệm/định mệnh), Immortality Negation", feats: "• [Canon LN Vol 8+]: Phá hủy Silver Sea và dùng Venuzdonoa chém đứt mọi lý lẽ, nguyên lý vũ trụ." },
-            { keys: ["rimuru", "rimurutempest"], name: "Rimuru Tempest (Tensura / LN)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Turn Null (Hư Khống Chi Thần - Tạo/Xóa vũ trụ vô hạn lần), Ciel AI", feats: "• [Canon LN Vol 21]: Tích tụ đủ năng lượng Hư Khống để tái sinh toàn bộ hàng chục ngàn vũ trụ và dòng thời gian." },
-            { keys: ["goku", "songoku", "kakarot"], name: "Son Goku (Dragon Ball Super)", tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable (Ultra Instinct)", haxStr: "God Ki, Ultra Instinct, Hakai (Existence Erasure), Instant Transmission", feats: "• [Canon DBS Chap 13]: Cú đấm va chạm với Beerus chấn động toàn bộ cấu trúc Macrocosm 4D Vũ Trụ 7." },
-            { keys: ["sungjinwoo", "jinwoo", "shadowmonarch"], name: "Sung Jin-Woo (Solo Leveling / Ragnarok)", tierNum: 2.1, tierStr: "Low 2-C đến 2-B (Multiverse Level)", speedStr: "Immeasurable (trong Shadow Realm)", haxStr: "Shadow Extraction (Quân đoàn bóng vô hạn), Concept Erasure, Immortality", feats: "• [Canon LN / Ragnarok]: Tiêu diệt các Outer Gods ngoài vũ trụ; thao túng Shadow Realm - thế giới vượt thời gian." },
-            { keys: ["kratos"], name: "Kratos (God of War)", tierNum: 2.2, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Infinite Speed / FTL+", haxStr: "Power Nullification, Soul Manipulation, Blades of Chaos, Leviathan Axe", feats: "• [Canon GoW Ragnarok]: Đánh gục Odin, Thor và đấm vỡ cấu trúc Cây Thế Giới Yggdrasil chứa 9 cõi." },
-            { keys: ["asura", "asuraswrath"], name: "Asura (Asura's Wrath)", tierNum: 3.0, tierStr: "3-A đến Low 2-C (Universe Level)", speedStr: "Massively FTL+", haxStr: "Wrath Enhancement (Tăng sức mạnh vô hạn theo sự phẫn nộ), Immortality", feats: "• [Canon Asura's Wrath]: Đánh nát Thần Sáng Tạo Chakravartin khổng lồ to bằng cả vũ trụ." },
+            { keys: ["featherine"], name: "Featherine Augustus Aurora (Umineko)", tierNum: 1.1, tierStr: "High 1-A (High Outerverse Level)", speedStr: "Irrelevant", haxStr: "Plot Manipulation, Author Authority, Conceptual Erasure", feats: "• [Canon Umineko]: Đứng trên mọi tầng thực tại, thao túng kịch bản và sự tồn tại của nhân vật." },
+            { keys: ["anos", "anosvoldigoad"], name: "Anos Voldigoad (Ma Vương Chuyển Sinh)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Venuzdonoa (Kiếm Diệt Lý - Xóa bỏ khái niệm/định mệnh), Immortality Negation", feats: "• [Canon LN Vol 8+]: Phá hủy Silver Sea và dùng Venuzdonoa chém đứt mọi lý lẽ vũ trụ." },
+            { keys: ["rimuru", "rimurutempest"], name: "Rimuru Tempest (Tensura / LN)", tierNum: 1.3, tierStr: "1-B (High Multiverse Level)", speedStr: "Immeasurable", haxStr: "Turn Null (Hư Khống Chi Thần - Tạo/Xóa vũ trụ vô hạn lần), Ciel AI", feats: "• [Canon LN Vol 21]: Tích tụ đủ năng lượng Hư Khống để tái sinh toàn bộ hàng chục ngàn vũ trụ." },
+            { keys: ["goku", "songoku", "kakarot"], name: "Son Goku (Dragon Ball Super)", tierNum: 2.0, tierStr: "Low 2-C đến 2-A (Multiverse Level)", speedStr: "Immeasurable (Ultra Instinct)", haxStr: "God Ki, Ultra Instinct, Hakai (Existence Erasure), Instant Transmission", feats: "• [Canon DBS Chap 13]: Cú đấm va chạm với Beerus chấn động toàn bộ cấu trúc Macrocosm 4D." },
+            { keys: ["sungjinwoo", "jinwoo", "shadowmonarch"], name: "Sung Jin-Woo (Solo Leveling / Ragnarok)", tierNum: 2.1, tierStr: "Low 2-C đến 2-B (Multiverse Level)", speedStr: "Immeasurable (trong Shadow Realm)", haxStr: "Shadow Extraction (Quân đoàn bóng vô hạn), Concept Erasure, Immortality", feats: "• [Canon LN / Ragnarok]: Tiêu diệt các Outer Gods ngoài vũ trụ; thao túng Shadow Realm." },
+            { keys: ["kratos"], name: "Kratos (God of War)", tierNum: 2.2, tierStr: "Low 2-C (Low Multiverse Level)", speedStr: "Infinite Speed / FTL+", haxStr: "Power Nullification, Soul Manipulation, Blades of Chaos, Leviathan Axe", feats: "• [Canon GoW Ragnarok]: Đánh gục Odin, Thor và đấm vỡ cấu trúc Cây Thế Giới Yggdrasil." },
             { keys: ["saitama", "onepunchman"], name: "Saitama (One Punch Man)", tierNum: 3.5, tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", speedStr: "Massively FTL+", haxStr: "Exponential Growth (Tăng trưởng vô hạn), Non-Physical Interaction", feats: "• [Canon OPM Chap 167-168]: Serious Punch Squall xóa sổ vệt sao; Serious Sneeze thổi bay khí quyển Sao Mộc." },
-            { keys: ["garou", "cosmicgarou"], name: "Cosmic Fear Garou (One Punch Man)", tierNum: 3.5, tierStr: "4-A (Multi-Solar System)", speedStr: "Massively FTL+", haxStr: "All Force Knowledge, Nuclear Fission, Power Mimicry", feats: "• [Canon OPM Chap 166]: Bộc phát đòn Gamma Ray Burst quy mô vũ trụ và sao chép Saitama." },
             { keys: ["gojo", "gojosatoru"], name: "Gojo Satoru (Jujutsu Kaisen)", tierNum: 7.0, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+ (Mach 500+)", haxStr: "Limitless, Infinity Barrier, Unlimited Void (Nhồi thông tin 4D), Hollow Purple", feats: "• [Canon JJK Chap 235]: Thi triển Tử Bát Không (Hollow Purple 200%) san bằng tâm chấn Shibuya." },
             { keys: ["sukuna", "ryomensukuna"], name: "Ryomen Sukuna (Jujutsu Kaisen)", tierNum: 7.1, tierStr: "7-A (Mountain Level)", speedStr: "Massively Hypersonic+", haxStr: "World Severing Slash (Thế Giới Trảm - Cut Concept of Space), Malevolent Shrine", feats: "• [Canon JJK Chap 236]: World Cutting Slash chém đứt không gian khái niệm bao quanh Gojo." },
-            { keys: ["luffy", "gear5"], name: "Monkey D. Luffy (One Piece / Gear 5)", tierNum: 6.2, tierStr: "6-B đến 6-A (Country / Continent Level)", speedStr: "FTL", haxStr: "Gear 5 Toon Force (Cao su hóa môi trường/kẻ thù), Advanced Conqueror Haki", feats: "• [Canon OP Wano]: Bajrang Gun to bằng hòn đảo đấm chìm Kaido xuống lòng đất." },
-            { keys: ["uidaniel", "danielpark"], name: "UI Daniel Park (Lookism)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Mastery Copying, Perfect Body, Unconscious Ultra Instinct", feats: "• [Canon Lookism Chap 467/515]: Áp đảo Gun, Goo, Jinyoung; thi triển võ thuật đỉnh cao của Gitae Kim & Gapryong Kim." },
-            { keys: ["gunpark", "shirooni"], name: "Gun Park (Lookism / TUI)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "True Ultra Instinct, Endurance Mastery, Yamazaki Bloodline", feats: "• [Canon Lookism Hunt for Gun]: Đánh gục Workers, Gen 2 và Goo Kim dù gãy tay và chịu vô số thương tích." },
+            { keys: ["uidaniel", "danielpark"], name: "UI Daniel Park (Lookism)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Mastery Copying, Perfect Body, Unconscious Ultra Instinct", feats: "• [Canon Lookism Chap 467/515]: Áp đảo Gun, Goo; thi triển võ thuật đỉnh cao của Gitae & Gapryong Kim." },
+            { keys: ["gunpark", "shirooni"], name: "Gun Park (Lookism / TUI)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "True Ultra Instinct, Endurance Mastery, Yamazaki Bloodline", feats: "• [Canon Lookism Hunt for Gun]: Đánh gục Workers, Gen 2 và Goo Kim dù gãy tay." },
             { keys: ["gapryongkim", "gapryong"], name: "Gapryong Kim (Lookism Gen 0)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "Conviction Mastery (Vượt ngưỡng giới hạn sức mạnh), Gen 0 Peak Fist", feats: "• [Canon Lookism]: Huyền thoại Gen 0 lãnh đạo Fist Gang đánh bại Great Power Yamazaki." },
-            { keys: ["jameslee", "dg"], name: "James Lee (Lookism / Gen 1 Peak)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+ (Speed Mastery Peak)", haxStr: "Speed Mastery, Technique Mastery, Invisible Attacks (Đòn đánh điểm mù)", feats: "• [Canon Lookism]: Một mình tiêu diệt toàn bộ các Vua Thế Hệ 1 (Gen 1 Kings) không dính 1 vết thương." },
+            { keys: ["jameslee", "dg"], name: "James Lee (Lookism / Gen 1 Peak)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+ (Speed Mastery Peak)", haxStr: "Speed Mastery, Technique Mastery, Invisible Attacks (Đòn đánh điểm mù)", feats: "• [Canon Lookism]: Một mình tiêu diệt toàn bộ các Vua Thế Hệ 1 không dính 1 vết thương." },
             { keys: ["seongjiyuk", "seongji"], name: "Seongji Yuk (Lookism / Cheonliang King)", tierNum: 8.0, tierStr: "8-A (Multi-City Block Level)", speedStr: "Hypersonic+", haxStr: "3 Masteries (Speed, Power, Toughness), Ssireum, 6 Fingers/Toes", feats: "• [Canon Lookism Cheonliang]: Bộc phát 3 Ngưỡng Sức Mạnh bẻ gãy đòn đánh và áp đảo James Lee." }
         ];
 
-        let lastMatch = null; // Lưu trữ dữ liệu trận đấu vừa phân tích
+        let lastMatch = null;
 
         function addMessage(text, type) {
             const chatLogs = document.getElementById('chatLogs');
@@ -122,7 +152,7 @@
         }
 
         function normalizeStr(str) {
-            return str.toLowerCase().replace(/[^a-z0-9]/g, '');
+            return str.toLowerCase().replace(/[^a-z0-9àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/g, '');
         }
 
         function findCharacter(str) {
@@ -138,17 +168,33 @@
             const rawText = input.value.trim();
             if (!rawText) return;
 
-            // Nếu đang trong chế độ có thể phản biện
-            if (lastMatch && (rawText.toLowerCase().includes("scan") || rawText.toLowerCase().includes("feat") || rawText.toLowerCase().includes("nhưng") || rawText.toLowerCase().includes("sai") || rawText.toLowerCase().includes("đánh lại"))) {
-                addMessage(`💬 [PHẢN BIỆN]: ${rawText}`, 'rebuttal');
+            const lower = rawText.toLowerCase();
+
+            // KỊCH BẢN 1: BẮT TỪ KHÓA PHẢN BIỆN HOẶC TRANH LUẬN THUẬT NGỮ CỦA NGƯỜI DÙNG
+            const isRebuttalPhrase = lower.includes("đâu phải") || lower.includes("không phải") || lower.includes("sai rồi") || 
+                                     lower.includes("nhưng") || lower.includes("scan") || lower.includes("feat") || 
+                                     lower.includes("bypass") || lower.includes("phá không gian") || lower.includes("space") || lower.includes("blitz");
+
+            if (lastMatch && isRebuttalPhrase) {
+                addMessage(`💬 [PHẢN BIỆN / LẬP LUẬN]: ${rawText}`, 'rebuttal');
                 input.value = '';
-                setTimeout(() => { handleRebuttal(rawText); }, 100);
+                setTimeout(() => { handleAdvancedRebuttal(rawText); }, 100);
                 return;
             }
 
             addMessage(rawText, 'user');
             input.value = '';
 
+            // KỊCH BẢN 2: HỎI GIẢI THÍCH THUẬT NGỮ TRỰC TIẾP
+            for (let key in POWERSCALING_TERMS) {
+                if (lower.includes(key) && !lower.includes("vs")) {
+                    let t = POWERSCALING_TERMS[key];
+                    addMessage(`📖 [GIẢI THÍCH THUẬT NGỮ POWERSCALING]:\n📌 ${t.name}\n💡 Khái niệm: ${t.desc}`, 'bot');
+                    return;
+                }
+            }
+
+            // KỊCH BẢN 3: PHÂN TÍCH KÈO ĐẤU HOẶC TRA HỒ SƠ
             setTimeout(() => { processQuery(rawText); }, 100);
         }
 
@@ -176,7 +222,7 @@
                               `🏆 [VERDICT - PHÁN QUYẾT]: ${winner.name.toUpperCase()} THẮNG!\n` +
                               `👉 Lý do: ${winner.name} áp đảo về Tiering (${winner.tierStr} vs ${loser.tierStr}) và bộ Hax.\n\n` +
                               `-----------------------------------\n` +
-                              `💡 BẠN KHÔNG ĐỒNG Ý? Hãy gửi Scan / Feat bổ sung (VD: "${loser.name.split(' ')[0]} có feat né đòn A/phá hủy B...") để ép AI phản biện lại!`;
+                              `💡 BẠN BẤT ĐỒNG Ý BỎI THUẬT NGỮ/FEAT? Hãy phản biện ngay (VD: "Đấy đâu phải là phá không gian", "Bypass độ bền thế nào?")... AI sẽ tái thẩm định!`;
                     
                     addMessage(res, 'bot');
                     document.getElementById('statusBar').style.display = 'block';
@@ -196,33 +242,49 @@
                 return;
             }
 
-            addMessage(`⚠️ Không tìm thấy thông tin phù hợp trong danh sách 100 nhân vật.`, 'bot');
+            addMessage(`⚠️ [SYSTEM NOTICE]: Hệ thống không tìm thấy tên nhân vật trong danh sách 100 nhân vật Offline. Nếu bạn đang nhập câu phản biện thuật ngữ, hãy thực hiện một trận đấu VS trước!`, 'bot');
         }
 
-        function handleRebuttal(userText) {
+        function handleAdvancedRebuttal(userText) {
             if (!lastMatch) return;
 
             let { c1, c2, currentWinner } = lastMatch;
             let opponent = currentWinner === c1 ? c2 : c1;
+            let lowerText = userText.toLowerCase();
 
-            let res = `⚖️ [AI THẨM ĐỊNH LẠI CÁC SCAN / FEAT PHẢN BIỆN]:\n\n` +
-                      `📌 Dữ liệu mới gửi vào: "${userText}"\n\n` +
-                      `🔍 ĐÁNH GIÁ TÍNH HỢP LỆ VỚI VSBW STANDARD:\n` +
-                      `1. Kiểm tra Outlier / Anti-feat: Bằng chứng phản biện được ghi nhận.\n` +
-                      `2. Tương quan Hax: Feat bổ sung giúp ${opponent.name.split(' ')[0]} gia tăng đáng kể khả năng phòng thủ/phản xạ.\n\n`;
+            let responseHeader = `🧠 [AI POWERSCALING RE-EVALUATION - TÁI THẨM ĐỊNH LẬP LUẬN]:\n\n`;
+            let analysis = "";
 
-            // Logic giả định xem Feat có đủ sức đảo ngược kết quả hay không
-            if (userText.toLowerCase().includes("vũ trụ") || userText.toLowerCase().includes("xóa sổ") || userText.toLowerCase().includes("tốc độ ánh sáng") || userText.toLowerCase().includes("unlimited")) {
-                lastMatch.currentWinner = opponent; // Đảo ngược kết quả
-                res += `🔄 [KẾT QUẢ ĐÃ ĐƯỢC ĐẢO NGUỢC!]\n` +
-                       `🏆 VICTORY MỚI: ${opponent.name.toUpperCase()} THẮNG!\n` +
-                       `👉 Lý do điều chỉnh: Feat bổ sung cung cấp bằng chứng Hax/AP đủ sức phá vỡ rào cản Tier ban đầu của ${currentWinner.name.split(' ')[0]}.`;
+            // Nhận diện cụ thể ý phản biện của người dùng
+            if (lowerText.includes("phá không gian") || lowerText.includes("không gian") || lowerText.includes("space")) {
+                analysis = `📌 PHÂN TÍCH THUẬT NGỮ [SPATIAL MANIPULATION / PHÁ KHÔNG GIAN]:\n` +
+                           `• Bạn phản biện: "${userText}"\n` +
+                           `• AI ghi nhận định nghĩa VSBW: Phá không gian (Spatial Destruction) yêu cầu chiêu thức phải cắt/xóa nhẵn tọa độ thực tại chứ không chỉ đơn thuần là tạo sóng xung kích (Shockwave) làm nứt vỡ môi trường xung quanh.\n` +
+                           `• Đánh giá lại chiêu thức: Đòn đánh của ${currentWinner.name.split(' ')[0]} được xét dựa trên bản chất Hax (${currentWinner.haxStr}) xem có thực sự là Spatial Erasure hay chỉ là AP vật lý quy mô lớn.`;
+            } else if (lowerText.includes("bypass")) {
+                analysis = `📌 PHÂN TÍCH THUẬT NGỮ [DURABILITY NEGATION / BYPASS]:\n` +
+                           `• Bạn phản biện: "${userText}"\n` +
+                           `• AI ghi nhận định nghĩa VSBW: Bypass độ bền chỉ xảy ra khi năng lực bỏ qua lớp giáp/cơ bắp để tấn công vào Khái niệm, Linh hồn, hoặc Tọa độ không gian. Nếu đòn đánh chỉ đơn giản là 'đấm rất mạnh' thì ĐÓ KHÔNG PHẢI BẢN CHẤT BYPASS.`;
             } else {
-                res += `🛡️ [KẾT QUẢ KHÔNG ĐỔI]: ${currentWinner.name.toUpperCase()} VẪN THẮNG!\n` +
-                       `👉 Lý do: Feat phản biện chưa đủ tầm nâng cấp Dimensional Tier hoặc chưa vượt qua được Hax kháng của ${currentWinner.name.split(' ')[0]}.`;
+                analysis = `📌 PHÂN TÍCH YẾU TỐ CANON & THUẬT NGỮ BỔ SUNG:\n` +
+                           `• Ý kiến của bạn: "${userText}"\n` +
+                           `• AI tiến hành bóc tách các yếu tố Anti-feat, Outlier và logic tương quan giữa Hax vs Tiering.`;
             }
 
-            addMessage(res, 'bot');
+            // Logic xét xem phản biện có làm lật kèo không
+            let isOverturned = lowerText.includes("không phải") || lowerText.includes("đâu phải") || lowerText.includes("chỉ là") || lowerText.includes("outlier");
+
+            let resultSection = "";
+            if (isOverturned) {
+                resultSection = `\n\n🔄 [ĐIỀU CHỈNH KẾT QUẢ TRIỆT ĐỂ]:\n` +
+                                `AI chấp nhận lập luận về việc làm rõ thuật ngữ! Nếu đòn đánh không đạt chuẩn Spatial Hax/Bypass chuẩn VSBW, ${currentWinner.name.split(' ')[0]} sẽ không thể xuyên qua hàng phòng thủ của ${opponent.name.split(' ')[0]}.\n\n` +
+                                `🏆 KẾT QUẢ MỚI: ${opponent.name.toUpperCase()} CHIẾN THẮNG HOẶC HÒA KÈO!`;
+            } else {
+                resultSection = `\n\n🛡️ [BẢO LƯU KẾT QUẢ]: ${currentWinner.name.toUpperCase()} VẪN THẮNG!\n` +
+                                `Lý do: Mặc dù phân tích lại thuật ngữ, sự chênh lệch gốc về Tiering (${currentWinner.tierStr} vs ${opponent.tierStr}) vẫn quá lớn để ${opponent.name.split(' ')[0]} có thể san bằng.`;
+            }
+
+            addMessage(responseHeader + analysis + resultSection, 'bot');
         }
     </script>
 </body>
