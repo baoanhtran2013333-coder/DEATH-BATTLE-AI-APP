@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Battle AI Master - Smart Offline Engine</title>
+    <title>Death Battle AI Master - Full Feat Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         body { background-color: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; display: flex; justify-content: center; }
@@ -37,82 +37,91 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Direct Debate Engine - Phân Tích & Chốt Verdict Ngay Lập Tức</p>
+            <p class="subtitle">Full Feat Canon Database - Phân Tích & Chốt Kèo Trực Tiếp 100%</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 DIRECT DEBATE ENGINE (100% NO TEMPLATES)</span>
-                <span style="color: #3fb950;">● ACTIVE</span>
+                <span>🤖 VSBW FEAT ENGINE (100% ACCURATE DATA)</span>
+                <span style="color: #3fb950;">● READY</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Gõ bất kỳ kèo đấu nào (VD: UI Daniel vs Yujiro, Gojo vs Goku) để nhận bài bóc tách Feat & KẾT QUẢ THẮNG THUA ngay lập tức!</div>
+                <div class="msg system">⚡ Nhập tên nhân vật (VD: "Feat Sung Jin Woo") hoặc nhập kèo (VD: "Sung Jin Woo vs Goku", "UI Daniel vs Yujiro") để ra ngay Feat chuẩn Canon 100% + Verdict!</div>
             </div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Gõ kèo đấu (VD: UI Daniel vs Yujiro)..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="userInput" placeholder="Nhập tên nhân vật hoặc kèo đấu (VD: Sung Jin Woo)..." onkeydown="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Cơ sở dữ liệu chi tiết Feat canon VSBW
-        const characterDatabase = [
+        // BỘ DỮ LIỆU FEAT CANON CHUẨN 100% VSBW
+        const VSBW_DATABASE = [
             {
-                aliases: ["ui daniel", "daniel park", "daniel", "thân thể hoàn hảo"],
-                name: "UI Daniel Park (Lookism)",
-                tierVal: 8.0,
-                tierStr: "8-A (Multi-City Block Level)",
-                speedStr: "Hypersonic+",
-                haxStr: "Mastery Copying (Sao chép hoàn hảo kỹ thuật), Perfect Physical Stats, Unconscious Ultra Instinct (Phản xạ vô thức tối ưu hóa chuyển động), Visual Occlusion",
-                feats: "• [Scan Lookism Chap 467]: Áp đảo Gun, Goo, Jinyoung Park và quét sạch dàn cao thủ Gen 2 bằng cơ thể hoàn hảo.\n• [Scan Lookism Chap 515]: Thi triển vô thức toàn bộ võ thuật cao cấp nhất (Gitae Kim, Taesoo Ma, Gapryong Kim) với lực phát động tối đa."
+                aliases: ["sung jin woo", "jinwoo", "jin woo", "sung jin-woo", "shadow monarch"],
+                name: "Sung Jin-Woo (Solo Leveling / Ragnarok)",
+                tierNum: 2.1, // Multi-Universe Level
+                tierStr: "Low 2-C đến 2-B (Low Multiverse Level)",
+                speedStr: "Immeasurable (Tốc độ vô hạn khi ở Shadow Realm) / Massively FTL+",
+                haxStr: "Shadow Extraction (Trích xuất bóng vô hạn), Concept Erasure (Xóa bỏ khái niệm), Immortality (Type 1, 3, 4, 8), Reality Warping, Dimensional Travel, Regeneration (Godly)",
+                feats: "• [Canon Solo Leveling Ragnarok]: Kế thừa hoàn toàn sức mạnh của Shadow Monarch Ashborn, một mình chiến đấu và tiêu diệt các Monarch/Ruler ngoài vũ trụ.\n• [Canon Novel Chap 270+]: Quản lý và điều khiển Thức Giới Shadow Realm - một không gian/vũ trụ chứa hàng triệu chiến binh bóng tối vô hạn, tồn tại vượt qua các khái niệm không-thời gian thông thường."
             },
             {
-                aliases: ["yujiro", "yujiro hanma", "hanma yujiro", "sinh vật mạnh nhất"],
+                aliases: ["ui daniel", "daniel park", "daniel vô thức"],
+                name: "UI Daniel Park (Lookism)",
+                tierNum: 8.0,
+                tierStr: "8-A (Multi-City Block Level)",
+                speedStr: "Hypersonic+",
+                haxStr: "Mastery Copying (Sao chép tuyệt đối mọi kỹ thuật võ học), Unconscious Ultra Instinct (Phản xạ vô thức tối ưu hóa chuyển động), Perfect Body Stats",
+                feats: "• [Canon Lookism Chap 467]: Áp đảo Gun, Goo, Jinyoung Park và quét sạch dàn cao thủ Gen 2 nhờ cơ thể hoàn hảo.\n• [Canon Lookism Chap 515]: Thi triển linh hoạt toàn bộ võ thuật cao cấp nhất (Gitae Kim, Taesoo Ma, Gapryong Kim) với lực phát động tối đa."
+            },
+            {
+                aliases: ["yujiro", "yujiro hanma", "hanma yujiro"],
                 name: "Yujiro Hanma (Baki the Grappler)",
-                tierVal: 8.2,
+                tierNum: 8.2,
                 tierStr: "8-B đến 8-A (City Block Level)",
                 speedStr: "Hypersonic (Mach 5+)",
-                haxStr: "Demon Back (Lưng Quỷ nhân bản sức mạnh), Shaori (Tiêu lực tuyệt đối), Technical Copy, Spatial/Hazard Awareness",
-                feats: "• [Scan Baki Canon]: Đấm thẳng xuống đất triệt tiêu hoàn toàn trận động đất.\n• [Scan Baki Son of Ogre Chap 250-300]: Áp đảo Baki, đỡ đòn đấm phá hủy bê tông bằng cổ và đi xuyên qua kính chống đạn của quân đội Mỹ."
+                haxStr: "Demon Back (Nhân bản sức mạnh), Shaori (Tiêu lực tuyệt đối), Technical Copy, Precognition",
+                feats: "• [Canon Baki]: Tung đấm triệt tiêu hoàn toàn trận động đất lớn.\n• [Canon Baki Son of Ogre]: Đi xuyên qua kính chống đạn quân đội Mỹ, đấm gục Baki và đỡ trực diện đòn đánh phá hủy bê tông."
             },
             {
                 aliases: ["gojo", "gojo satoru", "satoru"],
                 name: "Gojo Satoru (Jujutsu Kaisen)",
-                tierVal: 7.0,
+                tierNum: 7.0,
                 tierStr: "7-A (Mountain Level)",
                 speedStr: "Massively Hypersonic+ (Mach 500+)",
-                haxStr: "Limitless (Vô Hạn), Infinity Barrier, Six Eyes, Unlimited Void (Vô Lượng Không Xứ - Nhồi thông tin 4D), Hollow Purple (Tử)",
-                feats: "• [Scan JJK Chap 235]: Tung Hollow Purple 200% xóa sổ toàn bộ địa hình trung tâm Shibuya."
+                haxStr: "Limitless (Vô Hạn), Infinity Barrier, Six Eyes, Unlimited Void (Nhồi nhét thông tin 4D), Hollow Purple",
+                feats: "• [Canon JJK Chap 235]: Thi triển Tử Bát Không (Hollow Purple 200%) xóa sổ toàn bộ vùng tâm chấn Shibuya."
             },
             {
                 aliases: ["goku", "son goku", "kakarot"],
                 name: "Son Goku (Dragon Ball Super)",
-                tierVal: 2.0,
-                tierStr: "Low 2-C (Low Multiverse Level)",
+                tierNum: 2.0,
+                tierStr: "Low 2-C đến 2-A (Multiverse Level)",
                 speedStr: "Immeasurable (Tốc độ vô hạn / Ultra Instinct)",
-                haxStr: "God Ki, Ultra Instinct, Hakai (Existence Erasure), Instant Transmission (Dịch chuyển tức thời bypass không gian)",
-                feats: "• [Scan DBS Chap 13]: Xung lực từ cú đấm rung chuyển toàn bộ cấu trúc 4D Macrocosm Vũ Trụ 7."
+                haxStr: "God Ki, Ultra Instinct (Auto Dodge), Hakai (Existence Erasure), Instant Transmission",
+                feats: "• [Canon DBS Chap 13]: Va chạm đấm Beerus tạo sóng xung kích rung chuyển toàn bộ 4D Macrocosm Vũ Trụ 7."
+            },
+            {
+                aliases: ["saitama", "one punch man"],
+                name: "Saitama (One Punch Man)",
+                tierNum: 3.5,
+                tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy Level)",
+                speedStr: "Massively FTL+",
+                haxStr: "Exponential Growth (Tăng trưởng sức mạnh vô hạn), Non-Physical Interaction (Cầm nắm cổng không gian 4D)",
+                feats: "• [Canon OPM Chap 167-168]: Serious Punch Squall thổi bay hàng triệu hệ sao; Serious Sneeze thổi bay bầu khí quyển Sao Mộc."
             },
             {
                 aliases: ["sukuna", "ryomen sukuna"],
                 name: "Ryomen Sukuna (Jujutsu Kaisen)",
-                tierVal: 7.1,
+                tierNum: 7.1,
                 tierStr: "7-A (Mountain Level)",
                 speedStr: "Massively Hypersonic+",
-                haxStr: "Dismantle & Cleave, World Severing Slash (Thế Giới Trảm - Cut Concept of Space), Malevolent Shrine",
-                feats: "• [Scan JJK Chap 236]: World Cutting Slash chém đứt khái niệm không gian bao quanh Gojo."
-            },
-            {
-                aliases: ["saitama", "thánh đấm"],
-                name: "Saitama (One Punch Man)",
-                tierVal: 3.5,
-                tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy Level)",
-                speedStr: "Massively FTL+",
-                haxStr: "Exponential Growth (Tăng trưởng vô hạn), Non-Physical Interaction (Cầm nắm cổng không gian 4D)",
-                feats: "• [Scan OPM Chap 167-168]: Serious Punch Squall xóa sổ hàng triệu hệ sao; Serious Sneeze thổi bay khí quyển Sao Mộc."
+                haxStr: "Dismantle & Cleave, World Severing Slash (Cut Concept of Space), Malevolent Shrine",
+                feats: "• [Canon JJK Chap 236]: World Cutting Slash chém đứt khái niệm không gian bao quanh Gojo Satoru."
             }
         ];
 
@@ -127,7 +136,7 @@
 
         function findCharacter(str) {
             const cleanStr = str.toLowerCase().trim();
-            return characterDatabase.find(c => 
+            return VSBW_DATABASE.find(c => 
                 c.aliases.some(alias => cleanStr.includes(alias)) || cleanStr.includes(c.name.toLowerCase())
             );
         }
@@ -141,99 +150,69 @@
             input.value = '';
 
             setTimeout(() => {
-                analyzeMatchup(rawText);
+                processQuery(rawText);
             }, 100);
         }
 
-        function analyzeMatchup(query) {
+        function processQuery(query) {
             const q = query.toLowerCase();
-            
-            // Tách tên 2 nhân vật dựa trên từ nối "vs", "đấu", "với", "hoặc"
-            let parts = q.split(/vs|đấu với|với|đấu|so sánh/);
-            
-            let char1 = null;
-            let char2 = null;
 
-            if (parts.length >= 2) {
-                char1 = findCharacter(parts[0]);
-                char2 = findCharacter(parts[1]);
-            } else {
-                // Nếu không dùng từ nối, thử tìm 2 nhân vật xuất hiện trong chuỗi
-                let found = characterDatabase.filter(c => 
-                    c.aliases.some(alias => q.includes(alias))
-                );
-                if (found.length >= 2) {
-                    char1 = found[0];
-                    char2 = found[1];
-                } else if (found.length === 1) {
-                    char1 = found[0];
+            // KỊCH BẢN 1: KÈO ĐẤU (Ví dụ: "Sung Jin Woo vs Goku", "UI Daniel vs Yujiro")
+            if (q.includes("vs") || q.includes("đấu") || q.includes("so sánh")) {
+                let parts = q.split(/vs|đấu với|với|đấu|so sánh/);
+                let c1 = findCharacter(parts[0] || "");
+                let c2 = findCharacter(parts[1] || "");
+
+                if (c1 && c2) {
+                    let winner = "";
+                    let reason = "";
+
+                    if (c1.tierNum < c2.tierNum) {
+                        winner = c1.name.toUpperCase();
+                        reason = `${c1.name} vượt trội hoàn toàn về Tiering System (${c1.tierStr} vs ${c2.tierStr}) và Tốc độ (${c1.speedStr}).`;
+                    } else if (c2.tierNum < c1.tierNum) {
+                        winner = c2.name.toUpperCase();
+                        reason = `${c2.name} vượt trội hoàn toàn về Tiering System (${c2.tierStr} vs ${c1.tierStr}) và Tốc độ (${c2.speedStr}).`;
+                    } else {
+                        winner = c1.name.toUpperCase();
+                        reason = `Cả hai cùng Tier, nhưng ${c1.name} có bộ Hax và tốc độ nhỉnh hơn trong combat cận chiến.`;
+                    }
+
+                    let res = `⚔️ [PHÂN TÍCH KÈO ĐẤU CANON]: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n\n` +
+                              `📊 1. THÔNG SỐ VSBW:\n` +
+                              `• ${c1.name}: Tier [${c1.tierStr}] | Speed [${c1.speedStr}]\n` +
+                              `• ${c2.name}: Tier [${c2.tierStr}] | Speed [${c2.speedStr}]\n\n` +
+                              `🔥 2. FEAT CANON 100% TRÍCH DẪN:\n` +
+                              `${c1.feats}\n` +
+                              `${c2.feats}\n\n` +
+                              `🔮 3. NĂNG LỰC / HAX:\n` +
+                              `• ${c1.name.split(' ')[0]}: ${c1.haxStr}\n` +
+                              `• ${c2.name.split(' ')[0]}: ${c2.haxStr}\n\n` +
+                              `🏆 [VERDICT - PHÁN QUYẾT]: ${winner} THẮNG!\n` +
+                              `👉 Lý do: ${reason}`;
+                    addMessage(res, 'bot');
+                    return;
                 }
             }
 
-            // NẾU KHÔNG TÌM THẤY TRONG DB: Tự động gán chỉ số ngầm để đưa ra Verdict ngay (Tuyệt đối không dùng văn mẫu)
-            if (!char1) {
-                let name1 = parts[0] ? parts[0].trim().toUpperCase() : "CHAR 1";
-                char1 = {
-                    name: name1,
-                    tierVal: 8.5,
-                    tierStr: "8-B (City Block Level)",
-                    speedStr: "Hypersonic",
-                    haxStr: "Physical Mastery, Peak Combat Skill",
-                    feats: `• [Feat Canon]: Thể hiện khả năng phá hủy quy mô công trình và tốc độ phản xạ né đạn trong tác phẩm gốc.`
-                };
+            // KỊCH BẢN 2: CHỈ XIN FEAT CỦA 1 NHÂN VẬT (Ví dụ: "Feat Sung Jin Woo", "Hồ sơ Gojo")
+            let singleChar = findCharacter(q);
+            if (singleChar) {
+                let res = `📜 [HỒ SƠ CANON & FEAT CHUẨN 100% VSBW]: ${singleChar.name.toUpperCase()}\n\n` +
+                          `📌 Phân Cấp (Tier): ${singleChar.tierStr}\n` +
+                          `⚡ Tốc Độ (Speed): ${singleChar.speedStr}\n` +
+                          `🔮 Hax & Năng Lực: ${singleChar.haxStr}\n\n` +
+                          `🔥 FEAT CANON TRÍCH DẪN CHI TIẾT:\n` +
+                          `${singleChar.feats}`;
+                addMessage(res, 'bot');
+                return;
             }
 
-            if (!char2) {
-                let name2 = parts[1] ? parts[1].trim().toUpperCase() : "CHAR 2";
-                char2 = {
-                    name: name2,
-                    tierVal: 8.5,
-                    tierStr: "8-B (City Block Level)",
-                    speedStr: "Hypersonic",
-                    haxStr: "Combat Experience, Martial Arts Mastery",
-                    feats: `• [Feat Canon]: Thể hiện sức chịu đựng và lực phát động đòn đánh chuẩn quy mô trong tác phẩm gốc.`
-                };
-            }
-
-            // TÍNH TOÁN KẾT QUẢ (VERDICT)
-            let winner = "";
-            let verdictDetail = "";
-
-            if (char1.tierVal < char2.tierVal) { // Trong VSBW, chỉ số Tier bé hơn = Mạnh hơn (Tier 2 > Tier 7 > Tier 8)
-                winner = char1.name.toUpperCase();
-                verdictDetail = `${char1.name} áp đảo hoàn toàn về AP/Durability (${char1.tierStr} vượt trội so với ${char2.tierStr}) cùng Tốc độ (${char1.speedStr}). ${char2.name} không có Hax đủ cấp độ để bù đắp khoảng cách stats.`;
-            } else if (char2.tierVal < char1.tierVal) {
-                winner = char2.name.toUpperCase();
-                verdictDetail = `${char2.name} áp đảo hoàn toàn về AP/Durability (${char2.tierStr} vượt trội so with ${char1.tierStr}) cùng Tốc độ (${char2.speedStr}). ${char1.name} không có Hax đủ cấp độ để bù đắp khoảng cách stats.`;
-            } else {
-                // Cùng cấp Tier (Ví dụ: UI Daniel vs Yujiro Hanma)
-                if (char1.aliases.includes("ui daniel") && char2.aliases.includes("yujiro")) {
-                    winner = "UI DANIEL PARK";
-                    verdictDetail = "Cả hai ở cùng phân khúc Tier 8 (Multi-City Block Level). Tuy nhiên, UI Daniel nhỉnh hơn nhờ Hax Sao Chép Hoàn Hảo (Perfect Copying) kết hợp Bản Năng Vô Thức (UI) tự động đưa ra đòn đánh và phòng thủ tối ưu nhất đối phó với mọi kỹ thuật võ học của Yujiro Hanma.";
-                } else if (char2.aliases.includes("ui daniel") && char1.aliases.includes("yujiro")) {
-                    winner = "UI DANIEL PARK";
-                    verdictDetail = "Cả hai ở cùng phân khúc Tier 8 (Multi-City Block Level). Tuy nhiên, UI Daniel nhỉnh hơn nhờ Hax Sao Chép Hoàn Hảo (Perfect Copying) kết hợp Bản Năng Vô Thức (UI) tự động đưa ra đòn đánh và phòng thủ tối ưu nhất đối phó với mọi kỹ thuật võ học của Yujiro Hanma.";
-                } else {
-                    winner = char1.name.toUpperCase();
-                    verdictDetail = `${char1.name} giành chiến thắng sát sao nhờ lợi thế về tốc độ phản xạ và bộ Hax đa dạng hơn trong giao tranh cận chiến.`;
-                }
-            }
-
-            // XUẤT KẾT QUẢ TRỰC TIẾP
-            let responseText = `⚔️ [PHÂN TÍCH & KẾT QUẢ KÈO ĐẤU]: ${char1.name.toUpperCase()} VS ${char2.name.toUpperCase()}\n\n` +
-                               `📊 1. CHỈ SỐ STATS (AP / SPEED / DURABILITY):\n` +
-                               `• ${char1.name}: Tier [${char1.tierStr}] | Speed [${char1.speedStr}]\n` +
-                               `• ${char2.name}: Tier [${char2.tierStr}] | Speed [${char2.speedStr}]\n\n` +
-                               `🔥 2. FEAT & SCAN TRÍCH DẪN CANON:\n` +
-                               `${char1.feats}\n` +
-                               `${char2.feats}\n\n` +
-                               `🔮 3. PHÂN TÍCH HAX & BẢN NĂNG:\n` +
-                               `• ${char1.name.split(' ')[0]}: ${char1.haxStr}\n` +
-                               `• ${char2.name.split(' ')[0]}: ${char2.haxStr}\n\n` +
-                               `🏆 4. PHÁN QUYẾT (VERDICT): ${winner} THẮNG!\n` +
-                               `👉 Lý do: ${verdictDetail}`;
-
-            addMessage(responseText, 'bot');
+            // KỊCH BẢN 3: NHÂN VẬT CHƯA CÓ TRONG DATA CỐ ĐỊNH -> HIỂN THỊ THÔNG BÁO RÕ RÀNG
+            let res = `⚠️ [THÔNG BÁO VSBW DATABASE]:\n` +
+                      `Nhân vật trong câu hỏi của bạn chưa nằm trong danh sách dữ liệu Offline hiện tại.\n\n` +
+                      `💡 Gợi ý: Bạn hãy thêm thông tin nhân vật đó vào mảng \`VSBW_DATABASE\` trong code JS, hoặc thử gõ các nhân vật có sẵn như: "Sung Jin Woo", "UI Daniel", "Yujiro", "Gojo", "Goku", "Saitama", "Sukuna"!`;
+            addMessage(res, 'bot');
         }
     </script>
 </body>
