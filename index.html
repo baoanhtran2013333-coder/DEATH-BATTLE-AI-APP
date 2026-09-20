@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Death Battle AI Master - Full Feat & Terminology Analyzer</title>
+    <title>Death Battle AI Master - Full Feat & Hax Analysis Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; background-color: #0d1117; color: #c9d1d9; overflow: hidden; }
@@ -39,7 +39,7 @@
         .chat-header { background: #21262d; padding: 10px 12px; font-weight: 700; color: #f0f6fc; border-bottom: 1px solid #30363d; font-size: 12px; display: flex; justify-content: space-between; flex-shrink: 0; }
         .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 1.5; -webkit-overflow-scrolling: touch; }
         
-        .msg { max-width: 92%; padding: 10px 14px; border-radius: 8px; white-space: pre-wrap; word-break: break-word; }
+        .msg { max-width: 95%; padding: 12px 16px; border-radius: 8px; white-space: pre-wrap; word-break: break-word; }
         .msg.bot { background: #161b22; border: 1px solid #30363d; color: #e6edf3; align-self: flex-start; }
         .msg.user { background: #238636; color: #ffffff; align-self: flex-end; font-weight: 500; }
         .msg.system { background: #21262d; color: #3fb950; align-self: center; font-size: 12px; font-weight: 700; text-align: center; border: 1px dashed #238636; }
@@ -57,7 +57,7 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Deep Analysis • Complete Scan & Feat Engine</p>
+            <p class="subtitle">Full Feat, Scan, Hax & Term Analysis Engine</p>
         </div>
 
         <div class="chat-section">
@@ -71,92 +71,75 @@
             </div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo (vd: saitama vs rimuru) hoặc thuật ngữ (vd: ee là gì)..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
+                <input type="text" id="userInput" placeholder="Gõ kèo (saitama vs rimuru), tra khái niệm (ee là gì), hoặc tên nv..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // TỪ ĐỂN THUẬT NGỮ & KHÁI NIỆM VSBW / DEATH BATTLE
+        // KHO KHÁI NIỆM & THUẬT NGỮ POWER SCALING / VSBW
         const TERMS_DB = {
-            "ee": "🌀 [EXISTENCE ERASURE - XÓA SỔ TỒN TẠI]:\nLà khả năng xóa bỏ hoàn toàn mục tiêu khỏi thực tại ở cấp độ nguyên tử, linh hồn, thông tin hoặc khái niệm. Đối thủ bị trúng EE sẽ không thể tái sinh bằng các phương pháp thông thường.",
-            "ap": "💥 [ATTACK POWER - SỨC TẤN CÔNG]:\nLượng năng lượng thực sự mà đòn đánh tạo ra (khác với DC - Destructive Capacity/Bán kính phá hủy). Một nhân vật có AP cấp Vũ Trụ có thể nén toàn bộ năng lượng đó vào một cú đấm nhỏ.",
-            "dc": "💣 [DESTRUCTIVE CAPACITY - SỨC PHÁ HỦY]:\nDiện tích/bán kính thực tế mà đòn đánh có thể tàn phá (ví dụ: phá hủy một hành tinh, thiên hà hay vũ trụ).",
-            "hax": "✨ [HAX - NĂNG LỰC ĐẶC BIỆT]:\nCác năng lượng hoặc kỹ thuật bypass (bỏ qua) độ bền vật lý thuần túy của đối thủ (ví dụ: Bóp méo thực tại, Thao túng thời gian, Xóa sổ linh hồn, Nguyền rủa, Thao túng ý niệm...).",
-            "tier": "📊 [TIER - CẤP ĐỘ SỨC MẠNH]:\nThước đo phân cấp VSBW dựa trên năng lượng & chiều không gian: 3-C (Galaxy), 2-A (Multiversal+), 1-C (Low Complex), 1-A (Outerversal), 0 (Boundless).",
-            "speed": "⚡ [SPEED TIERS - CẤP ĐỘ TỐC ĐỘ]:\n• FTL: Nhanh hơn ánh sáng.\n• Massively FTL+: Gấp hàng triệu lần ánh sáng.\n• Infinite: Di chuyển khoảng cách vô tận trong thời gian hữu hạn.\n• Immeasurable: Di chuyển vượt qua khái niệm thời gian (tự do đi tới quá khứ/tương lai bằng tốc độ).",
-            "resist": "🛡️ [RESISTANCE - KHẢ NĂNG KHÁNG]:\nKhả năng chịu đựng, giảm thiểu hoặc miễn nhiễm trước các đòn Hax cụ thể của đối thủ (Kháng EE, Kháng Soul, Kháng Time Stop...).",
-            "no diff": "🏆 [NO DIFF]: Chiến thắng tuyệt đối, không tốn chút sức lực nào.",
-            "low diff": "🏆 [LOW DIFF]: Chiến thắng dễ dàng, chỉ cần dùng một phần nhỏ sức mạnh.",
-            "mid diff": "🏆 [MID DIFF]: Trận đấu có sự giằng co nhẹ nhưng kết cục vẫn rõ ràng.",
-            "high diff": "🏆 [HIGH DIFF]: Thắng cực kỳ vất vả, phải tung hết bài tẩy hoặc suýt tử trận."
+            "ee": "📌 [KHÁI NIỆM: EXISTENCE ERASURE (XÓA SỔ TỒN TẠI)]:\n• Khả năng xóa bỏ mục tiêu khỏi thực tại ở cấp độ vật lý, nguyên tử, linh hồn hoặc khái niệm. Khi bị xóa bởi EE tiêu chuẩn, mục tiêu không thể tái sinh bằng các phương pháp phục hồi thông thường.",
+            "hax": "📌 [KHÁI NIỆM: HAX (NĂNG LỰC ĐẶC BIỆT / BỎ QUA ĐỘ BỀN)]:\n• Những năng lực không phụ thuộc vào sức mạnh thể chất/AP (Attack Potency). Hax có thể thao túng linh hồn, khái niệm, thực tại, không-thời gian để đánh bại đối thủ dù họ có Tier cao hơn.",
+            "ap": "📌 [KHÁI NIỆM: ATTACK POTENCY (CƯỜNG ĐỘ TẤN CÔNG)]:\n• Năng lượng công kích thực tế mà một đòn đánh tạo ra, không nhất thiết phải phá hủy môi trường diện rộng (DC). Ví dụ: Một đòn đấm tập trung năng lượng phá hủy cấp Multiverse trong kích thước nhỏ.",
+            "tier": "📌 [KHÁI NIỆM: TIERING SYSTEM (HỆ THỐNG PHÂN CẤP SỨC MẠNH)]:\n• Bảng xếp hạng quy mô năng lượng từ Tier 10 (Con người) đến Tier 2 (Multiversal), Tier 1 (Hyper/Outerversal) và Tier 0 (Boundless).",
+            "speed": "📌 [KHÁI NIỆM: SPEED TIERS (CẤP ĐỘ TỐC ĐỘ)]:\n• FTL (Nhanh hơn ánh sáng) -> Massively FTL+ -> Infinite (Di chuyển khoảng cách vô hạn trong thời gian ngắn) -> Immeasurable (Bỏ qua khái niệm thời gian/di chuyển vượt thời gian) -> Inaccessible.",
+            "resistance": "📌 [KHÁI NIỆM: RESISTANCE / TANK (KHÁNG NĂNG LỰC)]:\n• Khả năng chịu đựng hoặc miễn nhiễm trước các năng lực Hax (như Kháng Linh Hồn, Kháng EE, Kháng Thao Túng Thời Gian)."
         };
 
-        // KHO DỮ LIỆU CHI TIẾT VỀ NV & FEAT / SCAN
+        // KHO DỮ LIỆU NHÂN VẬT ĐẦY ĐỦ FEAT & SCAN
         const CHARACTERS_DB = {
-            "saitama": {
-                name: "Saitama (One Punch Man)",
-                tierName: "4-A đến 3-C (Multi-Solar System / Galaxy)",
-                tierVal: 10,
-                speed: "Massively FTL+ (Vượt xa tốc độ ánh sáng nhiều lần)",
-                feats: [
-                    "• AP/DC Feat: Cú đấm Serious Punch Nghiêm Túc x chạm trán với Garou Cosmic tạo ra khoảng trống diệt sao trên bầu trời đêm (OPM Chap 167).",
-                    "• Speed Feat: Cú hắt hơi làm thổi bay bầu khí quyển Sao Mộc; di chuyển & đảo chiều trong cổng không gian trong tích tắc.",
-                    "• Hax / Utility Feat: Cầm, bẻ và di chuyển cổng không gian Hyperspace Gate bằng tay không; đấm thủng không gian tâm trí của Phoenix Man.",
-                    "• Growth Feat: Tăng trưởng sức mạnh theo cấp số nhân trong thời gian cực ngắn khi có cảm xúc dâng trào."
-                ],
-                offense: {
-                    ee: "❌ KHÔNG CÓ Hax EE. Đòn đánh hoàn toàn là Sát thương vật lý thuần túy (Physical AP).",
-                    soul: "❌ KHÔNG CÓ Soul Attack.",
-                    spatial: "✔️ Cầm nắm vật lý cổng không gian (Hyperspace)."
-                },
-                defense: {
-                    ee: "❌ CHƯA CÓ FEAT TANK EE. Bị đánh bởi đòn xóa sổ khái niệm sẽ không thể kháng.",
-                    soul: "❌ CHƯA CÓ FEAT KHÁNG SOUL.",
-                    spatial: "✔️ Bất biến trước thao túng không gian cấp độ vật lý."
-                }
-            },
-            "rimuru": {
-                name: "Rimuru Tempest (Tensura Light Novel)",
-                tierName: "2-A đến 1-C (Multiversal+ / Low Complex Multiversal)",
-                tierVal: 35,
-                speed: "Immeasurable / Inaccessible (Thao túng không-thời gian tuyệt đối)",
-                feats: [
-                    "• AP/DC Feat: Sở hữu Năng lượng Hư Hư Chi Vương (Turn Null) đủ sức tạo ra và phá hủy hàng ngàn vũ trụ song song nhiều lần.",
-                    "• Hax / Utility Feat: Thông qua Ciel, phân tích và sao chép/kháng mọi loại năng lượng, phép thuật, kỹ năng trong thực tại.",
-                    "• Immortal Feat: Bất tử cấp độ 1, 3, 4, 8 (Tồn tại dưới dạng Tinh Linh Long nguyên thủy, không thể bị diệt vong vĩnh viễn)."
-                ],
-                offense: {
-                    ee: "🔥 Turn Null / Bạo Thực Chi Vương: Xóa sổ linh hồn, nguyên tử, thông tin và khái niệm của toàn bộ vạn vật.",
-                    soul: "🔥 Tiêu diệt và ăn nuốt Linh hồn ở cấp độ khái niệm.",
-                    spatial: "🔥 Cắt đứt và thao túng toàn bộ mạng lưới không-thời gian."
-                },
-                defense: {
-                    ee: "🛡️ KHÁNG TUYỆT ĐỐI EE (Immunity to Existence Erasure).",
-                    soul: "🛡️ KHÁNG TUYỆT ĐỐI TẤN CÔNG LINH HỒN & Ý NIỆM.",
-                    spatial: "🛡️ Bất hoại trước mọi hình thức bóp méo không gian."
-                }
-            },
             "goku": {
                 name: "Son Goku (Dragon Ball Super)",
                 tierName: "Low 2-C đến 2-A (Low Multiversal)",
                 tierVal: 20,
-                speed: "Immeasurable (Vượt qua thời gian của Hit trong trạng thái SSB Kaioken)",
+                speed: "Immeasurable",
                 feats: [
-                    "• AP/DC Feat: Va chạm nắm đấm với Beerus ở dạng SSJ God đe dọa phá hủy toàn bộ Vũ trụ 7 (bao gồm các chiều không gian siêu việt như Cõi Thiên Đường).",
-                    "• Hax Feat: Thi triển Hakai (Manga) để xóa sổ đối thủ; Ultra Instinct (Bản Năng Vô Cực) tự động né tránh mọi hiểm nguy."
+                    "• Scan/Feat AP: Đấm va chạm với Beerus làm rung chuyển toàn bộ Universe 7 (bao gồm Vũ trụ, Thiên Đường, Địa Ngục - Manga/Anime Ep 12).",
+                    "• Scan/Feat EE Offense: Thi triển Hakai thiêu rụi bán phần cơ thể Fused Zamasu (DBS Manga Chap 25).",
+                    "• Scan/Feat EE Defense: Dùng Ki thuần túy gồng nén và gạt phăng quả cầu Năng Lượng Hủy Diệt (Hakai) từ Thần Hủy Diệt Sidra (DBS Anime Ep 95)."
                 ],
-                offense: {
-                    ee: "🔥 Sử dụng Hakai (Manga) xóa sổ sự tồn tại.",
-                    soul: "🔥 Tác động lên linh hồn nhờ God Ki.",
-                    spatial: "🔥 Phá vỡ chiều không gian bằng Ki bộc phát."
-                },
-                defense: {
-                    ee: "🛡️ KHÁNG EE HẠN CHẾ: Feat DBS Anime Ep 95 - Goku gồng nén thành công quả cầu Hakai của Thần Hủy Diệt Sidra.",
-                    soul: "🛡️ Kháng đòn linh hồn nếu lượng Ki áp đảo đối thủ.",
-                    spatial: "🛡️ Chịu đựng tốt bóp méo không gian cơ bản."
-                }
+                offense: { ee: "Hakai (Manga), God Ki Attack.", soul: "Tác động linh hồn qua God Ki." },
+                defense: { ee: "Resist EE hạn chế nhờ Ki áp đảo.", soul: "Kháng đòn linh hồn tiêu chuẩn." }
+            },
+            "saitama": {
+                name: "Saitama (One Punch Man)",
+                tierName: "4-A đến 3-C (Multi-Solar System / Galaxy)",
+                tierVal: 10,
+                speed: "Massively FTL+",
+                feats: [
+                    "• Scan/Feat AP: Hắt hơi làm thổi bay toàn bộ bầu khí quyển Sao Mộc (OPM Chap 168).",
+                    "• Scan/Feat Spatial: Cầm, dịch chuyển và sút cổng Hyperspace Gate của Garou (OPM Chap 167-168).",
+                    "• Scan/Feat EE & Soul: CHƯA CÓ FEAT dính hoặc kháng xóa sổ tồn tại/tấn công linh hồn trong Canon."
+                ],
+                offense: { ee: "Không có Hax EE (Sát thương vật lý AP thuần túy).", soul: "Không có Soul Attack." },
+                defense: { ee: "Chưa có Feat Tank EE.", soul: "Chưa có Feat Kháng Linh hồn." }
+            },
+            "rimuru": {
+                name: "Rimuru Tempest (Tensura Light Novel)",
+                tierName: "2-A đến 1-C (Multiversal+ / Low Complex)",
+                tierVal: 35,
+                speed: "Immeasurable / Inaccessible",
+                feats: [
+                    "• Scan/Feat AP & Creation: Sở hữu Turn Null (Hư Hư Chi Vương), đủ năng lượng tạo lại toàn bộ thế giới/đa vũ trụ hơn 10,000 lần (LN Vol 16/21).",
+                    "• Scan/Feat EE & Soul Offense: Băng Phong Long & Thôn Phệ Linh Hồn ở cấp độ thông tin (Information Particles).",
+                    "• Scan/Feat Defense: Miễn nhiễm tuyệt đối với mọi đòn tấn công Linh hồn, Khái niệm, Tự nhiên và Phi tự nhiên nhờ Ciel & Ultimate Skill."
+                ],
+                offense: { ee: "Turn Null / Nodens xóa sổ linh hồn, khái niệm.", soul: "Ăn nuốt & diệt linh hồn khái niệm." },
+                defense: { ee: "Kháng tuyệt đối EE (Immunity to EE).", soul: "Kháng tuyệt đối tấn công linh hồn." }
+            },
+            "anos": {
+                name: "Anos Voldigoad (Maou Gakuin)",
+                tierName: "2-A đến 1-B (Hyperversal)",
+                tierVal: 40,
+                speed: "Immeasurable",
+                feats: [
+                    "• Scan/Feat Hax Offense: Rút kiếm Venuzdonoa diệt vong mọi nguyên lý, lý lẽ, quy luật và khái niệm bất kể độ bền.",
+                    "• Scan/Feat Regeneration: Tái sinh ngay cả khi Nguồn Căn (Root/Concept) bị tiêu diệt hoàn toàn."
+                ],
+                offense: { ee: "Venuzdonoa diệt vong lý lẽ/khái niệm.", soul: "Tấn công Nguồn Căn (Root)." },
+                defense: { ee: "Bất hoại trước sự hủy diệt khái niệm.", soul: "Tái sinh từ Nguồn Căn bị hủy diệt." }
             }
         };
 
@@ -199,14 +182,15 @@
             let formattedName = nameRaw.trim().charAt(0).toUpperCase() + nameRaw.trim().slice(1);
             let dynamicChar = {
                 name: `${formattedName}`,
-                tierName: "Tier VSBW Tiêu chuẩn (Auto Scan)",
+                tierName: "Cấp độ VSBW Tiêu chuẩn",
                 tierVal: 15,
                 speed: "Massively FTL+",
                 feats: [
-                    `• Feat Scan: Đang đồng bộ hóa dữ liệu manga/anime mới nhất cho ${formattedName}...`
+                    `• Scan/Feat AP: Đang cập nhật trích dẫn chương/tập cho ${formattedName}...`,
+                    `• Scan/Feat Hax: Chưa ghi nhận Scan Hax đặc biệt.`
                 ],
-                offense: { ee: "Chưa ghi nhận EE cấp cao.", soul: "Tấn công linh hồn cơ bản.", spatial: "Tác động không gian cơ bản." },
-                defense: { ee: "Chưa có Feat kháng EE chính thức.", soul: "Kháng linh hồn tiêu chuẩn.", spatial: "Kháng không gian tiêu chuẩn." }
+                offense: { ee: "Đang quét dữ liệu chiêu thức...", soul: "Đang quét chiêu thức Linh hồn..." },
+                defense: { ee: "Chưa ghi nhận Feat Kháng EE.", soul: "Kháng linh hồn cơ bản." }
             };
 
             CHARACTERS_DB[clean] = dynamicChar;
@@ -214,72 +198,62 @@
         }
 
         function processIntentEngine(rawText) {
-            let lower = rawText.toLowerCase().trim();
+            let lower = rawText.toLowerCase();
 
             // 1. KIỂM TRA GIẢI THÍCH THUẬT NGỮ / KHÁI NIỆM
             for (let term in TERMS_DB) {
-                if (lower === term || lower.includes(`${term} là gì`) || lower.includes(`nghĩa là gì`) && lower.includes(term)) {
+                if (lower.includes(`${term} là gì`) || lower === term || lower.includes(`giải thích ${term}`)) {
                     addMessage(TERMS_DB[term], 'bot');
                     return;
                 }
             }
 
-            // 2. PHÂN TÍCH KÈO ĐẤU TOÀN DIỆN (CÓ "VS" HOẶC "ĐẤU VỚI")
+            // 2. PHÂN TÍCH RÕ, ĐỦ CHI TIẾT ALL KÈO ĐẤU (CÓ "VS" HOẶC "ĐẤU VỚI")
             if (lower.includes(" vs ") || lower.includes(" đấu với ")) {
                 let parts = lower.split(/ vs | đấu với /);
                 let c1 = getOrGenerateCharacter(parts[0]);
                 let c2 = getOrGenerateCharacter(parts[1]);
 
-                let winner = c1.tierVal >= c2.tierVal ? c1 : c2;
-                let loser = c1.tierVal < c2.tierVal ? c1 : c2;
+                let winner = (c1.tierVal >= c2.tierVal) ? c1 : c2;
+                let loser = (c1.tierVal >= c2.tierVal) ? c2 : c1;
+                
                 let diffVal = Math.abs(c1.tierVal - c2.tierVal);
-
                 let diff = "NO DIFF (Áp đảo hoàn toàn)";
                 if (diffVal < 15 && diffVal >= 8) diff = "LOW DIFF (Thắng dễ dàng)";
                 else if (diffVal < 8 && diffVal >= 3) diff = "MID DIFF (Thắng trung bình)";
-                else if (diffVal < 3) diff = "HIGH DIFF (Thắng vất vả)";
+                else if (diffVal < 3) diff = "HIGH DIFF (Thắng rất vất vả)";
 
-                let res = `⚔️ [PHÂN TÍCH KÈO ĐẤU CHI TIẾT & CHỐT KẾT QUẢ]\n` +
-                          `🆚 KÈO: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n` +
-                          `═════════════════════════════════\n\n` +
-                          `📌 1. SCAN THÔNG SỐ VSBW & FEATS:\n\n` +
-                          `🔷 ${c1.name.toUpperCase()}:\n` +
-                          `• Tier: ${c1.tierName}\n` +
-                          `• Speed: ${c1.speed}\n` +
-                          `• Feats Nổi bật:\n${c1.feats.join('\n')}\n\n` +
-                          `🔷 ${c2.name.toUpperCase()}:\n` +
-                          `• Tier: ${c2.tierName}\n` +
-                          `• Speed: ${c2.speed}\n` +
-                          `• Feats Nổi bật:\n${c2.feats.join('\n')}\n\n` +
-                          `═════════════════════════════════\n` +
-                          `📌 2. SO SÁNH HAX & KHẢ NĂNG TANK/RESIST:\n` +
-                          `• Khả năng EE: ${c1.name} [${c1.offense.ee}] VS ${c2.name} [${c2.offense.ee}]\n` +
-                          `• Khả năng Tank EE: ${c1.name} [${c1.defense.ee}] VS ${c2.name} [${c2.defense.ee}]\n\n` +
-                          `═════════════════════════════════\n` +
-                          `🎯 3. PHÂN TÍCH CỤ THỂ CHIẾN THẮNG:\n` +
-                          `1. Về Tốc độ & AP: ${winner.name} có cấp độ sức mạnh & không gian áp đảo ${loser.name}.\n` +
-                          `2. Về Tương quan Hax: ${winner.name} sở hữu bộ Hax/Kháng hoàn toàn vượt qua khả năng phòng thủ của ${loser.name}.\n\n` +
-                          `🏆 KẾT QUẢ CHUNG CUỘC: ${winner.name.toUpperCase()} THẮNG (${diff})\n` +
-                          `💬 (Kết quả được chốt tự động dựa trên VSBW. Người dùng có thể nhập phản biện bên dưới!)`;
+                let res = `⚔️ [PHÂN TÍCH CHI TIẾT KÈO ĐẤU]: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n` +
+                          `=========================================\n\n` +
+                          `📊 1. BẢNG SO SÁNH THÔNG SỐ VSBW:\n` +
+                          `• ${c1.name}: Tier [${c1.tierName}] | Speed [${c1.speed}]\n` +
+                          `• ${c2.name}: Tier [${c2.tierName}] | Speed [${c2.speed}]\n\n` +
+                          `📜 2. TRÍCH DẪN FEAT & SCAN TIÊU BIỂU:\n` +
+                          `📌 [${c1.name}]:\n${c1.feats.join("\n")}\n\n` +
+                          `📌 [${c2.name}]:\n${c2.feats.join("\n")}\n\n` +
+                          `🔮 3. PHÂN TÍCH HAX & PHÒNG THỦ (TANK/RESISTANCE):\n` +
+                          `• Tấn công Hax/EE: ${winner.name} áp đảo với khả năng [${winner.offense.ee}].\n` +
+                          `• Khả năng Phòng thủ/Resistance: ${loser.name} [${loser.defense.ee}].\n\n` +
+                          `🏆 4. KẾT QUẢ CHUNG CUỘC:\n` +
+                          `👉 ${winner.name.toUpperCase()} THẮNG (${diff})\n\n` +
+                          `💡 Lý do: ${winner.name} vượt trội hoàn toàn về cấp độ sức mạnh chiều không gian (Tiering) và bộ Hax/Resistance bỏ qua hoàn toàn độ bền vật lý của ${loser.name}.\n` +
+                          `-----------------------------------------\n` +
+                          `💬 Bạn có thể phản biện hoặc đưa ra Scan đối lập để tranh luận tiếp!`;
 
                 addMessage(res, 'bot');
                 return;
             }
 
-            // 3. SCAN HOÀN CHỈNH 1 NHÂN VẬT (TÊN NV)
-            let targetChar = getOrGenerateCharacter(rawText.replace(/(có|tank|ee|hakai|soul|linh hồn|không gian|spatial|ko|không|\?)/g, ""));
+            // 3. TRUY VẤN TRA CỨU HỒ SƠ / FEAT / TANK ĐƠN LẺ
+            let targetChar = getOrGenerateCharacter(rawText.replace(/(có|tank|ee|hakai|soul|linh hồn|không gian|spatial|ko|không|feat|scan|\?)/g, ""));
 
-            let res = `📖 [SCAN HỒ SƠ & FEATS TOÀN DIỆN - ${targetChar.name.toUpperCase()}]:\n\n` +
-                      `📊 THÔNG SỐ VSBW:\n` +
-                      `• Tier: ${targetChar.tierName}\n` +
-                      `• Speed: ${targetChar.speed}\n\n` +
-                      `📜 FEATS & SCANS NỔI BẬT:\n${targetChar.feats.join('\n')}\n\n` +
-                      `🔥 BỘ HAX TẤN CÔNG (OFFENSE):\n` +
-                      `• EE: ${targetChar.offense.ee}\n` +
-                      `• Soul: ${targetChar.offense.soul}\n\n` +
-                      `🛡️ BỘ HAX PHÒNG THỦ (TANK / RESISTANCE):\n` +
-                      `• Tank EE: ${targetChar.defense.ee}\n` +
-                      `• Tank Soul: ${targetChar.defense.soul}`;
+            let res = `📖 [HỒ SƠ SCAN & FEAT CHI TIẾT - ${targetChar.name.toUpperCase()}]:\n` +
+                      `=========================================\n` +
+                      `• Tier VSBW: ${targetChar.tierName}\n` +
+                      `• Tốc độ: ${targetChar.speed}\n\n` +
+                      `📜 FEAT & SCAN CHÍNH THỨC:\n${targetChar.feats.join("\n")}\n\n` +
+                      `🔥 TẤN CÔNG (OFFENSE HAX):\n• EE: ${targetChar.offense.ee}\n• Soul: ${targetChar.offense.soul}\n\n` +
+                      `🛡️ PHÒNG THỦ (TANK / RESISTANCE):\n• Tank EE: ${targetChar.defense.ee}\n• Tank Soul: ${targetChar.defense.soul}`;
 
             addMessage(res, 'bot');
         }
