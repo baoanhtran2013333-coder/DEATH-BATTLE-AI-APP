@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Death Battle AI Master - Smart Q&A & Universal Engine</title>
+    <title>Death Battle AI Master - Smart Intent & Resistance Engine</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
         html, body { height: 100%; margin: 0; padding: 0; background-color: #0d1117; color: #c9d1d9; overflow: hidden; }
@@ -57,62 +57,75 @@
                 <svg viewBox="0 0 24 24"><path d="M6.92 5L5 6.92l4.06 4.06-1.42 1.42L3.58 8.34 2.16 9.76l4.25 4.25-3.59 3.59c-.78.78-.78 2.05 0 2.83.78.78 2.05.78 2.83 0l3.59-3.59 4.25 4.25 1.42-1.42-4.06-4.06 1.42-1.42L19 22l1.92-1.92-4.06-4.06 1.42-1.42 4.06 4.06L24 17.08l-4.25-4.25 3.59-3.59c.78-.78.78-2.05 0-2.83-.78-.78-2.05-.78-2.83 0l-3.59 3.59-4.25-4.25-1.42 1.42 4.06 4.06-1.42 1.42L6.92 5z"/></svg>
             </div>
             <h1>DEATH BATTLE AI MASTER</h1>
-            <p class="subtitle">Direct Q&A Engine & Precise VSBW Feat/Hax Knowledge</p>
+            <p class="subtitle">Precise Offense vs Defense (Tank/Resistance) Engine</p>
         </div>
 
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 SMART INTENT & FEAT RESPONSE ENGINE</span>
+                <span>🤖 SMART INTENT PARSER (PHÂN BIỆT TẤN CÔNG & TANK)</span>
                 <span style="color: #3fb950;">● SYSTEM ONLINE</span>
             </div>
             
             <div class="chat-messages" id="chatLogs">
-                <div class="msg system">⚡ Hỏi bất kỳ câu nào về Feat, Scan, Hax, EE, Soul Atk hoặc tạo kèo đấu. AI sẽ trả lời trực tiếp 100%!</div>
+                <div class="msg system">⚡ Phân biệt chính xác giữa khả năng Tấn công (Attack) và Phòng thủ/Kháng (Tank/Resistance) cho mọi câu hỏi!</div>
             </div>
 
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Hỏi Feat/Hax nhân vật hoặc nhập kèo đấu..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
+                <input type="text" id="userInput" placeholder="Gõ: goku có tank ee ko, saitama có tank soul ko, ichigo vs saitama..." onkeydown="if(event.key==='Enter') sendMessage()" onfocus="scrollToBottom()">
                 <button onclick="sendMessage()">Gửi 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        const VSBW_DATABASE = [
-            { 
-                keys: ["saitama", "sai", "onepunchman"], 
-                name: "Saitama (One Punch Man)", 
-                tierNum: 3.5, 
-                tierStr: "4-A đến 3-C (Multi-Solar System / Galaxy)", 
-                speedStr: "Massively FTL+", 
-                haxStr: "Exponential Growth, Non-Physical Interaction, Spatial Interaction", 
-                spatialFeats: "• [Spatial Manipulation / Non-Physical Interaction]: Nắm, sút và bẻ cong cổng Không gian Hyperspace Gate của Garou Cosmic; Đấm xuyên không gian tâm trí Phoenix Man (Phoenix Space).",
-                eeFeats: "• KHÔNG CÓ Existence Erasure (EE): Saitama hủy diệt đối thủ bằng Lực vật lý thuần túy (AP), không có Hax xóa sổ sự tồn tại ở cấp độ nguyên tử/linh hồn như Hakai.",
-                soulFeats: "• KHÔNG CÓ Soul Resistance / Soul Attack: Saitama chưa từng thể hiện Feat đỡ đòn tấn công tâm linh hay linh hồn trực tiếp."
+        // CƠ SỞ DỮ LIỆU TỔNG HỢP VSBW TẬP TRUNG VÀO CẢ OFFENSE VÀ DEFENSE (RESISTANCE)
+        const CHARACTERS_DB = {
+            goku: {
+                name: "Son Goku (Dragon Ball Super)",
+                tier: "Low 2-C đến 2-A",
+                speed: "Immeasurable",
+                offense: {
+                    ee: "• [EXISTENCE ERASURE - ATK]: Goku có thể thi triển Hakai (Manga) để xóa sạch sự tồn tại của mục tiêu.",
+                    soul: "• [SOUL ATK]: Có thể tác động lên linh hồn nhờ God Ki.",
+                    spatial: "• [SPATIAL ATK]: Bộc phát Ki xé rách chiều không gian (Dimension Shatter)."
+                },
+                defense: {
+                    ee: "• [EXISTENCE ERASURE - TANK / RESISTANCE]: GOKU CÓ KHẢ NĂNG TANK / RESIST EE HẠN CHẾ!\n  - Feat Canon DBS Anime Ep 95: Goku ở dạng Base / SSJ Blue đã dùng Ki thuần túy gồng gánh và nén quả cầu Năng lượng Hủy diệt (Hakai energy) do Thần Hủy Diệt Sidra ban cho sát thủ.\n  - Theo VSBW: Goku sở hữu 'Limited Existence Erasure Resistance' nhờ mức năng lượng Ki vượt trội.",
+                    soul: "• [SOUL TANK]: Cực kỳ bền bỉ trước các đòn ma thuật/linh hồn nếu lượng Ki của Goku áp đảo hoàn toàn đối thủ.",
+                    spatial: "• [SPATIAL TANK]: Kháng bóp méo không gian cơ bản nhờ Ki Thần."
+                }
             },
-            { 
-                keys: ["ichigo", "ichigokurosaki"], 
-                name: "Ichigo Kurosaki (Bleach)", 
-                tierNum: 5.5, 
-                tierStr: "Low 5-B đến 2-C", 
-                speedStr: "Massively FTL", 
-                haxStr: "Soul Attack, Soul Erasure, Spiritual Pressure", 
-                spatialFeats: "• Chém rách cấu trúc không gian Linh Giới / Không gian Linh Áp.",
-                eeFeats: "• Khả năng xóa sổ linh hồn (Soul Destruction) bằng Linh Áp cực lớn.",
-                soulFeats: "• Tấn công trực tiếp vào cấu trúc Linh Hồn đối phương."
+            saitama: {
+                name: "Saitama (One Punch Man)",
+                tier: "4-A đến 3-C (Multi-Solar System / Galaxy)",
+                speed: "Massively FTL+",
+                offense: {
+                    ee: "• [EXISTENCE ERASURE - ATK]: Saitama KHÔNG CÓ EE. Đòn đánh chỉ gây sát thương vật lý thuần túy (AP).",
+                    soul: "• [SOUL ATK]: KHÔNG CÓ Soul Attack.",
+                    spatial: "• [SPATIAL ATK]: Cầm, bẻ, sút cổng Hyperspace Gate (OPM Chap 167-168); đấm thủng không gian tâm trí Phoenix Man."
+                },
+                defense: {
+                    ee: "• [EXISTENCE ERASURE - TANK]: Saitama CHƯA CÓ FEAT TANK EE. Saitama chưa từng bị tấn công bởi năng lượng xóa sổ tồn tại ở cấp độ khái niệm/nguyên tử.",
+                    soul: "• [SOUL TANK]: KHÔNG CÓ Feat kháng Soul Attack hay Linh áp.",
+                    spatial: "• [SPATIAL TANK]: Kháng thao túng không gian trực tiếp (Spatial Manipulation Immunity) ở cấp độ vật lý."
+                }
             },
-            { 
-                keys: ["goku", "songoku"], 
-                name: "Son Goku (Dragon Ball Super)", 
-                tierNum: 2.0, 
-                tierStr: "Low 2-C đến 2-A", 
-                speedStr: "Immeasurable", 
-                haxStr: "Hakai (EE), Ultra Instinct, God Ki", 
-                spatialFeats: "• Bộc phá khí làm nứt vỡ chiều không gian (Dimension Break).",
-                eeFeats: "• [Existence Erasure]: Thi triển Hakai (Anime/Manga) xóa sạch sự tồn tại của mục tiêu.",
-                soulFeats: "• Tác động đến thể linh hồn nhờ Ki Thần."
+            ichigo: {
+                name: "Ichigo Kurosaki (Bleach)",
+                tier: "Low 5-B đến 2-C",
+                speed: "Massively FTL",
+                offense: {
+                    ee: "• [EXISTENCE ERASURE - ATK]: Xóa sổ linh hồn (Soul Erasure) thông qua Linh Áp (Reiatsu Crush).",
+                    soul: "• [SOUL ATK]: Tấn công trực tiếp vào Linh Hồn (Konpaku), bypass độ bền vật lý.",
+                    spatial: "• [SPATIAL ATK]: Chém rách cấu trúc Linh Giới."
+                },
+                defense: {
+                    ee: "• [EXISTENCE ERASURE - TANK]: Kháng xóa sổ linh hồn nhờ áp đảo Linh Áp.",
+                    soul: "• [SOUL TANK]: Kháng đòn tấn công Linh Hồn / Linh Áp từ các đối thủ yếu hơn.",
+                    spatial: "• [SPATIAL TANK]: Đổ Linh Áp chống lại bóp méo không gian Linh Giới."
+                }
             }
-        ];
+        };
 
         let activeMatch = null;
 
@@ -140,118 +153,88 @@
             addMessage(rawText, 'user');
             input.value = '';
 
-            setTimeout(() => { processSmartInput(rawText); }, 100);
+            setTimeout(() => { processIntentEngine(rawText); }, 100);
         }
 
-        // BỘ PHÂN LOẠI VÀ THU BẮT Ý ĐỊNH CHÍNH XÁC
-        function processSmartInput(rawText) {
+        // BỘ NORMALIZE VÀ PHÂN TÍCH Ý ĐỊNH CHÍNH XÁC
+        function processIntentEngine(rawText) {
             let lower = rawText.toLowerCase();
 
-            // LÀM SẠCH VÀ CHUẨN HÓA DỮ LIỆU
-            let isQuestion = lower.includes("có") || lower.includes("ko") || lower.includes("không") || lower.includes("là gì") || lower.includes("là j") || lower.includes("thế nào") || lower.includes("scan") || lower.includes("feat");
-            let isExplicitVs = (lower.includes(" vs ") || lower.includes(" đấu với ")) && !isQuestion;
-            let isNewMatchCmd = lower.includes("kèo mới") || lower.includes("đổi kèo") || lower.includes("đổi nv");
+            // 1. CHUẨN HÓA CÁC TỪ VIẾT TẮT
+            lower = lower.replace(/\b(ko gian|kg|khong gian|space|hyperspace)\b/g, "spatial");
+            lower = lower.replace(/\b(k|ko|khong)\b/g, "không");
+            lower = lower.replace(/\b(sai|saitam|opm)\b/g, "saitama");
+            lower = lower.replace(/\b(ichi|icg)\b/g, "ichigo");
 
-            // 1. NẾU LÀ CÂU HỎI TRI THỨC / PHÁ HỦY KHÔNG GIAN / EE / SOUL -> TRẢ LỜI TRỰC TIẾP TẬP TRUNG
-            if (isQuestion || (!isExplicitVs && !isNewMatchCmd && !activeMatch)) {
-                answerDirectQuestion(lower, rawText);
+            // 2. KIỂM TRA XEM ĐÂY LÀ HỎI TANK / PHÒNG THỦ HAY HỎI ĐÓN TẤN CÔNG
+            let isTankOrDefend = lower.includes("tank") || lower.includes("kháng") || lower.includes("đỡ") || lower.includes("chịu") || lower.includes("bị") || lower.includes("dính");
+            let isMatchCmd = (lower.includes(" vs ") || lower.includes(" đấu với ")) && !lower.includes("không");
+
+            if (isMatchCmd) {
+                createMatch(lower);
                 return;
             }
 
-            // 2. NẾU YÊU CẦU TẠO KÈO MỚI
-            if (isExplicitVs || isNewMatchCmd) {
-                createNewMatch(lower);
-                return;
-            }
+            // 3. XÁC ĐỊNH NHÂN VẬT VÀ CHỦ ĐỀ HAX
+            let charKey = "goku"; // Mặc định nếu không tìm thấy
+            if (lower.includes("saitama")) charKey = "saitama";
+            else if (lower.includes("ichigo")) charKey = "ichigo";
+            else if (lower.includes("goku")) charKey = "goku";
 
-            // 3. PHẢN BIỆN TRONG TRẬN ĐẤU
-            if (activeMatch) {
-                analyzeMatchRebuttal(lower, rawText);
-                return;
-            }
-
-            answerDirectQuestion(lower, rawText);
-        }
-
-        // HÀM TRẢ LỜI TRỰC TIẾP MỌI CÂU HỎI VỀ FEAT / HAX / THUẬT NGỮ
-        function answerDirectQuestion(lower, rawText) {
-            let char = VSBW_DATABASE.find(c => c.keys.some(k => lower.includes(k)));
+            let targetChar = CHARACTERS_DB[charKey];
             let res = "";
 
-            // TRƯỜNG HỢP 1: HỎI CỤ THỂ VỀ SAITAMA VÀ PHÁ HỦY KHÔNG GIAN / TƯƠNG TÁC KHÔNG GIAN
-            if (lower.includes("không gian") || lower.includes("space") || lower.includes("hyperspace")) {
-                if (char && char.keys.includes("saitama")) {
-                    res = `📖 [GIẢI ĐÁP FEAT SAITAMA - SPATIAL INTERACTION]:\n\n` +
-                          `❓ Câu hỏi: "${rawText}"\n` +
-                          `👉 Trả lời: SAITAMA CÓ FEAT TƯƠNG TÁC & PHÁ TÍNH CHẤT KHÔNG GIAN!\n\n` +
-                          `🔍 PHÂN TÍCH FEAT CANON (OPM Chapter 167-168):\n` +
-                          `${char.spatialFeats}\n` +
-                          `• Bản chất: Theo VSBW, Saitama sở hữu 'Non-Physical Interaction' và 'Spatial Manipulation' dạng tương tác thực thể. Saitama có thể cầm, nắm, bẻ hướng các cổng không gian bóp méo (Hyperspace Gate) bằng tay không như vật thể rắn.`;
-                } else {
-                    res = `📖 [GIẢI ĐÁP FEAT KHÔNG GIAN (SPATIAL MANIPULATION)]:\n` +
-                          `• Tương tác/Phá hủy không gian cho phép nhân vật tác động đến cấu trúc chiều không gian 3D/4D hoặc bóp méo khoảng cách.`;
-                }
+            // HỎI VỀ EXISTENCE ERASURE (EE / HAKAI)
+            if (lower.includes("ee") || lower.includes("hakai") || lower.includes("xóa sổ")) {
+                let featData = isTankOrDefend ? targetChar.defense.ee : targetChar.offense.ee;
+                res = `📖 [GIẢI ĐÁP VSBW - ${targetChar.name.toUpperCase()}]:\n\n` +
+                      `❓ Câu hỏi: "${rawText}"\n` +
+                      `🎯 Phân loại Intent: ${isTankOrDefend ? "TÍNH NĂNG PHÒNG THỦ / TANK / RESISTANCE" : "TÍNH NĂNG TẤN CÔNG (OFFENSE)"}\n\n` +
+                      `${featData}`;
             }
-            // TRƯỜNG HỢP 2: HỎI VỀ EXISTENCE ERASURE (EE)
-            else if (lower.includes("ee") || lower.includes("existence erasure") || lower.includes("xóa sổ")) {
-                if (char) {
-                    res = `📖 [GIẢI ĐÁP KHẢ NĂNG EE (EXISTENCE ERASURE) CỦA ${char.name.toUpperCase()}]:\n\n` +
-                          `❓ Câu hỏi: "${rawText}"\n` +
-                          `${char.eeFeats}`;
-                } else {
-                    res = `📖 [THUẬT NGỮ VSBW - EXISTENCE ERASURE (EE)]:\n` +
-                          `• EE là khả năng xóa sạch mục tiêu khỏi sự tồn tại (linh hồn, thể xác, linh áp hoặc nguyên tử), bypass hoàn toàn độ bền vật lý.`;
-                }
-            }
-            // TRƯỜNG HỢP 3: HỎI VỀ SOUL ATTACK / TANK SOUL
+            // HỎI VỀ SOUL ATTACK / LINH ÁP
             else if (lower.includes("soul") || lower.includes("linh hồn") || lower.includes("linh áp")) {
-                if (char) {
-                    res = `📖 [GIẢI ĐÁP TẤN CÔNG / KHÁNG LINH HỒN CỦA ${char.name.toUpperCase()}]:\n\n` +
-                          `❓ Câu hỏi: "${rawText}"\n` +
-                          `${char.soulFeats}`;
-                } else {
-                    res = `📖 [THUẬT NGỮ VSBW - SOUL ATTACK]:\n` +
-                          `• Soul Attack đánh trực tiếp vào cấu trúc linh hồn (Konpaku), bỏ qua giáp và độ bền cơ thể vật lý.`;
-                }
+                let featData = isTankOrDefend ? targetChar.defense.soul : targetChar.offense.soul;
+                res = `📖 [GIẢI ĐÁP VSBW - ${targetChar.name.toUpperCase()}]:\n\n` +
+                      `❓ Câu hỏi: "${rawText}"\n` +
+                      `🎯 Phân loại Intent: ${isTankOrDefend ? "TÍNH NĂNG PHÒNG THỦ / TANK / RESISTANCE" : "TÍNH NĂNG TẤN CÔNG (OFFENSE)"}\n\n` +
+                      `${featData}`;
             }
-            // TRƯỜNG HỢP MẶC ĐỊNH
+            // HỎI VỀ KHÔNG GIAN / SPATIAL
+            else if (lower.includes("spatial") || lower.includes("không gian")) {
+                let featData = isTankOrDefend ? targetChar.defense.spatial : targetChar.offense.spatial;
+                res = `📖 [GIẢI ĐÁP VSBW - ${targetChar.name.toUpperCase()}]:\n\n` +
+                      `❓ Câu hỏi: "${rawText}"\n` +
+                      `🎯 Phân loại Intent: ${isTankOrDefend ? "TÍNH NĂNG PHÒNG THỦ / TANK / RESISTANCE" : "TÍNH NĂNG TẤN CÔNG (OFFENSE)"}\n\n` +
+                      `${featData}`;
+            }
+            // CÂU HỎI CHUNG HOẶC PHẢN BIỆN
             else {
-                res = `📖 [HỆ THỐNG TRUY XUẤT CSDL VSBW]:\n` +
-                      `❓ Câu hỏi của bạn: "${rawText}"\n` +
-                      `• Nhân vật/Thuật ngữ đã được hệ thống ghi nhận và phân tích dữ liệu chuẩn Canon!`;
+                res = `📖 [THÔNG TIN VSBW - ${targetChar.name.toUpperCase()}]:\n\n` +
+                      `• Tier: ${targetChar.tier} | Speed: ${targetChar.speed}\n` +
+                      `${targetChar.defense.ee}\n` +
+                      `${targetChar.defense.soul}`;
             }
 
             addMessage(res, 'bot');
         }
 
-        // HÀM TẠO KÈO ĐẤU CHÍNH XÁC
-        function createNewMatch(text) {
+        function createMatch(text) {
             let parts = text.split(/vs|đấu với/);
-            let c1 = VSBW_DATABASE.find(c => c.keys.some(k => (parts[0] || "").includes(k)));
-            let c2 = VSBW_DATABASE.find(c => c.keys.some(k => (parts[1] || "").includes(k)));
+            let c1Key = Object.keys(CHARACTERS_DB).find(k => parts[0].includes(k)) || "ichigo";
+            let c2Key = Object.keys(CHARACTERS_DB).find(k => parts[1].includes(k)) || "saitama";
 
-            if (c1 && c2) {
-                let initialWinner = c1.tierNum < c2.tierNum ? c1 : c2;
-                activeMatch = { c1, c2, currentWinner: initialWinner };
+            let c1 = CHARACTERS_DB[c1Key];
+            let c2 = CHARACTERS_DB[c2Key];
 
-                let res = `⚔️ [TẠO KÈO ĐẤU SUCCESS]: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n\n` +
-                          `📊 THÔNG SỐ VSBW BAN ĐẦU:\n` +
-                          `• ${c1.name}: Tier [${c1.tierStr}]\n` +
-                          `• ${c2.name}: Tier [${c2.tierStr}]\n\n` +
-                          `🏆 PHÁN QUYẾT TẠM THỜI: ${initialWinner.name.toUpperCase()} THẮNG!\n` +
-                          `👉 Bạn có thể nhập phản biện Hax/Scan để thẩm định kết quả.`;
-                addMessage(res, 'bot');
-            } else {
-                addMessage(`⚠️ Vui lòng nhập đúng cú pháp kèo đấu (Ví dụ: "Ichigo vs Saitama").`, 'bot');
-            }
-        }
+            activeMatch = { c1, c2 };
 
-        // HÀM XỬ LÝ PHẢN BIỆN TRONG TRẬN
-        function analyzeMatchRebuttal(lower, rawText) {
-            let { c1, c2 } = activeMatch;
-            let res = `⚖️ [PHẢN BIỆN CẬP NHẬT TRẬN ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}]:\n\n` +
-                      `• Ý kiến của bạn: "${rawText}"\n` +
-                      `• Yếu tố này đã được thẩm định vào tương quan trận đấu!`;
+            let res = `⚔️ [TẠO KÈO ĐẤU SUCCESS]: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n\n` +
+                      `📊 THÔNG SỐ VSBW BAN ĐẦU:\n` +
+                      `• ${c1.name}: Tier [${c1.tier}] | Speed [${c1.speed}]\n` +
+                      `• ${c2.name}: Tier [${c2.tier}] | Speed [${c2.speed}]\n\n` +
+                      `👉 Nhập bất kỳ câu hỏi hoặc lập luận Tank/Hax để thẩm định lại!`;
+
             addMessage(res, 'bot');
         }
     </script>
