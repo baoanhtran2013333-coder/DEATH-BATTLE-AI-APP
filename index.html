@@ -31,16 +31,16 @@
             </div>
             <div class="chat-messages" id="chatLogs"></div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu (VD: goku vs tanjiro) hoặc tên nhân vật..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="userInput" placeholder="Nhập kèo đấu (VD: tanjiro vs sukuna) hoặc tên nhân vật..." onkeydown="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()">Phân Tích 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        const WELCOME_MESSAGE = `⚡ AI DEATH BATTLE v2.1 đã bổ sung đầy đủ dữ liệu cho 22+ verse,scan đầy đủ feat,hax cho 100+ nv!
+        const WELCOME_MESSAGE = `⚡ AI DEATH BATTLE v2.1 đã bổ sung đầy đủ dữ liệu cho 22+ verse, scan đầy đủ feat, hax cho 100+ nhân vật!
 
-Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "tanjiro vs muzan", "naruto vs sukuna", "yoriichi vs sukuna", "saitama vs garou"...`;
+Bây giờ bạn có thể nhập mọi kèo đấu như: "tanjiro vs sukuna", "goku vs tanjiro", "yoriichi vs muzan", "naruto vs sasuke", "saitama vs garou"...`;
 
         const CHARACTERS_DB = {
             // ==========================================
@@ -320,10 +320,10 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "ta
             },
 
             // ==========================================
-            // 4. DEMON SLAYER (KIMETSU NO YAIBA) & LOW TIERS
+            // 4. DEMON SLAYER (KIMETSU NO YAIBA)
             // ==========================================
             "tanjiro": {
-                name: "Kamado Tanjiro (Demon Slayer - Demon King / Sun Breathing)",
+                name: "Kamado Tanjiro (Demon Slayer - Sun Breathing / DKT)",
                 verse: "Demon Slayer: Kimetsu no Yaiba",
                 tierName: "8-A đến 7-C (Multi-City Block / Small Town Level)",
                 tierVal: 4,
@@ -368,26 +368,6 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "ta
                 ],
                 offense: { ee: "Không có.", soul: "Không có.", hax: "Cellular Poison (Độc tế bào), Whip Arms, Flesh Manipulation." },
                 defense: { ee: "Không có.", soul: "Không có.", hax: "Tái sinh siêu tốc độ (Chỉ sợ Ánh Sáng Mặt Trời & Kiếm Đỏ)." }
-            },
-            "asta": {
-                name: "Asta (Black Clover - Devil Union)",
-                verse: "Black Clover",
-                tierName: "6-B đến 6-A (Country Level)",
-                tierVal: 10,
-                speed: "FTL",
-                feats: ["• Anti Magic Feat: Chặt đứt và triệt tiêu mọi dạng ma thuật và năng lượng siêu nhiên."],
-                offense: { ee: "Triệt tiêu năng lượng/ma thuật.", soul: "Tác động linh hồn qua Anti Magic.", hax: "Anti-Magic, Devil Union, Zetten." },
-                defense: { ee: "Xóa bỏ ma thuật chạm vào.", soul: "Kháng hiệu ứng phép thuật.", hax: "Anti-Magic Armor." }
-            },
-            "deku": {
-                name: "Izuku Midoriya (My Hero Academia - Gear Shift / 100%)",
-                verse: "My Hero Academia",
-                tierName: "7-A đến 6-C (Island Level)",
-                tierVal: 7,
-                speed: "Massively Hypersonic+ / Sub-Relativistic",
-                feats: ["• Detroit Smash Feat: Thay đổi thời tiết toàn cầu và thổi bay đám mây khổng lồ."],
-                offense: { ee: "Sát thương thể chất vật lý cực lớn.", soul: "Không có.", hax: "Gear Shift, Fa Jin, Danger Sense." },
-                defense: { ee: "Cơ thể gia tăng độ bền nhờ OFA.", soul: "Không có.", hax: "Cảnh báo nguy hiểm (Danger Sense)." }
             }
         };
 
@@ -417,16 +397,17 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "ta
             setTimeout(() => { processBattle(rawText); }, 100);
         }
 
-        function cleanQuery(text) {
-            return text.toLowerCase()
-                       .replace(/(feat|feats|scan|scans|profile|hax|chi tiết|cho|về|thông tin|xem|pt|phân tích)\s+/g, "")
-                       .trim();
-        }
-
+        // Tối ưu thuật toán tìm tên nhân vật chuẩn 100%
         function getCharacter(nameRaw) {
-            let clean = cleanQuery(nameRaw);
+            if (!nameRaw) return null;
+            let clean = nameRaw.toLowerCase().trim();
+
+            // Khớp chính xác trước
+            if (CHARACTERS_DB[clean]) return CHARACTERS_DB[clean];
+
+            // Tìm kiếm gần đúng theo từ khóa
             for (let key in CHARACTERS_DB) {
-                if (clean === key || clean.includes(key) || key.includes(clean)) {
+                if (clean.includes(key) || key.includes(clean)) {
                     return CHARACTERS_DB[key];
                 }
             }
@@ -434,7 +415,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "ta
         }
 
         function processBattle(rawText) {
-            let lower = rawText.toLowerCase();
+            let lower = rawText.toLowerCase().trim();
 
             if (lower.includes(" vs ") || lower.includes(" đấu với ")) {
                 let parts = lower.split(/ vs | đấu với /);
@@ -442,7 +423,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "ta
                 let c2 = getCharacter(parts[1]);
 
                 if (!c1 || !c2) {
-                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto, sasuke, madara, luffy, ichigo, tanjiro, yoriichi, muzan, asta, deku...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: tanjiro, yoriichi, muzan, sukuna, gojo, naruto, sasuke, madara, goku, saitama, luffy, ichigo, anos, rimuru, sung jin woo, yhwach...`, 'bot');
                     return;
                 }
 
@@ -482,7 +463,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "ta
                           `  - Phòng thủ / Kháng: ${c2.defense.ee} | ${c2.defense.hax}\n\n` +
 
                           `🎬 IV. KỊCH BẢN GIẢ ĐỊNH DIỄN BIẾN TRẬN ĐẤU:\n` +
-                          `1. Tốc độ & Tiếp cận: ${c1.speed.includes("FTL") && !c2.speed.includes("FTL") ? c1.name + " sở hữu tốc độ vượt trội hoàn toàn về phản xạ và di chuyển." : c2.speed.includes("FTL") && !c1.speed.includes("FTL") ? c2.name + " làm chủ trận đấu nhờ tốc độ nhanh hơn." : "Cả hai có sự chênh lệch đáng kể về ngưỡng tốc độ di chuyển và phản xạ."}\n` +
+                          `1. Tốc độ & Tiếp cận: ${c1.speed.includes("FTL") && !c2.speed.includes("FTL") ? c1.name + " sở hữu tốc độ vượt trội hoàn toàn về phản xạ và di chuyển." : c2.speed.includes("FTL") && !c1.speed.includes("FTL") ? c2.name + " làm chủ trận đấu nhờ tốc độ nhanh hơn." : "Cả hai có sự chênh lệch về tốc độ và phạm vi di chuyển."}\n` +
                           `2. Va chạm Hax: ${winner.name} sử dụng hệ thống Hax áp đảo (${winner.offense.hax}). ${loser.name} nỗ lực chống đỡ bằng (${loser.defense.hax}).\n` +
                           `3. Dứt điểm: Do chênh lệch về ${diffVal >= 3 ? "cấp độ Tier sức mạnh và quy mô phá hủy (AP/DC)" : "tốc độ và cơ chế khắc chế đòn đánh"}, ${loser.name} hoàn toàn thất thế và nhận thất bại.\n\n` +
 
@@ -511,7 +492,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "ta
                               `• Cơ chế phòng thủ: ${c.defense.hax}`;
                     addMessage(res, 'bot');
                 } else {
-                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto, sasuke, madara, luffy, ichigo, tanjiro, yoriichi, muzan, asta, deku...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy nhân vật! Vui lòng thử các tên chuẩn: tanjiro, yoriichi, muzan, sukuna, gojo, naruto, sasuke, madara, goku, saitama, luffy, ichigo, anos, rimuru, sung jin woo, yhwach...`, 'bot');
                 }
             }
         }
