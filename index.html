@@ -31,17 +31,16 @@
             </div>
             <div class="chat-messages" id="chatLogs"></div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu (VD: naruto vs sukuna) hoặc tên nhân vật..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="userInput" placeholder="Nhập kèo đấu (VD: goku vs tanjiro) hoặc tên nhân vật..." onkeydown="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()">Phân Tích 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Dòng thông báo hệ thống được cố định vĩnh viễn
         const WELCOME_MESSAGE = `⚡ AI DEATH BATTLE v2.1 đã bổ sung đầy đủ dữ liệu cho 22+ verse,scan đầy đủ feat,hax cho 100+ nv!
 
-Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "naruto vs sasuke", "jin mori vs goku", "ichigo vs naruto", "saitama vs garou"...`;
+Bây giờ bạn có thể nhập mọi kèo đấu như: "goku vs tanjiro", "tanjiro vs muzan", "naruto vs sukuna", "yoriichi vs sukuna", "saitama vs garou"...`;
 
         const CHARACTERS_DB = {
             // ==========================================
@@ -209,7 +208,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
             },
 
             // ==========================================
-            // 3. SHONEN & LOW-MID TIERS
+            // 3. SHONEN & MID TIERS
             // ==========================================
             "saitama": {
                 name: "Saitama (One Punch Man)",
@@ -318,6 +317,77 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
                 ],
                 offense: { ee: "Hollow Purple xóa bỏ vật chất nguyên tử.", soul: "Nhồi thông tin qua Unlimited Void.", hax: "Infinity, Hollow Purple." },
                 defense: { ee: "Vô Hạ Hạn chặn đòn có vận tốc.", soul: "Kháng tác động tinh thần tiêu chuẩn.", hax: "Lá chắn Vô Hạ Hạn." }
+            },
+
+            // ==========================================
+            // 4. DEMON SLAYER (KIMETSU NO YAIBA) & LOW TIERS
+            // ==========================================
+            "tanjiro": {
+                name: "Kamado Tanjiro (Demon Slayer - Demon King / Sun Breathing)",
+                verse: "Demon Slayer: Kimetsu no Yaiba",
+                tierName: "8-A đến 7-C (Multi-City Block / Small Town Level)",
+                tierVal: 4,
+                speed: "Hypersonic+ đến High Hypersonic",
+                feats: [
+                    "• Sun Breathing 13th Form Feat: Kế thừa Hơi Thở Mặt Trời hoàn chỉnh, tấn công liên tục vào 12 điểm yếu của Muzan.",
+                    "• Transparent World & Selfless State Feat: Nhìn xuyên thấu cơ thể đối thủ và xóa bỏ hoàn toàn sát ý chiến đấu."
+                ],
+                offense: { 
+                    ee: "Không có xóa sổ vật chất.", 
+                    soul: "Hơi Thở Mặt Trời triệt tiêu khả năng tái sinh của Quỷ.", 
+                    hax: "Transparent World (Thế Giới Trong Suốt), Selfless State, Red Nichirin Blade." 
+                },
+                defense: { 
+                    ee: "Thể chất người thường gia tăng nhờ Hơi Thở Tập Trung Cực Đại.", 
+                    soul: "Không có kháng đòn linh hồn.", 
+                    hax: "Tăng tốc độ phản xạ qua Transparent World." 
+                }
+            },
+            "yoriichi": {
+                name: "Yoriichi Tsugikuni (Demon Slayer - Original Sun Breather)",
+                verse: "Demon Slayer: Kimetsu no Yaiba",
+                tierName: "8-A đến 7-C (Small Town Level)",
+                tierVal: 5,
+                speed: "High Hypersonic+",
+                feats: [
+                    "• Absolute Blitz Feat: Chém 1500/1800 mảnh thịt của Muzan trong tích tắc.",
+                    "• Born God Feat: Sinh ra đã sở hữu Ấn, Thế Giới Trong Suốt và Vô Sát Ý."
+                ],
+                offense: { ee: "Không có.", soul: "Thanh kiếm đỏ ngắt kết nối tái sinh Quỷ.", hax: "Thức thứ 13 Hơi Thở Mặt Trời, Red Blade, Selfless State." },
+                defense: { ee: "Thể chất đỉnh cao Human.", soul: "Không có.", hax: "Phản xạ thần tốc vượt xa góc nhìn thông thường." }
+            },
+            "muzan": {
+                name: "Kibutsuji Muzan (Demon Slayer - Demon King)",
+                verse: "Demon Slayer: Kimetsu no Yaiba",
+                tierName: "8-A đến 7-C (Small Town Level)",
+                tierVal: 4,
+                speed: "Hypersonic+",
+                feats: [
+                    "• Instant Regeneration Feat: Tái sinh các đòn chém cơ bản trong thời gian thực trước khi lưỡi kiếm đi qua.",
+                    "• Cellular Poison Feat: Máu quỷ độc phá hủy tế bào ở cấp độ vi mô."
+                ],
+                offense: { ee: "Không có.", soul: "Không có.", hax: "Cellular Poison (Độc tế bào), Whip Arms, Flesh Manipulation." },
+                defense: { ee: "Không có.", soul: "Không có.", hax: "Tái sinh siêu tốc độ (Chỉ sợ Ánh Sáng Mặt Trời & Kiếm Đỏ)." }
+            },
+            "asta": {
+                name: "Asta (Black Clover - Devil Union)",
+                verse: "Black Clover",
+                tierName: "6-B đến 6-A (Country Level)",
+                tierVal: 10,
+                speed: "FTL",
+                feats: ["• Anti Magic Feat: Chặt đứt và triệt tiêu mọi dạng ma thuật và năng lượng siêu nhiên."],
+                offense: { ee: "Triệt tiêu năng lượng/ma thuật.", soul: "Tác động linh hồn qua Anti Magic.", hax: "Anti-Magic, Devil Union, Zetten." },
+                defense: { ee: "Xóa bỏ ma thuật chạm vào.", soul: "Kháng hiệu ứng phép thuật.", hax: "Anti-Magic Armor." }
+            },
+            "deku": {
+                name: "Izuku Midoriya (My Hero Academia - Gear Shift / 100%)",
+                verse: "My Hero Academia",
+                tierName: "7-A đến 6-C (Island Level)",
+                tierVal: 7,
+                speed: "Massively Hypersonic+ / Sub-Relativistic",
+                feats: ["• Detroit Smash Feat: Thay đổi thời tiết toàn cầu và thổi bay đám mây khổng lồ."],
+                offense: { ee: "Sát thương thể chất vật lý cực lớn.", soul: "Không có.", hax: "Gear Shift, Fa Jin, Danger Sense." },
+                defense: { ee: "Cơ thể gia tăng độ bền nhờ OFA.", soul: "Không có.", hax: "Cảnh báo nguy hiểm (Danger Sense)." }
             }
         };
 
@@ -372,7 +442,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
                 let c2 = getCharacter(parts[1]);
 
                 if (!c1 || !c2) {
-                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, xenogoku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto, sasuke, madara, luffy, ichigo...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto, sasuke, madara, luffy, ichigo, tanjiro, yoriichi, muzan, asta, deku...`, 'bot');
                     return;
                 }
 
@@ -412,7 +482,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
                           `  - Phòng thủ / Kháng: ${c2.defense.ee} | ${c2.defense.hax}\n\n` +
 
                           `🎬 IV. KỊCH BẢN GIẢ ĐỊNH DIỄN BIẾN TRẬN ĐẤU:\n` +
-                          `1. Tốc độ & Tiếp cận: ${c1.speed.includes("FTL") && !c2.speed.includes("FTL") ? c1.name + " sở hữu tốc độ vượt trội hoàn toàn về phản xạ và di chuyển." : c2.speed.includes("FTL") && !c1.speed.includes("FTL") ? c2.name + " làm chủ trận đấu nhờ tốc độ nhanh hơn." : "Cả hai có tốc độ tương đương nhau khi nhập cuộc."}\n` +
+                          `1. Tốc độ & Tiếp cận: ${c1.speed.includes("FTL") && !c2.speed.includes("FTL") ? c1.name + " sở hữu tốc độ vượt trội hoàn toàn về phản xạ và di chuyển." : c2.speed.includes("FTL") && !c1.speed.includes("FTL") ? c2.name + " làm chủ trận đấu nhờ tốc độ nhanh hơn." : "Cả hai có sự chênh lệch đáng kể về ngưỡng tốc độ di chuyển và phản xạ."}\n` +
                           `2. Va chạm Hax: ${winner.name} sử dụng hệ thống Hax áp đảo (${winner.offense.hax}). ${loser.name} nỗ lực chống đỡ bằng (${loser.defense.hax}).\n` +
                           `3. Dứt điểm: Do chênh lệch về ${diffVal >= 3 ? "cấp độ Tier sức mạnh và quy mô phá hủy (AP/DC)" : "tốc độ và cơ chế khắc chế đòn đánh"}, ${loser.name} hoàn toàn thất thế và nhận thất bại.\n\n` +
 
@@ -441,7 +511,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
                               `• Cơ chế phòng thủ: ${c.defense.hax}`;
                     addMessage(res, 'bot');
                 } else {
-                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, xenogoku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto, sasuke, madara, luffy, ichigo, tanjiro, yoriichi, muzan, asta, deku...`, 'bot');
                 }
             }
         }
