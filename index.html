@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Death Battle Engine v2.1 - Full Database</title>
+    <title>AI Death Battle Engine v2.1</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
         body { margin: 0; background-color: #0d1117; color: #c9d1d9; font-size: 13px; }
@@ -26,14 +26,10 @@
     <div class="container">
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 AI DEATH BATTLE ENGINE v2.1 (EXPANDED DATABASE)</span>
+                <span>🤖 AI DEATH BATTLE ENGINE v2.1</span>
                 <span style="color:#3fb950; font-size:12px">● READY (OFFLINE MODE)</span>
             </div>
-            <div class="chat-messages" id="chatLogs">
-                <div class="msg bot">⚡ AI DEATH BATTLE v2.1 đã bổ sung đầy đủ dữ liệu cho Naruto và các nhân vật Shonen/Isekai!
-
-Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "naruto vs sasuke", "jin mori vs goku", "ichigo vs naruto", "saitama vs garou"...</div>
-            </div>
+            <div class="chat-messages" id="chatLogs"></div>
             <div class="chat-input-area">
                 <input type="text" id="userInput" placeholder="Nhập kèo đấu (VD: naruto vs sukuna) hoặc tên nhân vật..." onkeydown="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()">Phân Tích 🚀</button>
@@ -42,6 +38,11 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
     </div>
 
     <script>
+        // Dòng thông báo hệ thống được cố định vĩnh viễn
+        const WELCOME_MESSAGE = `⚡ AI DEATH BATTLE v2.1 đã bổ sung đầy đủ dữ liệu cho 22+ verse,scan đầy đủ feat,hax cho 100+ nv!
+
+Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "naruto vs sasuke", "jin mori vs goku", "ichigo vs naruto", "saitama vs garou"...`;
+
         const CHARACTERS_DB = {
             // ==========================================
             // 1. BOUNDLESS / OUTERVERSAL TIERS
@@ -208,7 +209,7 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
             },
 
             // ==========================================
-            // 3. SHONEN & LOW-MID TIERS (NARUTO, SUKUNA, SAITAMA...)
+            // 3. SHONEN & LOW-MID TIERS
             // ==========================================
             "saitama": {
                 name: "Saitama (One Punch Man)",
@@ -329,6 +330,12 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
             chatLogs.scrollTop = chatLogs.scrollHeight;
         }
 
+        function initChat() {
+            const chatLogs = document.getElementById('chatLogs');
+            chatLogs.innerHTML = '';
+            addMessage(WELCOME_MESSAGE, 'bot');
+        }
+
         function sendMessage() {
             const input = document.getElementById('userInput');
             const rawText = input.value.trim();
@@ -359,14 +366,13 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
         function processBattle(rawText) {
             let lower = rawText.toLowerCase();
 
-            // KÈO ĐẤU VS
             if (lower.includes(" vs ") || lower.includes(" đấu với ")) {
                 let parts = lower.split(/ vs | đấu với /);
                 let c1 = getCharacter(parts[0]);
                 let c2 = getCharacter(parts[1]);
 
                 if (!c1 || !c2) {
-                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Thử các tên: naruto, sasuke, madara, sukuna, gojo, luffy, ichigo, saitama, garou, goku, cc goku, zeno, anos, rimuru, sung jin woo, jin mori, yhwach...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, xenogoku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto, sasuke, madara, luffy, ichigo...`, 'bot');
                     return;
                 }
 
@@ -416,7 +422,6 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
 
                 addMessage(res, 'bot');
             } 
-            // TRA CỨU ĐƠN LẺ
             else {
                 let c = getCharacter(rawText);
                 if (c) {
@@ -436,10 +441,12 @@ Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "n
                               `• Cơ chế phòng thủ: ${c.defense.hax}`;
                     addMessage(res, 'bot');
                 } else {
-                    addMessage(`⚠️ Không tìm thấy nhân vật. Vui lòng nhập các tên quen thuộc như: naruto, sasuke, madara, sukuna, gojo, luffy, ichigo, saitama, goku, anos, rimuru, sung jin woo...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, xenogoku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo, naruto...`, 'bot');
                 }
             }
         }
+
+        window.onload = initChat;
     </script>
 </body>
 </html>
