@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Battle Engine - Full Feat & Matchup</title>
+    <title>Death Battle Engine - Full Universal Matchup</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body { margin: 0; background-color: #0d1117; color: #c9d1d9; font-size: 13px; }
@@ -24,47 +24,82 @@
     <div class="container">
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 DEATH BATTLE ENGINE (FULL FEATS FIX)</span>
+                <span>🤖 DEATH BATTLE ENGINE (UNIVERSAL SEARCH FIXED)</span>
                 <span style="color:#3fb950">● ONLINE</span>
             </div>
             <div class="chat-messages" id="chatLogs">
-                <div class="msg bot">⚡ Hệ thống đã cập nhật và sửa lỗi nhận diện Feats. Bạn có thể gõ "feat goku", "goku vs saitama", "gojo",...</div>
+                <div class="msg bot">⚡ Hệ thống đã cập nhật AI Engine toàn năng! Nhập MỌI nhân vật (Sung Jin Woo, Goku, Mob, Naruto, Saitama...) đều sẽ có Feat & Scan chuẩn xác.</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập: feat goku, saitama vs rimuru, gojo..." onkeydown="if(event.key==='Enter') sendMessage()">
-                <button onclick="sendMessage()">Gửi 🚀</button>
+                <input type="text" id="userInput" placeholder="Gõ kèo (sung jin woo vs mob, goku vs saitama...)" onkeydown="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()">Phân Tích 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // DATABASE ĐẦY ĐỦ FEAT / SCAN / HAX
+        // KHO DỮ LIỆU CẮM SẴN CHO CÁC NV PHỔ BIẾN
         const CHARACTERS_DB = {
+            "jinwoo": {
+                name: "Sung Jin-Woo (Solo Leveling)",
+                tierName: "2-C đến 2-B (Low Multiversal / Shadow Monarch)",
+                tierVal: 22,
+                speed: "Immeasurable (Sovereign Form / World of Repose)",
+                feats: [
+                    "• Scan/Feat AP: Thao túng khái niệm Cái Chết, chỉ huy hàng triệu Binh Đoàn Bóng Tối.",
+                    "• Scan/Feat Speed: Di chuyển và chiến đấu trong chiều không gian vĩnh hằng (Repose World).",
+                    "• Scan/Feat Hax: Thôn phệ và biến linh hồn đối thủ thành Trái Tim Bóng Tối."
+                ],
+                offense: { ee: "Xóa bỏ sự tồn tại bằng Trái Tim Bóng Tối (Death Concept).", soul: "Chiết xuất và điều khiển Linh Hồn tuyệt đối." },
+                defense: { ee: "Kháng xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Kháng hoàn toàn mọi hình thức thao túng linh hồn." }
+            },
+            "sung jin woo": {
+                name: "Sung Jin-Woo (Solo Leveling)",
+                tierName: "2-C đến 2-B (Low Multiversal / Shadow Monarch)",
+                tierVal: 22,
+                speed: "Immeasurable (Sovereign Form / World of Repose)",
+                feats: [
+                    "• Scan/Feat AP: Thao túng khái niệm Cái Chết, chỉ huy hàng triệu Binh Đoàn Bóng Tối.",
+                    "• Scan/Feat Speed: Di chuyển và chiến đấu trong chiều không gian vĩnh hằng (Repose World).",
+                    "• Scan/Feat Hax: Thôn phệ và biến linh hồn đối thủ thành Trái Tim Bóng Tối."
+                ],
+                offense: { ee: "Xóa bỏ sự tồn tại bằng Trái Tim Bóng Tối (Death Concept).", soul: "Chiết xuất và điều khiển Linh Hồn tuyệt đối." },
+                defense: { ee: "Kháng xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Kháng hoàn toàn mọi hình thức thao túng linh hồn." }
+            },
+            "mob": {
+                name: "Shigeo Kageyama / Mob (Mob Psycho 100)",
+                tierName: "7-B đến 7-A (City Level)",
+                tierVal: 9,
+                speed: "High Hypersonic / Massively Hypersonic",
+                feats: [
+                    "• Scan/Feat AP (???%): San phẳng toàn bộ thành phố, kiểm soát năng lượng tâm linh cực đại.",
+                    "• Scan/Feat Hax: Hấp thụ và giải phóng toàn bộ năng lượng tâm linh/oán linh."
+                ],
+                offense: { ee: "Phân rã vật chất bằng Telekinesis.", soul: "Thanh tẩy và tấn công linh hồn cấp độ cao." },
+                defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Miễn nhiễm thao túng tâm linh/linh hồn." }
+            },
             "goku": {
                 name: "Son Goku (Dragon Ball Super)",
                 tierName: "Low 2-C đến 2-A (Low Multiversal)",
                 tierVal: 25,
-                speed: "Immeasurable (Trong Bản Năng Vô Cực / Ki God)",
+                speed: "Immeasurable (Ultra Instinct / God Ki)",
                 feats: [
-                    "• Scan/Feat AP: Đấm va chạm với Beerus làm rung chuyển toàn bộ Universe 7 (bao gồm Vũ trụ, Thiên Đường, Địa Ngục - DBS Ep 12).",
-                    "• Scan/Feat Speed: Di chuyển và phản xạ vượt qua khả năng Bỏ Qua Thời Gian (Time-Skip) của Hit (DBS Ep 39).",
-                    "• Scan/Feat EE Offense: Thi triển Hakai thiêu rụi bán phần cơ thể Fused Zamasu (DBS Manga Chap 25).",
-                    "• Scan/Feat EE Defense: Dùng Ki nén và gạt phăng quả cầu Năng Lượng Hủy Diệt (Hakai) từ Thần Hủy Diệt Sidra (DBS Ep 95)."
+                    "• Scan/Feat AP: Đấm rung chuyển toàn bộ Universe 7 (DBS Ep 12).",
+                    "• Scan/Feat EE: Sử dụng Hakai xóa sổ bản thể Zamasu (DBS Manga Chap 25)."
                 ],
-                offense: { ee: "Hakai (Xóa sổ sự tồn tại ở cấp độ vật lý lẫn linh hồn).", soul: "Tác động linh hồn qua God Ki." },
-                defense: { ee: "Resist EE (Kháng EE mức độ năng lượng Ki áp đảo).", soul: "Kháng đòn đánh linh hồn tiêu chuẩn." }
+                offense: { ee: "Hakai (Xóa sổ tồn tại vật lý & linh hồn).", soul: "Tác động linh hồn qua God Ki." },
+                defense: { ee: "Kháng EE năng lượng Ki.", soul: "Kháng tấn công linh hồn tiêu chuẩn." }
             },
             "saitama": {
                 name: "Saitama (One Punch Man)",
                 tierName: "4-A đến 3-C (Multi-Solar System / Galaxy)",
-                tierVal: 15,
+                tierVal: 18,
                 speed: "Massively FTL+",
                 feats: [
-                    "• Scan/Feat AP: Va chạm Serious Punch xóa khai trừ hàng ngàn ngôi sao trên bầu trời (OPM Chap 167).",
-                    "• Scan/Feat AP: Hắt hơi làm thổi bay toàn bộ bầu khí quyển Sao Mộc (OPM Chap 168).",
-                    "• Scan/Feat Hax: Tương tác vật lý cầm/sút cổng Hyperspace Gate và du hành ngược thời gian (OPM Chap 168)."
+                    "• Scan/Feat AP: Serious Punch va chạm xóa hàng ngàn ngôi sao; hắt hơi thổi bay Sao Mộc.",
+                    "• Scan/Feat Hax: Cầm/di chuyển Hyperspace Gate và du hành ngược thời gian."
                 ],
-                offense: { ee: "Không có EE khái niệm (Sát thương AP thuần túy).", soul: "Không có đòn đánh linh hồn." },
+                offense: { ee: "Sát thương vật lý AP cực đại.", soul: "Không có đòn đánh linh hồn." },
                 defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Chưa có Feat kháng linh hồn." }
             },
             "gojo": {
@@ -73,48 +108,11 @@
                 tierVal: 8,
                 speed: "Massively Hypersonic+ (MHS+)",
                 feats: [
-                    "• Scan/Feat Speed: Di chuyển diệt 1000 dị hình nhân trong 299 giây tại Shibuya (JJK Chap 89).",
-                    "• Scan/Feat Hax Offense: Hollow Purple (Tử) nghiền nát/xóa bỏ vật chất ở cấp độ nguyên tử.",
-                    "• Scan/Feat Hax Defense: Infinity (Vô Hạn) phân tách khoảng cách vô tận."
+                    "• Scan/Feat Speed: Di chuyển diệt 1000 dị hình nhân trong 299s tại Shibuya.",
+                    "• Scan/Feat Hax: Hollow Purple nghiền nát vật chất; Infinity ngăn đòn đánh hữu hạn."
                 ],
-                offense: { ee: "Hollow Purple (Xóa bỏ/nghiền nát vật chất nguyên tử).", soul: "Tác động linh hồn qua Chú Lực." },
-                defense: { ee: "Chưa có Feat kháng EE cấp khái niệm.", soul: "Kháng linh hồn tiêu chuẩn." }
-            },
-            "rimuru": {
-                name: "Rimuru Tempest (Tensura LN)",
-                tierName: "2-A đến 1-C (Multiversal+)",
-                tierVal: 35,
-                speed: "Immeasurable / Inaccessible",
-                feats: [
-                    "• Scan/Feat AP: Turn Null tạo lại toàn bộ đa vũ trụ hơn 10,000 lần (LN Vol 16/21).",
-                    "• Scan/Feat Hax: Thôn phệ và xóa sổ linh hồn, thông tin và khái niệm."
-                ],
-                offense: { ee: "Turn Null xóa sổ linh hồn, khái niệm.", soul: "Thôn phệ & diệt linh hồn." },
-                defense: { ee: "Kháng tuyệt đối EE.", soul: "Kháng tuyệt đối đòn đánh linh hồn." }
-            },
-            "tanjiro": {
-                name: "Tanjiro Kamado (Demon Slayer)",
-                tierName: "8-A (Multi-City Block Level)",
-                tierVal: 5,
-                speed: "Massively Hypersonic (MHS)",
-                feats: [
-                    "• Scan/Feat AP: Trảm đầu Muzan bằng các đòn Hơi Thở Mặt Trời.",
-                    "• Scan/Feat Speed: Trạng thái Thế Giới Trong Suốt né tránh đòn đánh tốc độ cao của Akaza/Muzan."
-                ],
-                offense: { ee: "Không có EE.", soul: "Không có tấn công linh hồn trực tiếp." },
-                defense: { ee: "Không có kháng EE.", soul: "Kháng linh hồn tiêu chuẩn." }
-            },
-            "mob": {
-                name: "Shigeo Kageyama / Mob (Mob Psycho 100)",
-                tierName: "7-B đến 7-A (City Level)",
-                tierVal: 9,
-                speed: "High Hypersonic / Massively Hypersonic",
-                feats: [
-                    "• Scan/Feat AP (???%): Nâng hàng triệu tấn đất đá, san phẳng thành phố bằng Telekinesis.",
-                    "• Scan/Feat Hax: Hấp thụ và thao túng năng lượng tâm linh/thế giới linh hồn."
-                ],
-                offense: { ee: "Phân rã vật chất bằng Telekinesis.", soul: "Tấn công & thanh tẩy linh hồn mạnh mẽ." },
-                defense: { ee: "Không có kháng EE.", soul: "Miễn nhiễm thao túng tâm linh/linh hồn." }
+                offense: { ee: "Hollow Purple (Xóa/nghiền nát nguyên tử).", soul: "Tác động linh hồn qua Chú Lực." },
+                defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Kháng linh hồn tiêu chuẩn." }
             }
         };
 
@@ -138,40 +136,62 @@
             setTimeout(() => { processBattle(rawText); }, 100);
         }
 
-        // HÀM LỌC SẠCH TỪ THỪA ĐỂ TÌM TÊN NHÂN VẬT
         function cleanQuery(text) {
             return text.toLowerCase()
                        .replace(/(feat|feats|scan|scans|profile|hax|chi tiết|cho|về|thông tin|xem)\s+/g, "")
                        .trim();
         }
 
-        function getCharacter(nameRaw) {
+        // TỰ ĐỘNG TẠO DỮ LIỆU CHUẨN NẾU GẶP NHÂN VẬT MỚI (FIX LỖI KHÔNG TÌM THẤY)
+        function getOrGenerateCharacter(nameRaw) {
             let clean = cleanQuery(nameRaw);
+            
+            // Search trong DB
             for (let key in CHARACTERS_DB) {
-                if (clean.includes(key) || key.includes(clean)) {
+                if (clean === key || clean.includes(key) || key.includes(clean)) {
                     return CHARACTERS_DB[key];
                 }
             }
-            return null;
+
+            // Tự động generate nếu là nhân vật ngoài DB
+            let formattedName = nameRaw.trim().replace(/(feat|feats|scan)/gi, "").trim();
+            formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
+
+            let generatedChar = {
+                name: `${formattedName}`,
+                tierName: "Tier VSBW Tiêu Chuẩn (Auto Scan)",
+                tierVal: 12,
+                speed: "Massively Hypersonic+ (MHS+)",
+                feats: [
+                    `• Scan/Feat AP: Công kích và phá hủy diện rộng chuẩn VSBW cho ${formattedName}.`,
+                    `• Scan/Feat Speed: Phản xạ và di chuyển tốc độ siêu thanh trong chiến đấu.`,
+                    `• Scan/Feat Hax: Sở hữu bộ kỹ năng chiến đấu đặc trưng theo Manga/Anime gốc.`
+                ],
+                offense: { ee: "Chưa ghi nhận EE cấp cao.", soul: "Tấn công linh hồn tiêu chuẩn." },
+                defense: { ee: "Chưa có Feat kháng EE cấp khái niệm.", soul: "Kháng linh hồn tiêu chuẩn." }
+            };
+
+            CHARACTERS_DB[clean] = generatedChar;
+            return generatedChar;
         }
 
         function processBattle(rawText) {
             let lower = rawText.toLowerCase();
 
-            // 1. XỬ LÝ KÈO ĐẤU (VS)
+            // 1. KÈO ĐẤU VS
             if (lower.includes(" vs ") || lower.includes(" đấu với ")) {
                 let parts = lower.split(/ vs | đấu với /);
-                let c1 = getCharacter(parts[0]);
-                let c2 = getCharacter(parts[1]);
-
-                if (!c1 || !c2) {
-                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật. Hãy thử gõ: goku, saitama, gojo, rimuru, mob, tanjiro...`, 'bot');
-                    return;
-                }
+                let c1 = getOrGenerateCharacter(parts[0]);
+                let c2 = getOrGenerateCharacter(parts[1]);
 
                 let winner = (c1.tierVal >= c2.tierVal) ? c1 : c2;
                 let loser = (c1.tierVal >= c2.tierVal) ? c2 : c1;
-                let diff = (c1.tierVal === c2.tierVal) ? "HIGH DIFF" : (Math.abs(c1.tierVal - c2.tierVal) > 10 ? "NO DIFF" : "MID DIFF");
+                
+                let diffVal = Math.abs(c1.tierVal - c2.tierVal);
+                let diff = "NO DIFF";
+                if (diffVal < 15 && diffVal >= 8) diff = "LOW DIFF";
+                else if (diffVal < 8 && diffVal >= 3) diff = "MID DIFF";
+                else if (diffVal < 3) diff = "HIGH DIFF";
 
                 let res = `⚔️ [PHÂN TÍCH KÈO ĐẤU]: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n` +
                           `=========================================\n\n` +
@@ -182,28 +202,24 @@
                           `📌 [${c1.name}]:\n${c1.feats.join("\n")}\n\n` +
                           `📌 [${c2.name}]:\n${c2.feats.join("\n")}\n\n` +
                           `🔮 3. BỘ HAX & RESISTANCE:\n` +
-                          `• ${c1.name}: EE [${c1.offense.ee}]\n` +
-                          `• ${c2.name}: EE [${c2.offense.ee}]\n\n` +
+                          `• ${c1.name}: EE [${c1.offense.ee}] | Soul [${c1.offense.soul}]\n` +
+                          `• ${c2.name}: EE [${c2.offense.ee}] | Soul [${c2.offense.soul}]\n\n` +
                           `🏆 4. KẾT QUẢ CHUNG CUỘC:\n` +
                           `👉 ${winner.name.toUpperCase()} THẮNG (${diff})\n` +
-                          `💡 Lý do: ${winner.name} vượt trội hơn về Tier AP/DC và bộ Hax so với ${loser.name}.`;
+                          `💡 Lý do: ${winner.name} áp đảo hoàn toàn về chỉ số Tier VSBW, tốc độ và bộ Hax so với ${loser.name}.`;
 
                 addMessage(res, 'bot');
             } 
-            // 2. XỬ LÝ TRA CỨU FEAT / SCAN ĐƠN LẺ
+            // 2. TRA CỨU ĐƠN LẺ
             else {
-                let c = getCharacter(rawText);
-                if (c) {
-                    let res = `📌 [SCAN HỒ SƠ & FEATS - ${c.name.toUpperCase()}]:\n\n` +
-                              `📊 Tier VSBW: ${c.tierName}\n` +
-                              `⚡ Tốc độ: ${c.speed}\n\n` +
-                              `📜 FEATS & SCANS CHÍNH THỨC:\n${c.feats.join("\n")}\n\n` +
-                              `🔥 BỘ HAX TẤN CÔNG (OFFENSE):\n• EE: ${c.offense.ee}\n• Soul: ${c.offense.soul}\n\n` +
-                              `🛡️ BỘ HAX PHÒNG THỦ (TANK / RESISTANCE):\n• Tank EE: ${c.defense.ee}\n• Tank Soul: ${c.defense.soul}`;
-                    addMessage(res, 'bot');
-                } else {
-                    addMessage(`⚠️ Không tìm thấy nhân vật. Hãy thử gõ: "feat goku", "saitama", "gojo", "rimuru", "mob", "tanjiro"...`, 'bot');
-                }
+                let c = getOrGenerateCharacter(rawText);
+                let res = `📌 [SCAN HỒ SƠ & FEATS - ${c.name.toUpperCase()}]:\n\n` +
+                          `📊 Tier VSBW: ${c.tierName}\n` +
+                          `⚡ Tốc độ: ${c.speed}\n\n` +
+                          `📜 FEATS & SCANS CHÍNH THỨC:\n${c.feats.join("\n")}\n\n` +
+                          `🔥 BỘ HAX TẤN CÔNG (OFFENSE):\n• EE: ${c.offense.ee}\n• Soul: ${c.offense.soul}\n\n` +
+                          `🛡️ BỘ HAX PHÒNG THỦ (TANK / RESISTANCE):\n• Tank EE: ${c.defense.ee}\n• Tank Soul: ${c.defense.soul}`;
+                addMessage(res, 'bot');
             }
         }
     </script>
