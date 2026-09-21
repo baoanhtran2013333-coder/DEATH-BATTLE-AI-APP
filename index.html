@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Death Battle Engine v2.0 - Extended Analysis</title>
+    <title>AI Death Battle Engine v2.1 - Full Database</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
         body { margin: 0; background-color: #0d1117; color: #c9d1d9; font-size: 13px; }
@@ -26,18 +26,16 @@
     <div class="container">
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 AI DEATH BATTLE ENGINE v2.0 (EXTENDED DATABASE)</span>
+                <span>🤖 AI DEATH BATTLE ENGINE v2.1 (EXPANDED DATABASE)</span>
                 <span style="color:#3fb950; font-size:12px">● READY (OFFLINE MODE)</span>
             </div>
             <div class="chat-messages" id="chatLogs">
-                <div class="msg bot">⚡ AI DEATH BATTLE v2.0 đã cập nhật thuật toán phân tích chuyên sâu!
+                <div class="msg bot">⚡ AI DEATH BATTLE v2.1 đã bổ sung đầy đủ dữ liệu cho Naruto và các nhân vật Shonen/Isekai!
 
-Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon Ball Main, Umineko, Shinza Bansho, Demon King Daimao, Type-Moon, Instant Death, Gurren Lagann, Tensura, Misfit, GOH, Solo Leveling, OPM, Bleach, Naruto, Boruto, OP, JJK, Fairy Tail, MHA, KNY...).
-
-👉 Nhập cú pháp so sánh (Ví dụ: "cc goku vs zeno", "featherine vs hajun", "anos vs rimuru", "saitama vs garou") hoặc gõ tên nhân vật để xem hồ sơ chi tiết!</div>
+Bây giờ bạn có thể nhập mọi kèo đấu như: "naruto vs sukuna", "naruto vs sasuke", "jin mori vs goku", "ichigo vs naruto", "saitama vs garou"...</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo đấu (VD: cc goku vs zeno) hoặc tên nhân vật..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="userInput" placeholder="Nhập kèo đấu (VD: naruto vs sukuna) hoặc tên nhân vật..." onkeydown="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()">Phân Tích 🚀</button>
             </div>
         </div>
@@ -49,311 +47,154 @@ Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon B
             // 1. BOUNDLESS / OUTERVERSAL TIERS
             // ==========================================
             "featherine": {
-                name: "Featherine Augustus Aurora (Umineko no Naku Koro ni)",
+                name: "Featherine Augustus Aurora (Umineko)",
                 verse: "Umineko Series",
-                tierName: "1-A đến High 1-A / Boundless (Outerversal+)",
+                tierName: "1-A đến High 1-A (Boundless)",
                 tierVal: 100,
-                speed: "Omnipresent / Irrelevant (Tồn tại ngoài cấu trúc thời gian)",
+                speed: "Omnipresent / Irrelevant",
                 feats: [
-                    "• City of Books Feat: Tồn tại ở tầng thực tại City of Books, nơi toàn bộ cấu trúc đa vũ trụ, vô hạn chiều không gian bên dưới chỉ là những cuốn sách hoặc tác phẩm sáng tác.",
-                    "• Plot Manipulation Feat: Sở hữu 'Quyền Tác Giả' (Author Authority). Mọi đòn đánh, kỹ năng hay số phận của đối thủ đều bị chuyển hóa thành dòng chữ trong kịch bản do cô điều khiển.",
-                    "• Conceptual Immortality Feat: Bất tử vượt trên mọi khái niệm sinh tử, sự sống và cái chết."
+                    "• City of Books Feat: Tồn tại ở tầng thực tại City of Books, nơi toàn bộ đa vũ trụ chỉ là những cuốn sách sáng tác.",
+                    "• Plot Manipulation Feat: Sở hữu Quyền Tác Giả. Chuyển hóa đòn đánh và số phận của đối thủ thành kịch bản do mình điều khiển."
                 ],
-                offense: {
-                    ee: "Ngừng viết kịch bản hoặc xóa bỏ nhân vật khỏi câu chuyện, khiến đối thủ biến mất khỏi thực tại.",
-                    soul: "Thao túng toàn bộ bản thể, linh hồn và khái niệm tồn tại của đối thủ mà không thể cản phá.",
-                    hax: "Plot Manipulation, Reality Warping, Concept Manipulation, Fate Control."
-                },
-                defense: {
-                    ee: "Miễn nhiễm tuyệt đối với mọi dạng Existence Erasure dưới tầng Outerversal.",
-                    soul: "Không thể bị tác động linh hồn do vượt trên khái niệm linh hồn thông thường.",
-                    hax: "Không thể tổn hại bởi các đòn đánh thuộc bất kỳ không gian chiều kích nào."
-                }
+                offense: { ee: "Ngừng viết kịch bản để xóa nhân vật khỏi câu chuyện.", soul: "Thao túng bản thể khái niệm.", hax: "Plot Manipulation, Reality Warping." },
+                defense: { ee: "Miễn nhiễm hoàn toàn đòn xóa sổ cấp thấp.", soul: "Vượt trên khái niệm linh hồn.", hax: "Bất tử tuyệt đối." }
             },
             "hajun": {
                 name: "Hajun (Shinza Bansho / Dies Irae)",
                 verse: "Shinza Bansho Series",
                 tierName: "1-A đến High 1-A (Taikioku Vô Hạn)",
                 tierVal: 99,
-                speed: "Irrelevant (Vượt trên mọi khái niệm vận tốc)",
+                speed: "Irrelevant",
                 feats: [
-                    "• Infinite Taikyoku Feat: Mang khối u Mazu bên trong bản thể, cung cấp lượng Taikyoku (Thái Cực) tăng trưởng vô hạn, áp đảo toàn bộ các Hadou God khác cộng lại.",
-                    "• Law Erasure Feat: Thi triển Thuật Thức Muten Sesshou (Vô Thiên Sát Tượng), áp đặt quy luật cá nhân để xóa bỏ toàn bộ quy luật sinh tồn của Universe.",
-                    "• Cosmic Supremacy Feat: Trực tiếp bóp nghẹt thực tại và thôn phệ vô số thế giới."
+                    "• Infinite Taikyoku Feat: Mang khối u Mazu cung cấp Taikyoku tăng trưởng vô hạn.",
+                    "• Law Erasure Feat: Thi triển Muten Sesshou áp đặt quy luật cá nhân để xóa bỏ quy luật tồn tại của Vũ Trụ."
                 ],
-                offense: {
-                    ee: "Dùng Taikyoku tuyệt đối để dập tắt và xóa bỏ khái niệm tồn tại của đối thủ.",
-                    soul: "Thôn phệ và nghiền nát toàn bộ linh hồn trong Cosmos.",
-                    hax: "Muten Sesshou (Xóa quy luật), Taikyoku Manipulation, Absolute Erasure."
-                },
-                defense: {
-                    ee: "Kháng hoàn toàn mọi chiêu thức xóa sổ khái niệm nhờ lượng Taikyoku vô hạn.",
-                    soul: "Bản thể Hadou God hoàn toàn bất xâm phạm trước các đòn tâm linh/linh hồn.",
-                    hax: "Áp đảo và vô hiệu hóa Hax của đối thủ bằng sự chênh lệch Taikyoku."
-                }
+                offense: { ee: "Dùng Taikyoku tuyệt đối dập tắt khái niệm tồn tại.", soul: "Thôn phệ linh hồn Cosmos.", hax: "Muten Sesshou, Law Erasure." },
+                defense: { ee: "Kháng xóa sổ khái niệm nhờ Taikyoku vô hạn.", soul: "Kháng tác động linh hồn.", hax: "Áp đảo Hax bằng Taikyoku." }
             },
             "akuto sai": {
-                name: "Akuto Sai (Demon King Daimao - Void Body)",
+                name: "Akuto Sai (Demon King Daimao - Void)",
                 verse: "Demon King Daimao",
                 tierName: "1-A / High 1-A (Outerversal)",
                 tierVal: 98,
                 speed: "Irrelevant",
-                feats: [
-                    "• Void Body Feat: Thức tỉnh bản thể Void Body, đứng ngoài và bao trùm lên toàn bộ cấu trúc Infinite Stories (Tầng câu chuyện vô hạn).",
-                    "• Law Creation Feat: Tự do thiết lập và xóa bỏ quy luật của toàn bộ các tầng thực tại bên dưới."
-                ],
-                offense: {
-                    ee: "Xóa bỏ đối thủ ở cấp độ cấu trúc câu chuyện và khái niệm.",
-                    soul: "Xóa sạch bản thể tâm linh.",
-                    hax: "Story/Narrative Manipulation, Law Manipulation."
-                },
-                defense: {
-                    ee: "Không thể bị tổn hại bởi bất kỳ đòn xóa sổ nào trong hệ thống Infinite Stories.",
-                    soul: "Bản thể Void vượt ngoài khái niệm tổn thương.",
-                    hax: "Miễn nhiễm Hax thực tại."
-                }
+                feats: ["• Void Body Feat: Bao trùm và đứng ngoài toàn bộ cấu trúc Infinite Stories."],
+                offense: { ee: "Xóa bỏ đối thủ ở cấp độ cấu trúc câu chuyện.", soul: "Xóa sạch bản thể tâm linh.", hax: "Story/Narrative Manipulation." },
+                defense: { ee: "Không thể bị tổn hại trong hệ thống Infinite Stories.", soul: "Bản thể Void vượt khái niệm tổn thương.", hax: "Miễn nhiễm Hax thực tại." }
             },
             "void shiki": {
-                name: "Void Shiki (Ryougi Shiki - Type-Moon / Fate)",
+                name: "Void Shiki (Type-Moon / Fate)",
                 verse: "Type-Moon Universe",
                 tierName: "1-A (Connected to Root)",
                 tierVal: 95,
                 speed: "Irrelevant",
-                feats: [
-                    "• Akasha Connection Feat: Kết nối trực tiếp và là đại diện của Root (Akasha) - nơi phát nguyên và lưu trữ toàn bộ khái niệm, dòng thời gian và chiều không gian.",
-                    "• Mystic Eyes Feat: Nhìn thấy 'Đường Chết' (Death Lines) của mọi vạn vật, khái niệm và sự tồn tại."
-                ],
-                offense: {
-                    ee: "Cắt vào Đường Chết để xóa sổ sự tồn tại hoặc khái niệm của đối thủ vĩnh viễn.",
-                    soul: "Cắt đứt linh hồn và nguyên lý sống.",
-                    hax: "Death Inducement, Concept Erasure via Root."
-                },
-                defense: {
-                    ee: "Bản thể hòa vào Cội Nguồn Akasha, không thể bị xóa bỏ.",
-                    soul: "Vượt trên khái niệm sinh tử vật lý và tâm linh.",
-                    hax: "Kháng toàn bộ Hax quy luật."
-                }
+                feats: ["• Root Connection Feat: Đại diện cho Root (Akasha) - cội nguồn của mọi nguyên lý và dòng thời gian."],
+                offense: { ee: "Cắt vào Đường Chết để xóa sổ sự tồn tại vĩnh viễn.", soul: "Cắt đứt nguyên lý sống.", hax: "Mystic Eyes of Death Perception." },
+                defense: { ee: "Đồng nhất với Cội Nguồn Akasha.", soul: "Vượt trên khái niệm sinh tử.", hax: "Kháng Hax quy luật." }
             },
             "yogiri": {
                 name: "Yogiri Takatou (Instant Death)",
-                verse: "My Instant Death Ability Is So Overpowered",
+                verse: "My Instant Death Ability",
                 tierName: "1-A (End of All Things)",
                 tierVal: 94,
                 speed: "Irrelevant",
-                feats: [
-                    "• Absolute Death Feat: Là hóa thân của 'Cái Chết Tuyệt Đối' (The End) trong Omniverse.",
-                    "• Passive Hazard Counter Feat: Tự động ban Cái Chết cho bất kỳ ai có sát ý hoặc có hành động gây hại, không cần kích hoạt chiêu thức."
-                ],
-                offense: {
-                    ee: "Bắt buộc đối thủ đi đến 'Cái Chết' bỏ qua mọi lớp kháng Hax, khiên bảo vệ và trạng thái bất tử.",
-                    soul: "Chết luôn linh hồn và khái niệm.",
-                    hax: "Passive Instant Death, Absolute End."
-                },
-                defense: {
-                    ee: "Cái Chết không thể bị giết hay xóa bỏ.",
-                    soul: "Vô hiệu hóa đòn đánh trước khi nó chạm vào bản thể.",
-                    hax: "Tự động phản phệ tử vong."
-                }
+                feats: ["• Absolute Death Feat: Là hóa thân của Cái Chết Tuyệt Đối (The End) trong Omniverse."],
+                offense: { ee: "Bắt buộc đối thủ đi đến Cái Chết bỏ qua mọi lớp bảo vệ.", soul: "Diệt sạch linh hồn.", hax: "Passive Instant Death." },
+                defense: { ee: "Cái Chết không thể bị giết.", soul: "Tự động phản phệ tử vong.", hax: "Bản năng phòng thủ tuyệt đối." }
             },
 
             // ==========================================
-            // 2. SUPER DRAGON BALL HEROES & DRAGON BALL
+            // 2. HIGH TIER GODS & MULTIVERSAL
             // ==========================================
             "mechika": {
                 name: "Mechikabura (SDBH - Dark Empire)",
                 verse: "Super Dragon Ball Heroes",
                 tierName: "Low 1-C đến 1-C (Complex Multiversal)",
                 tierVal: 42,
-                speed: "Immeasurable (Vượt dòng thời gian)",
-                feats: [
-                    "• Multiverse Absorption Feat: Thôn phệ toàn bộ cõi âm, các dòng thời gian và Multiverse để khôi phục trạng thái đỉnh cao.",
-                    "• History Erasure Feat: Xóa bỏ lịch sử các mốc thời gian, phong ấn năng lượng của Time Patrol."
-                ],
-                offense: {
-                    ee: "Xóa sổ dòng thời gian và không gian chứa đối thủ.",
-                    soul: "Hấp thụ linh hồn và năng lượng diện rộng.",
-                    hax: "Dark Factor, History Erasure, Magic Nullification."
-                },
-                defense: {
-                    ee: "Kháng xóa sổ không-thời gian và lịch sử.",
-                    soul: "Bất tử nhờ Dark Factor.",
-                    hax: "Phong ấn Hax ma thuật của đối phương."
-                }
+                speed: "Immeasurable",
+                feats: ["• Multiverse Absorption Feat: Thôn phệ toàn bộ cõi âm và các dòng thời gian."],
+                offense: { ee: "Xóa sổ dòng thời gian và không gian.", soul: "Hấp thụ linh hồn diện rộng.", hax: "Dark Factor, History Erasure." },
+                defense: { ee: "Kháng xóa sổ không-thời gian.", soul: "Bất tử Dark Factor.", hax: "Phong ấn ma thuật." }
             },
             "cc goku": {
-                name: "CC Goku (Super Dragon Ball Heroes - Universe Tree)",
+                name: "CC Goku (SDBH - Universe Tree)",
                 verse: "Super Dragon Ball Heroes",
                 tierName: "Low 1-C đến 1-C (Complex Multiversal)",
                 tierVal: 40,
                 speed: "Immeasurable",
-                feats: [
-                    "• Universe Tree Absorption Feat: Hấp thụ năng lượng Cây Vũ Trụ (Universe Tree) đánh bại Fu và Mechikabura.",
-                    "• Key Sword Mastery Feat: Sử dụng Key Sword vô hiệu hóa mọi Hax ma thuật và phong ấn thực tại."
-                ],
-                offense: {
-                    ee: "Thi triển Hakai cấp độ Đa Vũ Trụ / Không-thời gian.",
-                    soul: "Tác động và phá hủy linh hồn bằng God Ki nâng cấp.",
-                    hax: "Key Sword Nullification, Universe Tree Power, Hakai."
-                },
-                defense: {
-                    ee: "Kháng lại đòn xóa sổ lịch sử và dòng thời gian.",
-                    soul: "Lớp bảo vệ God Ki cực mạnh.",
-                    hax: "Kháng thao túng thời gian/không gian."
-                }
+                feats: ["• Universe Tree Feat: Hấp thụ năng lượng Cây Vũ Trụ đánh bại Fu và Mechikabura."],
+                offense: { ee: "Hakai cấp độ Đa Vũ Trụ.", soul: "Phá hủy linh hồn qua God Ki.", hax: "Key Sword Nullification, Hakai." },
+                defense: { ee: "Kháng xóa sổ lịch sử.", soul: "Lớp bảo vệ God Ki.", hax: "Kháng thao túng thời gian." }
             },
-            "xenogoku": {
-                name: "Xeno Goku (SDBH - Time Patrol)",
-                verse: "Super Dragon Ball Heroes",
-                tierName: "Low 1-C (Complex Multiversal)",
-                tierVal: 39,
-                speed: "Immeasurable",
-                feats: [
-                    "• Timeline Shatter Feat: Va chạm ở trạng thái SSJ4 Full Power làm nứt vỡ lịch sử và các dòng thời gian.",
-                    "• Demon God Sealing Feat: Dùng Key Sword phong ấn các Demon God."
-                ],
-                offense: {
-                    ee: "Đòn đánh phá hủy không-thời gian và Hakai.",
-                    soul: "Sát thương linh hồn qua Ki.",
-                    hax: "Key Sword Nullification, Time Patrol Ki."
-                },
-                defense: {
-                    ee: "Kháng bóp méo nhân quả và dòng thời gian.",
-                    soul: "Kháng thao túng tinh thần.",
-                    hax: "Kháng Hax quỷ giới."
-                }
-            },
-            "zeno": {
-                name: "Zeno (Dragon Ball Super - Canon)",
-                verse: "Dragon Ball Super",
-                tierName: "Low 2-C đến 2-A (Multiversal+)",
-                tierVal: 30,
-                speed: "N/A (Cần hộ vệ di chuyển, đòn đánh tức thì)",
-                feats: [
-                    "• Timeline Erase Feat: Trực tiếp xóa sạch toàn bộ Universe 12 và toàn bộ dòng thời gian Future Trunks (bao gồm Zamasu hòa làm một với không-thời gian) ở DBS Ep 67."
-                ],
-                offense: {
-                    ee: "Sử dụng Erase xóa sổ thể xác, linh hồn, không gian và dòng thời gian instantly.",
-                    soul: "Xóa sạch linh hồn không để lại dấu vết.",
-                    hax: "Absolute Erase (Canon DB)."
-                },
-                defense: {
-                    ee: "Miễn nhiễm với mọi đòn đánh sát thương trong vũ trụ.",
-                    soul: "Không thể tổn hại bởi Ki thông thường.",
-                    hax: "Bảo vệ bởi quy luật tối cao của DB."
-                }
-            },
-            "goku": {
-                name: "Son Goku (Dragon Ball Super - Ultra Instinct Manga)",
-                verse: "Dragon Ball Super",
-                tierName: "Low 2-C đến 2-A (Low Multiversal)",
-                tierVal: 25,
-                speed: "Immeasurable (Ultra Instinct tự động né)",
-                feats: [
-                    "• Shockwave Feat: Đấm va chạm Beerus tạo sóng xung kích đe dọa phá hủy Universe 7 (DBS Ep 12).",
-                    "• Manga Hakai Feat: Sao chép và thi triển Hakai phân rã Fused Zamasu (Manga Ch.25)."
-                ],
-                offense: {
-                    ee: "Thi triển Hakai xóa sổ thể chất và linh hồn.",
-                    soul: "Sát thương linh hồn qua God Ki.",
-                    hax: "Ultra Instinct, Hakai, God Ki."
-                },
-                defense: {
-                    ee: "Kháng EE cơ bản (Gạt phăng Hakai của Sidra - DBS Ep 95).",
-                    soul: "Kháng thao túng tâm linh.",
-                    hax: "Tự động né đòn nhờ UI."
-                }
-            },
-
-            // ==========================================
-            // 3. ISEKAI & HIGH HAX TIERS
-            // ==========================================
             "anos": {
-                name: "Anos Voldigoad (Misfit of Demon King Academy)",
+                name: "Anos Voldigoad (Misfit of Demon King)",
                 verse: "Ma Vương Viện",
-                tierName: "2-A đến 1-C (Multiversal+ đến Low Complex)",
+                tierName: "2-A đến 1-C (Multiversal+)",
                 tierVal: 38,
                 speed: "Immeasurable",
-                feats: [
-                    "• Venuzdonoa Feat: Ma Kiếm Venuzdonoa phủ định mọi logic, quy luật và lý lẽ của thế giới.",
-                    "• Source Regeneration Feat: Tự tái sinh thể xác lẫn linh hồn ngay cả khi Nguồn Gốc (Source) bị tiêu diệt hoàn toàn."
-                ],
-                offense: {
-                    ee: "Venuzdonoa xóa sổ lý lẽ, logic và Nguồn Gốc của đối thủ.",
-                    soul: "Tiêu diệt và thao túng Nguồn Gốc linh hồn.",
-                    hax: "Venuzdonoa Law Erasure, Logic Defiance, Egil Grone Angdroa."
-                },
-                defense: {
-                    ee: "Tự tái sinh Nguồn Gốc dù bị xóa sổ khỏi thực tại.",
-                    soul: "Miễn nhiễm đòn đánh linh hồn.",
-                    hax: "Bất tử Nguồn Gốc cấp độ cao."
-                }
+                feats: ["• Venuzdonoa Feat: Phủ định mọi logic, quy luật và lý lẽ của thế giới."],
+                offense: { ee: "Phá hủy lý lẽ và Nguồn Gốc đối thủ.", soul: "Tiêu diệt Nguồn Gốc linh hồn.", hax: "Venuzdonoa Law Erasure." },
+                defense: { ee: "Tự tái sinh Nguồn Gốc dù bị xóa sổ.", soul: "Kháng đòn linh hồn.", hax: "Bất tử Nguồn Gốc." }
             },
             "rimuru": {
-                name: "Rimuru Tempest (Tensura Light Novel)",
-                verse: "That Time I Got Reincarnated as a Slime",
+                name: "Rimuru Tempest (Tensura LN)",
+                verse: "Slime Tensura",
                 tierName: "2-A đến 1-C (Multiversal+)",
                 tierVal: 36,
                 speed: "Immeasurable",
-                feats: [
-                    "• Turn Null Feat: Sở hữu Turn Null (Hư Khống Chi Thần) chứa năng lượng đủ tái tạo/xóa bỏ hơn 10,000 đa vũ trụ.",
-                    "• Manas Ciel Feat: Ciel tự động phân tích, mô phỏng và vô hiệu hóa mọi kỹ năng của đối thủ."
-                ],
-                offense: {
-                    ee: "Turn Null thiêu rụi và xóa sổ thông tin/linh hồn.",
-                    soul: "Thôn phệ và lưu trữ linh hồn vào Azathoth.",
-                    hax: "Turn Null, Azathoth Consumption, Ciel Analysis, Information Manipulation."
-                },
-                defense: {
-                    ee: "Kháng tuyệt đối EE và thao túng khái niệm nhờ Ciel.",
-                    soul: "Hòa làm một với Ciel và không gian hư vô.",
-                    hax: "Vô hiệu hóa mọi chiêu thức đã được phân tích."
-                }
+                feats: ["• Turn Null Feat: Năng lượng Hư Khống đủ tạo ra/xóa bỏ 10,000+ đa vũ trụ."],
+                offense: { ee: "Turn Null thiêu rụi thông tin/linh hồn.", soul: "Thôn phệ linh hồn vào Azathoth.", hax: "Turn Null, Ciel Analysis." },
+                defense: { ee: "Kháng tuyệt đối EE nhờ Ciel.", soul: "Hòa làm một với không gian hư vô.", hax: "Vô hiệu hóa kỹ năng." }
+            },
+            "jin mori": {
+                name: "Jin Mori (God of Highschool - Supreme God)",
+                verse: "God of Highschool",
+                tierName: "2-C đến Low 2-B (Low Multiversal)",
+                tierVal: 32,
+                speed: "Immeasurable",
+                feats: ["• Nirvana Feat: Đạt trạng thái Niết Bàn (Nirvana), vượt thoát khỏi nhân quả và quy luật vũ trụ."],
+                offense: { ee: "Xóa bỏ sự tồn tại bằng sức mạnh Supreme God.", soul: "Tác động vạn vật.", hax: "Nirvana Concept, Reality Control." },
+                defense: { ee: "Kháng thao túng thực tại.", soul: "Thần thể bất diệt.", hax: "Đứng ngoài vòng nhân quả." }
+            },
+            "zeno": {
+                name: "Zeno (Dragon Ball Super)",
+                verse: "Dragon Ball Super",
+                tierName: "Low 2-C đến 2-A (Multiversal+)",
+                tierVal: 30,
+                speed: "N/A (Tức thì)",
+                feats: ["• Timeline Erase Feat: Xóa sạch toàn bộ vũ trụ và dòng thời gian Future Trunks."],
+                offense: { ee: "Erase xóa thể chất, linh hồn, không gian instantly.", soul: "Xóa sạch linh hồn.", hax: "Absolute Erase." },
+                defense: { ee: "Miễn nhiễm sát thương vũ trụ.", soul: "Không thể tổn hại.", hax: "Bảo vệ bởi quy luật DB." }
             },
             "sung jin woo": {
-                name: "Sung Jin-Woo (Solo Leveling - Shadow Monarch)",
+                name: "Sung Jin-Woo (Solo Leveling)",
                 verse: "Solo Leveling",
-                tierName: "Low 2-C đến 2-B (Shadow Monarch Full)",
+                tierName: "Low 2-C đến 2-B (Shadow Monarch)",
                 tierVal: 28,
-                speed: "Immeasurable (Trong World of Repose)",
-                feats: [
-                    "• World of Repose Feat: Kế thừa Ashborn, kiểm soát Lãnh Địa Cõi Chết (World of Repose) nơi nắm giữ khái niệm Cái Chết.",
-                    "• Shadow Army Feat: Triệu hồi hàng triệu Binh Đoàn Bóng Tối bất tử có thể tái sinh vô hạn."
-                ],
-                offense: {
-                    ee: "Thôn phệ tồn tại bằng Trái Tim Bóng Tối.",
-                    soul: "Trích xuất linh hồn đối thủ làm Shadow Soldier.",
-                    hax: "Shadow Extraction, Monarch Domain, Death Concept Manipulation."
-                },
-                defense: {
-                    ee: "Kháng xóa sổ khái niệm Shadow Monarch.",
-                    soul: "Thống trị cõi chết nên không thể bị tiêu diệt linh hồn.",
-                    hax: "Binh đoàn tái sinh làm lá chắn."
-                }
+                speed: "Immeasurable (trong World of Repose)",
+                feats: ["• World of Repose Feat: Kiểm soát Lãnh Địa Cõi Chết nắm giữ khái niệm Cái Chết."],
+                offense: { ee: "Thôn phệ bằng Trái Tim Bóng Tối.", soul: "Trích xuất linh hồn thành Shadow Soldier.", hax: "Shadow Extraction, Death Concept." },
+                defense: { ee: "Kháng xóa sổ khái niệm.", soul: "Thống trị cõi chết.", hax: "Binh đoàn bóng tối tái sinh." }
             },
-
-            // ==========================================
-            // 4. SHONEN TOP TIERS (BLEACH, OPM, BORUTO, JJK...)
-            // ==========================================
-            "saitama": {
-                name: "Saitama (One Punch Man)",
-                verse: "One Punch Man",
-                tierName: "4-A đến 3-C (Multi-Solar System / Galaxy Level)",
-                tierVal: 18,
-                speed: "Massively FTL+",
-                feats: [
-                    "• Serious Punch Square Feat: Va chạm Serious Punch với Garou tạo ra khoảng trống xóa sạch hàng ngàn ngôi sao trên bầu trời.",
-                    "• Physical Time Travel Feat: Du hành ngược thời gian và đảo ngược nhân quả bằng thể chất thuần túy."
-                ],
-                offense: {
-                    ee: "Sát thương thể chất cực đại phá hủy vật chất.",
-                    soul: "Chưa có sát thương linh hồn trực tiếp.",
-                    hax: "Exponential Growth, Time Travel via Physics Defiance, Reactive Adaptation."
-                },
-                defense: {
-                    ee: "Độ bền thể chất không có giới hạn dưới tầng vật lý.",
-                    soul: "Chưa có Feat kháng Hax linh hồn/khái niệm.",
-                    hax: "Kháng sát thương vật lý tuyệt đối."
-                }
+            "shibai": {
+                name: "Shibai Ōtsutsuki (Boruto)",
+                verse: "Boruto",
+                tierName: "Low 2-C đến 2-B (Low Multiversal)",
+                tierVal: 27,
+                speed: "Immeasurable",
+                feats: ["• Ascension Feat: Tiến hóa thành Thần ở không gian chiều cao, tạo ra Omnipotence."],
+                offense: { ee: "Phản chiếu đòn đánh và sát ý.", soul: "Thao túng thực tại toàn cầu.", hax: "Shinjutsu, Reflection, Omnipotence." },
+                defense: { ee: "Tồn tại ở không gian chiều cao.", soul: "Không có thể xác vật lý.", hax: "Phản chiếu đòn đánh tự động." }
+            },
+            "goku": {
+                name: "Son Goku (Dragon Ball Super - UI Manga)",
+                verse: "Dragon Ball Super",
+                tierName: "Low 2-C đến 2-A (Low Multiversal)",
+                tierVal: 25,
+                speed: "Immeasurable",
+                feats: ["• Manga Hakai Feat: Sao chép và thi triển Hakai phân rã Fused Zamasu."],
+                offense: { ee: "Hakai xóa sổ thể chất và linh hồn.", soul: "Sát thương linh hồn qua God Ki.", hax: "Ultra Instinct, Hakai." },
+                defense: { ee: "Kháng EE cơ bản.", soul: "Kháng thao túng tâm linh.", hax: "Tự động phản xạ né đòn." }
             },
             "yhwach": {
                 name: "Yhwach (Bleach - Almighty)",
@@ -361,41 +202,95 @@ Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon B
                 tierName: "Low 2-C (Low Multiversal)",
                 tierVal: 24,
                 speed: "FTL+",
+                feats: ["• The Almighty Feat: Nhìn thấy và trực tiếp viết lại các tương lai song song."],
+                offense: { ee: "Viết lại tương lai để bẻ gãy đòn đánh/sát hại đối thủ.", soul: "Thôn phệ linh hồn.", hax: "The Almighty Future Alteration." },
+                defense: { ee: "Hồi sinh bằng cách viết lại tương lai bị chết.", soul: "Vô hiệu hóa sức mạnh đã nhìn thấy.", hax: "Future Immunity." }
+            },
+
+            // ==========================================
+            // 3. SHONEN & LOW-MID TIERS (NARUTO, SUKUNA, SAITAMA...)
+            // ==========================================
+            "saitama": {
+                name: "Saitama (One Punch Man)",
+                verse: "One Punch Man",
+                tierName: "4-A đến 3-C (Multi-Solar System)",
+                tierVal: 18,
+                speed: "Massively FTL+",
+                feats: ["• Serious Punch Square Feat: Va chạm đấm xóa sạch hàng ngàn ngôi sao."],
+                offense: { ee: "Sát thương thể chất cực đại.", soul: "Chưa có sát thương linh hồn.", hax: "Exponential Growth, Time Travel." },
+                defense: { ee: "Độ bền thể chất không giới hạn.", soul: "Chưa có kháng Hax linh hồn.", hax: "Kháng sát thương vật lý." }
+            },
+            "garou": {
+                name: "Cosmic Fear Garou (One Punch Man)",
+                verse: "One Punch Man",
+                tierName: "4-A (Multi-Solar System)",
+                tierVal: 17,
+                speed: "Massively FTL+",
+                feats: ["• Cosmic Radiation Feat: Bức xạ vũ trụ diệt vong sự sống, sao chép đòn đánh Saitama."],
+                offense: { ee: "Nuclear Fission & Gamma Ray Burst.", soul: "Sát thương bức xạ.", hax: "All Power Flow, Mode Copy." },
+                defense: { ee: "Thể chất Cosmic Bất Hoại.", soul: "Kháng đòn thông thường.", hax: "Copy năng lực đối thủ." }
+            },
+            "naruto": {
+                name: "Naruto Uzumaki (Baryon Mode / Six Paths)",
+                verse: "Naruto / Boruto",
+                tierName: "5-B đến 5-A (Planet Level / Moon Level)",
+                tierVal: 11,
+                speed: "FTL (Faster Than Light)",
                 feats: [
-                    "• The Almighty Feat: Nhìn thấy toàn bộ các tương lai song song và trực tiếp can thiệp/viết lại tương lai theo ý muốn.",
-                    "• Soul King Merger Feat: Hấp thụ Soul King đủ sức mạnh gộp Tam Giới (Soul Society, Hueco Mundo, Nhân Giới) làm một."
+                    "• Light Speed Dodge Feat: Né đòn chùm tia sáng Raiton Kōhei của Madara Rikudō ở khoảng cách gần.",
+                    "• Baryon Mode Life Drain Feat: Dùng Baryon Mode rút ngắn trực tiếp tuổi thọ của Isshiki Ōtsutsuki qua mỗi cú đấm chạm phải.",
+                    "• Truth-Seeking Ball Feat: Thao túng 9 Cầu Đạo Ngọc (TDB) phân rã mọi Chakra và vật chất ở cấp độ nguyên tử."
                 ],
                 offense: {
-                    ee: "Viết lại tương lai để bẻ gãy đòn đánh hoặc sát hại đối thủ.",
-                    soul: "Thôn phệ linh hồn và Reiatsu.",
-                    hax: "The Almighty Future Alteration, Soul Absorption."
+                    ee: "Cầu Đạo Ngọc (Truth-Seeking Ball) phân rã vật chất và triệt tiêu kỹ năng.",
+                    soul: "Sát thương linh hồn qua Senjutsu và Chakra Cửu Vĩ.",
+                    hax: "Baryon Mode Life Drain, Truth-Seeking Balls, Rasenshuriken, Kurama Link."
                 },
                 defense: {
-                    ee: "Hồi sinh bản thân bằng cách viết lại tương lai mà mình bị chết.",
-                    soul: "Vô hiệu hóa mọi sức mạnh mình đã nhìn thấy trong tương lai.",
-                    hax: "Future Immunity."
+                    ee: "Kháng đòn đánh Chakra tiêu chuẩn.",
+                    soul: "Được bảo vệ bởi linh hồn Kurama bên trong.",
+                    hax: "Tự phục hồi cực nhanh nhờ tế bào Hashirama/Cửu Vĩ."
                 }
             },
-            "shibai": {
-                name: "Shibai Ōtsutsuki (Boruto)",
-                verse: "Boruto: Naruto Next Generations",
-                tierName: "Low 2-C đến 2-B (Low Multiversal - God)",
-                tierVal: 27,
-                speed: "Immeasurable",
-                feats: [
-                    "• Ascension Feat: Tiến hóa qua vô số lần ăn Trái Chakra, bỏ lại thể xác vật lý để trở thành Thần ở không gian chiều cao.",
-                    "• Shinjutsu Creation Feat: Nguồn gốc của mọi Thần Thuật (Shinjutsu) như Phản Chiếu Đòn Đánh (Reflection) và Omnipotence (Toàn Năng)."
-                ],
-                offense: {
-                    ee: "Tự động phản chiếu mọi ý định tấn công và sát ý của đối thủ.",
-                    soul: "Thao túng ký ức và thực tại toàn thế giới qua Omnipotence.",
-                    hax: "Shinjutsu, Reflection, Omnipotence, Reality Alteration."
-                },
-                defense: {
-                    ee: "Tồn tại ở không gian chiều cao không thể chạm tới.",
-                    soul: "Không có thể xác vật lý.",
-                    hax: "Phản chiếu đòn đánh tự động."
-                }
+            "sasuke": {
+                name: "Sasuke Uchiha (Rinnegan Full Power)",
+                verse: "Naruto",
+                tierName: "5-B đến 5-A (Planet Level)",
+                tierVal: 10,
+                speed: "FTL",
+                feats: ["• Amenotejikara Feat: Hoán đổi vị trí không gian tức thời, triệu hồi Chibaku Tensei phong ấn Vĩ Thú."],
+                offense: { ee: "Amaterasu thiêu rụi không tắt, Indra's Arrow.", soul: "Rút linh hồn qua Nhân Đạo Rinnegan.", hax: "Amenotejikara, Genjutsu, Rinnegan Absorption." },
+                defense: { ee: "Susanoo Giáp Vĩnh Cửu.", soul: "Kháng Genjutsu/Tâm linh tuyệt đối.", hax: "Hoán đổi không gian né đòn." }
+            },
+            "madara": {
+                name: "Madara Uchiha (Rikudō Six Paths)",
+                verse: "Naruto",
+                tierName: "5-B đến 5-A (Planet Level)",
+                tierVal: 10,
+                speed: "FTL",
+                feats: ["• Infinite Tsukuyomi Feat: Chiếu Mộc Độn và Ảo Thuật Vĩnh Cửu lên toàn thể nhân loại Trái Đất."],
+                offense: { ee: "Cầu Đạo Ngọc phân rã.", soul: "Chiêu mộ Rinnegan rút linh hồn.", hax: "Infinite Tsukuyomi, Limbo Hengoku." },
+                defense: { ee: "Thân thể Thần Cây tái sinh vô hạn.", soul: "Kháng ảo thuật.", hax: "Limbo phân thân không gian song song." }
+            },
+            "ichigo": {
+                name: "Ichigo Kurosaki (Bleach - True Bankai)",
+                verse: "Bleach",
+                tierName: "5-A đến 6-A (Multi-Continent / Planet)",
+                tierVal: 12,
+                speed: "FTL+",
+                feats: ["• Yhwach Fear Feat: True Bankai sở hữu sức mạnh sát thương khiến Yhwach Almighty phải e sợ và bẻ gẫy ở tương lai."],
+                offense: { ee: "Getsuga Tensho nén Reiatsu mật độ cao.", soul: "Đòn chém linh hồn trực tiếp (Trảm Hồn Kiếm).", hax: "True Bankai, Hollowfication, Quincy Power." },
+                defense: { ee: "Blut Vene gia tăng độ bền.", soul: "Bản thể Linh Hồn thuần túy.", hax: "Tốc độ và Reiatsu áp đảo." }
+            },
+            "luffy": {
+                name: "Monkey D. Luffy (One Piece - Gear 5)",
+                verse: "One Piece",
+                tierName: "6-A (Continental / Multi-Continent)",
+                tierVal: 9,
+                speed: "FTL (Faster Than Light)",
+                feats: ["• Bajrang Gun Feat: Tung cú đấm khổng lồ bọc Haki Bá Vương đấm chìm Kaido xuống lòng đất."],
+                offense: { ee: "Haki Bá Vương Cấp Cao sát thương nội tạng từ bên trong.", soul: "Chưa có sát thương linh hồn.", hax: "Gear 5 Cartoon Reality Warping, Rubberization." },
+                defense: { ee: "Cơ thể cao su biến đổi môi trường.", soul: "Ý chí Bá Vương kháng đòn tâm lý.", hax: "Tự do biến đổi hình dạng." }
             },
             "sukuna": {
                 name: "Ryomen Sukuna (Jujutsu Kaisen - True Form)",
@@ -404,19 +299,11 @@ Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon B
                 tierVal: 8,
                 speed: "Massively Hypersonic+",
                 feats: [
-                    "• World Slash Feat: Học theo Mahoraga thi triển World Cutting Slash - chém đứt tọa độ không gian, chia cắt Gojo Satoru (JJK Ch.236).",
+                    "• World Slash Feat: Chém đứt tọa độ không gian chia cắt Gojo Satoru (JJK Ch.236).",
                     "• Malevolent Shrine Feat: Bành Trướng Lãnh Địa san bằng 200m bán kính Shibuya."
                 ],
-                offense: {
-                    ee: "Thế Giới Trảm cắt đứt không gian/tọa độ thực tại.",
-                    soul: "Nhận biết cấu trúc linh hồn và chém linh hồn trực tiếp.",
-                    hax: "World Cutting Slash, Malevolent Shrine, Soul Awareness."
-                },
-                defense: {
-                    ee: "Không có khả năng kháng xóa sổ khái niệm.",
-                    soul: "Bảo vệ linh hồn bằng sự áp đảo Chú Lực.",
-                    hax: "Phục Hồi Chú Thuật (RCT)."
-                }
+                offense: { ee: "Thế Giới Trảm cắt đứt không gian/tọa độ.", soul: "Chém linh hồn trực tiếp.", hax: "World Cutting Slash, Malevolent Shrine." },
+                defense: { ee: "Không có kháng xóa sổ khái niệm.", soul: "Bảo vệ linh hồn bằng Chú Lực.", hax: "Phục Hồi Chú Thuật (RCT)." }
             },
             "gojo": {
                 name: "Gojo Satoru (Jujutsu Kaisen)",
@@ -425,19 +312,11 @@ Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon B
                 tierVal: 8,
                 speed: "Massively Hypersonic+",
                 feats: [
-                    "• Infinity Feat: Bành trướng Vô Hạ Hạn phân tách khoảng cách vô tận xung quanh cơ thể.",
-                    "• Unlimited Void Feat: Nhồi vô hạn thông tin vào não bộ đối thủ làm tê liệt thần kinh."
+                    "• Infinity Feat: Bành trướng Vô Hạ Hạn phân tách khoảng cách vô tận.",
+                    "• Unlimited Void Feat: Nhồi vô hạn thông tin làm tê liệt não bộ đối thủ."
                 ],
-                offense: {
-                    ee: "Hollow Purple (Tử) xóa bỏ vật chất nguyên tử.",
-                    soul: "Tác động thông tin não bộ qua Unlimited Void.",
-                    hax: "Infinity, Hollow Purple, Unlimited Void."
-                },
-                defense: {
-                    ee: "Vô Hạ Hạn ngăn chặn mọi đòn đánh có vận tốc hữu hạn.",
-                    soul: "Kháng tác động tinh thần tiêu chuẩn.",
-                    hax: "Lá chắn Vô Hạ Hạn tự động."
-                }
+                offense: { ee: "Hollow Purple xóa bỏ vật chất nguyên tử.", soul: "Nhồi thông tin qua Unlimited Void.", hax: "Infinity, Hollow Purple." },
+                defense: { ee: "Vô Hạ Hạn chặn đòn có vận tốc.", soul: "Kháng tác động tinh thần tiêu chuẩn.", hax: "Lá chắn Vô Hạ Hạn." }
             }
         };
 
@@ -487,7 +366,7 @@ Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon B
                 let c2 = getCharacter(parts[1]);
 
                 if (!c1 || !c2) {
-                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Vui lòng thử các tên chuẩn: featherine, hajun, akuto sai, void shiki, yogiri, mechika, cc goku, xenogoku, zeno, goku, anos, rimuru, sung jin woo, saitama, yhwach, shibai, sukuna, gojo...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy 1 trong 2 nhân vật! Thử các tên: naruto, sasuke, madara, sukuna, gojo, luffy, ichigo, saitama, garou, goku, cc goku, zeno, anos, rimuru, sung jin woo, jin mori, yhwach...`, 'bot');
                     return;
                 }
 
@@ -527,13 +406,13 @@ Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon B
                           `  - Phòng thủ / Kháng: ${c2.defense.ee} | ${c2.defense.hax}\n\n` +
 
                           `🎬 IV. KỊCH BẢN GIẢ ĐỊNH DIỄN BIẾN TRẬN ĐẤU:\n` +
-                          `1. Khởi động: Hai bên bước vào giao tranh. Cấp độ không gian/chiều kích (Dimensionality) và Tốc độ di chuyển sẽ quyết định ai có quyền ra đòn trước.\n` +
-                          `2. Va chạm Hax: ${winner.name} sử dụng hệ thống Hax đặc trưng (${winner.offense.hax}) để áp chế. ${loser.name} cố gắng phòng thủ bằng (${loser.defense.hax}).\n` +
-                          `3. Dứt điểm: Do sự chênh lệch về ${diffVal > 15 ? "cấp độ Tiering VSBW và chiều không gian quá lớn" : "bản chất Hax và khả năng bóp méo quy luật"}, ${loser.name} không thể chống đỡ đòn đánh xóa sổ của đối phương.\n\n` +
+                          `1. Tốc độ & Tiếp cận: ${c1.speed.includes("FTL") && !c2.speed.includes("FTL") ? c1.name + " sở hữu tốc độ vượt trội hoàn toàn về phản xạ và di chuyển." : c2.speed.includes("FTL") && !c1.speed.includes("FTL") ? c2.name + " làm chủ trận đấu nhờ tốc độ nhanh hơn." : "Cả hai có tốc độ tương đương nhau khi nhập cuộc."}\n` +
+                          `2. Va chạm Hax: ${winner.name} sử dụng hệ thống Hax áp đảo (${winner.offense.hax}). ${loser.name} nỗ lực chống đỡ bằng (${loser.defense.hax}).\n` +
+                          `3. Dứt điểm: Do chênh lệch về ${diffVal >= 3 ? "cấp độ Tier sức mạnh và quy mô phá hủy (AP/DC)" : "tốc độ và cơ chế khắc chế đòn đánh"}, ${loser.name} hoàn toàn thất thế và nhận thất bại.\n\n` +
 
                           `🏆 V. KẾT LUẬN CHUNG CUỘC:\n` +
                           `👉 NGUYÊN NHÂN THẮNG: ${winner.name.toUpperCase()} THẮNG (${diff})\n` +
-                          `💡 LÝ DO CHI TIẾT: ${winner.name} vượt trội về ${winner.tierName} so với ${loser.tierName} của ${loser.name}. Mọi bộ Hax tấn công của ${loser.name} đều bị vô hiệu hóa hoặc không thể vươn tới cấp độ chiều kích của ${winner.name}.`;
+                          `💡 LÝ DO CHI TIẾT: ${winner.name} nằm ở mức ${winner.tierName}, áp đảo về ${winner.tierVal > loser.tierVal ? "chỉ số thể chất, AP và Hax" : "kỹ năng và tốc độ"} so với ${loser.tierName} của ${loser.name}.`;
 
                 addMessage(res, 'bot');
             } 
@@ -557,7 +436,7 @@ Cơ sở dữ liệu tích hợp đủ Top Tier của 22+ Verses (SDBH, Dragon B
                               `• Cơ chế phòng thủ: ${c.defense.hax}`;
                     addMessage(res, 'bot');
                 } else {
-                    addMessage(`⚠️ Không tìm thấy nhân vật. Hãy thử gõ tên chuẩn: "cc goku", "featherine", "hajun", "anos", "rimuru", "sung jin woo", "saitama", "yhwach", "sukuna"...`, 'bot');
+                    addMessage(`⚠️ Không tìm thấy nhân vật. Vui lòng nhập các tên quen thuộc như: naruto, sasuke, madara, sukuna, gojo, luffy, ichigo, saitama, goku, anos, rimuru, sung jin woo...`, 'bot');
                 }
             }
         }
