@@ -14,9 +14,11 @@
         .msg { padding: 12px; border-radius: 8px; max-width: 95%; word-break: break-word; }
         .msg.bot { background: #161b22; border: 1px solid #30363d; color: #e6edf3; }
         .msg.user { background: #238636; color: #fff; align-self: flex-end; }
+        .msg.loading { background: #21262d; color: #8b949e; font-style: italic; }
         .chat-input-area { display: flex; padding: 8px; background: #161b22; border-top: 1px solid #30363d; gap: 8px; }
         input { flex: 1; padding: 10px; background: #0d1117; border: 1px solid #30363d; color: #fff; border-radius: 6px; outline: none; }
         button { padding: 10px 16px; background: #da3633; border: none; color: #fff; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        button:disabled { background: #484f58; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -25,203 +27,106 @@
         <div class="chat-section">
             <div class="chat-header">
                 <span>🤖 AI DEATH BATTLE ENGINE</span>
-                <span style="color:#3fb950">● ONLINE</span>
+                <span id="status" style="color:#3fb950">● ONLINE</span>
             </div>
             <div class="chat-messages" id="chatLogs">
-                <!-- ĐÃ SỬA THÀNH AI DEATH BATTLE THEO YÊU CẦU -->
-                <div class="msg bot">⚡ AI DEATH BATTLE đã sẵn sàng! Nhập MỌI nhân vật (Sung Jin Woo, Goku, Mob, Naruto, Saitama...) đều sẽ có Feat & Scan chuẩn xác.</div>
+                <div class="msg bot">⚡ AI DEATH BATTLE đã sẵn sàng! Nhập MỌI nhân vật (Sung Jin Woo, Goku, Mob, Naruto, Luffy, Saitama...) - AI sẽ tra cứu & phân tích Full Feats, Scans, Tier VSBW chính xác 100%.</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Nhập kèo (sung jin woo vs mob, goku vs saitama...)" onkeydown="if(event.key==='Enter') sendMessage()">
-                <button onclick="sendMessage()">Phân Tích 🚀</button>
+                <input type="text" id="userInput" placeholder="Nhập kèo (naruto vs luffy, sung jin woo vs mob...)" onkeydown="if(event.key==='Enter') sendMessage()">
+                <button id="sendBtn" onclick="sendMessage()">Phân Tích AI 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // CƠ SỞ DỮ LIỆU CÁC NHÂN VẬT PHỔ BIẾN
-        const CHARACTERS_DB = {
-            "sung jin woo": {
-                name: "Sung Jin-Woo (Solo Leveling)",
-                tierName: "Low 2-C đến 2-B (Low Multiversal / Shadow Monarch)",
-                tierVal: 28,
-                speed: "Immeasurable (Sovereign Form / World of Repose)",
-                feats: [
-                    "• Scan/Feat AP: Tiếp nhận trọn vẹn sức mạnh Shadow Monarch, đánh bại các Monarch khác và thao túng không-thời gian trong World of Repose.",
-                    "• Scan/Feat Speed: Di chuyển và phản xạ trong chiều không gian vĩnh hằng không bị ràng buộc bởi thời gian thực.",
-                    "• Scan/Feat Army: Triệu hồi và chỉ huy hàng triệu Binh Đoàn Bóng Tối bất tử (Shadow Army)."
-                ],
-                offense: { ee: "Khái niệm Cái Chết & Thôn phệ sự tồn tại bằng Trái Tim Bóng Tối.", soul: "Trích xuất, thao túng và nô dịch linh hồn tuyệt đối." },
-                defense: { ee: "Kháng hoàn toàn xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Miễn nhiễm tuyệt đối với thao túng linh hồn." }
-            },
-            "jinwoo": {
-                name: "Sung Jin-Woo (Solo Leveling)",
-                tierName: "Low 2-C đến 2-B (Low Multiversal / Shadow Monarch)",
-                tierVal: 28,
-                speed: "Immeasurable (Sovereign Form / World of Repose)",
-                feats: [
-                    "• Scan/Feat AP: Tiếp nhận trọn vẹn sức mạnh Shadow Monarch, đánh bại các Monarch khác và thao túng không-thời gian trong World of Repose.",
-                    "• Scan/Feat Speed: Di chuyển và phản xạ trong chiều không gian vĩnh hằng không bị ràng buộc bởi thời gian thực.",
-                    "• Scan/Feat Army: Triệu hồi và chỉ huy hàng triệu Binh Đoàn Bóng Tối bất tử (Shadow Army)."
-                ],
-                offense: { ee: "Khái niệm Cái Chết & Thôn phệ sự tồn tại bằng Trái Tim Bóng Tối.", soul: "Trích xuất, thao túng và nô dịch linh hồn tuyệt đối." },
-                defense: { ee: "Kháng hoàn toàn xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Miễn nhiễm tuyệt đối với thao túng linh hồn." }
-            },
-            "mob": {
-                name: "Shigeo Kageyama / Mob (Mob Psycho 100)",
-                tierName: "7-B đến 7-A (City Level)",
-                tierVal: 9,
-                speed: "High Hypersonic / Massively Hypersonic",
-                feats: [
-                    "• Scan/Feat AP (???%): Nâng hàng triệu tấn đất đá, san phẳng toàn bộ thành phố bằng siêu năng lực (Psychokinesis).",
-                    "• Scan/Feat Hax: Hấp thụ và giải phóng toàn bộ năng lượng tâm linh/oán linh quy mô lớn.",
-                    "• Scan/Feat Barrier: Lớp màng tâm linh chịu đựng các đòn phá hủy công trình/thành phố."
-                ],
-                offense: { ee: "Không có EE thuần túy (Phân rã vật chất bằng Telekinesis).", soul: "Tấn công và thanh tẩy Linh Hồn/Tâm linh mạnh mẽ." },
-                defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Kháng/Miễn nhiễm thao túng tâm linh và linh hồn cấp cao." }
-            },
-            "goku": {
-                name: "Son Goku (Dragon Ball Super)",
-                tierName: "Low 2-C đến 2-A (Low Multiversal)",
-                tierVal: 25,
-                speed: "Immeasurable (Ultra Instinct / God Ki)",
-                feats: [
-                    "• Scan/Feat AP: Đấm va chạm với Beerus làm rung chuyển toàn bộ Universe 7 (DBS Ep 12).",
-                    "• Scan/Feat Speed: Di chuyển và phản xạ vượt qua khả năng Bỏ Qua Thời Gian (Time-Skip) của Hit (DBS Ep 39).",
-                    "• Scan/Feat EE: Thi triển Hakai thiêu rụi bán phần cơ thể Fused Zamasu (DBS Manga Chap 25)."
-                ],
-                offense: { ee: "Hakai (Xóa sổ tồn tại cấp độ vật lý lẫn linh hồn).", soul: "Tác động linh hồn qua God Ki." },
-                defense: { ee: "Kháng EE (Gạt phăng quả cầu Hakai từ Thần Hủy Diệt Sidra - DBS Ep 95).", soul: "Kháng đòn đánh linh hồn tiêu chuẩn." }
-            },
-            "saitama": {
-                name: "Saitama (One Punch Man)",
-                tierName: "4-A đến 3-C (Multi-Solar System / Galaxy)",
-                tierVal: 18,
-                speed: "Massively FTL+",
-                feats: [
-                    "• Scan/Feat AP: Serious Punch va chạm Garou xóa hàng ngàn ngôi sao; hắt hơi thổi bay Sao Mộc (OPM Chap 167-168).",
-                    "• Scan/Feat Hax: Tương tác vật lý cầm/di chuyển Hyperspace Gate và du hành ngược thời gian (OPM Chap 168)."
-                ],
-                offense: { ee: "Không có EE khái niệm (Sát thương AP thuần túy cực đại).", soul: "Không có đòn đánh linh hồn." },
-                defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Chưa có Feat kháng linh hồn." }
-            },
-            "gojo": {
-                name: "Gojo Satoru (Jujutsu Kaisen)",
-                tierName: "7-A (City Level)",
-                tierVal: 8,
-                speed: "Massively Hypersonic+ (MHS+)",
-                feats: [
-                    "• Scan/Feat Speed: Di chuyển tiêu diệt 1000 dị hình nhân trong 299 giây tại Shibuya (JJK Chap 89).",
-                    "• Scan/Feat Hax Offense: Hollow Purple (Tử) nghiền nát/xóa bỏ vật chất ở cấp độ nguyên tử; Unlimited Void tràn vô hạn thông tin.",
-                    "• Scan/Feat Hax Defense: Infinity (Vô Hạn) phân tách khoảng cách, chặn đòn đánh vận tốc hữu hạn."
-                ],
-                offense: { ee: "Hollow Purple (Xóa bỏ/nghiền nát vật chất nguyên tử).", soul: "Tác động linh hồn qua Chú Lực." },
-                defense: { ee: "Chưa có Feat kháng EE cấp khái niệm.", soul: "Kháng linh hồn tiêu chuẩn." }
-            }
-        };
+        // 🔑 Dán Gemini API Key của bạn vào giữa 2 dấu ngoặc kép bên dưới:
+        const API_KEY = "YOUR_GEMINI_API_KEY";
 
-        function addMessage(text, type) {
+        const SYSTEM_PROMPT = `Bạn là AI DEATH BATTLE ENGINE chuyên phân tích sức mạnh nhân vật Anime/Manga/Comic theo chuẩn VSBW (Vs Battles Wiki).
+Nhiệm vụ: Cung cấp FEAT, SCAN, HAX CHI TIẾT CỤ THỂ TỪ MANGA/ANIME NGUYÊN TÁC. KHÔNG ĐƯỢC NÓI CHUNG CHUNG.
+
+Định dạng trả về bắt buộc:
+
+⚔️ [PHÂN TÍCH KÈO ĐẤU]: A VS B
+=========================================
+
+📊 1. THÔNG SỐ VSBW:
+• [Tên A]: Tier [Tier cụ thể] | Speed [Speed cụ thể]
+• [Tên B]: Tier [Tier cụ thể] | Speed [Speed cụ thể]
+
+📜 2. FEATS & SCANS NỔI BẬT:
+📌 [Tên A]:
+• Scan/Feat AP: (Nêu rõ sự kiện/chương/tập cụ thể trong manga/anime)
+• Scan/Feat Speed: (Nêu rõ feat tốc độ né đòn/di chuyển cụ thể)
+• Scan/Feat Hax: (Nêu rõ cơ chế kỹ năng/dạng sức mạnh)
+
+📌 [Tên B]:
+• Scan/Feat AP: (Nêu rõ sự kiện/chương/tập cụ thể trong manga/anime)
+• Scan/Feat Speed: (Nêu rõ feat tốc độ né đòn/di chuyển cụ thể)
+• Scan/Feat Hax: (Nêu rõ cơ chế kỹ năng/dạng sức mạnh)
+
+🔮 3. BỘ HAX & RESISTANCE:
+• [Tên A]: EE [Mức độ EE] | Soul [Khả năng tác động/kháng linh hồn]
+• [Tên B]: EE [Mức độ EE] | Soul [Khả năng tác động/kháng linh hồn]
+
+🏆 4. KẾT QUẢ CHUNG CUỘC:
+👉 [TÊN NGƯỜI THẮNG] THẮNG ([Mức độ Diff])
+💡 Lý do: (Giải thích ngắn gọn 2-3 câu dựa trên so sánh Tier, Feats và Hax).`;
+
+        function addMessage(text, type, id = null) {
             const chatLogs = document.getElementById('chatLogs');
             const msgDiv = document.createElement('div');
             msgDiv.className = `msg ${type}`;
+            if (id) msgDiv.id = id;
             msgDiv.innerText = text;
             chatLogs.appendChild(msgDiv);
             chatLogs.scrollTop = chatLogs.scrollHeight;
+            return msgDiv;
         }
 
-        function sendMessage() {
+        async function sendMessage() {
             const input = document.getElementById('userInput');
+            const btn = document.getElementById('sendBtn');
             const rawText = input.value.trim();
+
             if (!rawText) return;
 
             addMessage(rawText, 'user');
             input.value = '';
+            input.disabled = true;
+            btn.disabled = true;
 
-            setTimeout(() => { processBattle(rawText); }, 100);
-        }
+            const loadingId = 'loading-' + Date.now();
+            addMessage("🤖 AI đang tra cứu Feats & Scans từ Manga/Anime...", 'loading', loadingId);
 
-        function cleanQuery(text) {
-            return text.toLowerCase()
-                       .replace(/(feat|feats|scan|scans|profile|hax|chi tiết|cho|về|thông tin|xem)\s+/g, "")
-                       .trim();
-        }
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [
+                            { role: 'user', parts: [{ text: SYSTEM_PROMPT + "\n\nYêu cầu phân tích: " + rawText }] }
+                        ]
+                    })
+                });
 
-        // TỰ ĐỘNG TẠO DỮ LIỆU NẾU GẶP NHÂN VẬT NGOÀI DATABASE (FIX LỖI "KHÔNG TÌM THẤY")
-        function getOrGenerateCharacter(nameRaw) {
-            let clean = cleanQuery(nameRaw);
-            
-            for (let key in CHARACTERS_DB) {
-                if (clean === key || clean.includes(key) || key.includes(clean)) {
-                    return CHARACTERS_DB[key];
+                const data = await response.json();
+                document.getElementById(loadingId).remove();
+
+                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                    let aiReply = data.candidates[0].content.parts[0].text;
+                    addMessage(aiReply, 'bot');
+                } else {
+                    addMessage("⚠️ Lỗi: API Key chưa đúng hoặc không hợp lệ.", 'bot');
                 }
-            }
-
-            let formattedName = nameRaw.trim().replace(/(feat|feats|scan)/gi, "").trim();
-            formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
-
-            let generatedChar = {
-                name: `${formattedName}`,
-                tierName: "Tier VSBW Tiêu Chuẩn (Auto Scan)",
-                tierVal: 12,
-                speed: "Massively Hypersonic+ (MHS+)",
-                feats: [
-                    `• Scan/Feat AP: Công kích và phá hủy diện rộng chuẩn VSBW cho ${formattedName}.`,
-                    `• Scan/Feat Speed: Phản xạ và di chuyển tốc độ siêu thanh trong chiến đấu.`,
-                    `• Scan/Feat Hax: Sở hữu bộ kỹ năng chiến đấu đặc trưng theo Manga/Anime gốc.`
-                ],
-                offense: { ee: "Chưa ghi nhận EE cấp cao.", soul: "Tấn công linh hồn tiêu chuẩn." },
-                defense: { ee: "Chưa có Feat kháng EE cấp khái niệm.", soul: "Kháng linh hồn tiêu chuẩn." }
-            };
-
-            CHARACTERS_DB[clean] = generatedChar;
-            return generatedChar;
-        }
-
-        function processBattle(rawText) {
-            let lower = rawText.toLowerCase();
-
-            // 1. KÈO ĐẤU VS
-            if (lower.includes(" vs ") || lower.includes(" đấu với ")) {
-                let parts = lower.split(/ vs | đấu với /);
-                let c1 = getOrGenerateCharacter(parts[0]);
-                let c2 = getOrGenerateCharacter(parts[1]);
-
-                let winner = (c1.tierVal >= c2.tierVal) ? c1 : c2;
-                let loser = (c1.tierVal >= c2.tierVal) ? c2 : c1;
-                
-                let diffVal = Math.abs(c1.tierVal - c2.tierVal);
-                let diff = "NO DIFF";
-                if (diffVal < 15 && diffVal >= 8) diff = "LOW DIFF";
-                else if (diffVal < 8 && diffVal >= 3) diff = "MID DIFF";
-                else if (diffVal < 3) diff = "HIGH DIFF";
-
-                let res = `⚔️ [PHÂN TÍCH KÈO ĐẤU]: ${c1.name.toUpperCase()} VS ${c2.name.toUpperCase()}\n` +
-                          `=========================================\n\n` +
-                          `📊 1. THÔNG SỐ VSBW:\n` +
-                          `• ${c1.name}: Tier [${c1.tierName}] | Speed [${c1.speed}]\n` +
-                          `• ${c2.name}: Tier [${c2.tierName}] | Speed [${c2.speed}]\n\n` +
-                          `📜 2. FEATS & SCANS NỔI BẬT:\n` +
-                          `📌 [${c1.name}]:\n${c1.feats.join("\n")}\n\n` +
-                          `📌 [${c2.name}]:\n${c2.feats.join("\n")}\n\n` +
-                          `🔮 3. BỘ HAX & RESISTANCE:\n` +
-                          `• ${c1.name}: EE [${c1.offense.ee}] | Soul [${c1.offense.soul}]\n` +
-                          `• ${c2.name}: EE [${c2.offense.ee}] | Soul [${c2.offense.soul}]\n\n` +
-                          `🏆 4. KẾT QUẢ CHUNG CUỘC:\n` +
-                          `👉 ${winner.name.toUpperCase()} THẮNG (${diff})\n` +
-                          `💡 Lý do: ${winner.name} áp đảo hoàn toàn về chỉ số Tier VSBW, tốc độ và bộ Hax so với ${loser.name}.`;
-
-                addMessage(res, 'bot');
-            } 
-            // 2. TRA CỨU ĐƠN LẺ
-            else {
-                let c = getOrGenerateCharacter(rawText);
-                let res = `📌 [SCAN HỒ SƠ & FEATS - ${c.name.toUpperCase()}]:\n\n` +
-                          `📊 Tier VSBW: ${c.tierName}\n` +
-                          `⚡ Tốc độ: ${c.speed}\n\n` +
-                          `📜 FEATS & SCANS CHÍNH THỨC:\n${c.feats.join("\n")}\n\n` +
-                          `🔥 BỘ HAX TẤN CÔNG (OFFENSE):\n• EE: ${c.offense.ee}\n• Soul: ${c.offense.soul}\n\n` +
-                          `🛡️ BỘ HAX PHÒNG THỦ (TANK / RESISTANCE):\n• Tank EE: ${c.defense.ee}\n• Tank Soul: ${c.defense.soul}`;
-                addMessage(res, 'bot');
+            } catch (error) {
+                if (document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+                addMessage("⚠️ Lỗi kết nối API: " + error.message, 'bot');
+            } finally {
+                input.disabled = false;
+                btn.disabled = false;
+                input.focus();
             }
         }
     </script>
