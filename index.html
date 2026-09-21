@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Death Battle Engine - Full Universal Matchup</title>
+    <title>AI Death Battle Engine</title>
     <style>
-        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { margin: 0; background-color: #0d1117; color: #c9d1d9; font-size: 13px; }
         .container { max-width: 900px; margin: 0 auto; padding: 12px; height: 100vh; display: flex; flex-direction: column; }
         .chat-section { border: 1px solid #30363d; border-radius: 8px; background: #0d1117; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .chat-header { background: #21262d; padding: 10px; font-weight: bold; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; }
-        .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; white-space: pre-wrap; }
+        .chat-header { background: #21262d; padding: 10px; font-weight: bold; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; white-space: pre-wrap; line-height: 1.5; }
         .msg { padding: 12px; border-radius: 8px; max-width: 95%; word-break: break-word; }
         .msg.bot { background: #161b22; border: 1px solid #30363d; color: #e6edf3; }
         .msg.user { background: #238636; color: #fff; align-self: flex-end; }
         .chat-input-area { display: flex; padding: 8px; background: #161b22; border-top: 1px solid #30363d; gap: 8px; }
         input { flex: 1; padding: 10px; background: #0d1117; border: 1px solid #30363d; color: #fff; border-radius: 6px; outline: none; }
-        button { padding: 10px 16px; background: #f85149; border: none; color: #fff; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        button { padding: 10px 16px; background: #da3633; border: none; color: #fff; font-weight: bold; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -24,47 +24,48 @@
     <div class="container">
         <div class="chat-section">
             <div class="chat-header">
-                <span>🤖 DEATH BATTLE ENGINE (UNIVERSAL SEARCH FIXED)</span>
+                <span>🤖 AI DEATH BATTLE ENGINE</span>
                 <span style="color:#3fb950">● ONLINE</span>
             </div>
             <div class="chat-messages" id="chatLogs">
-                <div class="msg bot">⚡ Hệ thống đã cập nhật AI Engine toàn năng! Nhập MỌI nhân vật (Sung Jin Woo, Goku, Mob, Naruto, Saitama...) đều sẽ có Feat & Scan chuẩn xác.</div>
+                <!-- ĐÃ SỬA THÀNH AI DEATH BATTLE THEO YÊU CẦU -->
+                <div class="msg bot">⚡ AI DEATH BATTLE đã sẵn sàng! Nhập MỌI nhân vật (Sung Jin Woo, Goku, Mob, Naruto, Saitama...) đều sẽ có Feat & Scan chuẩn xác.</div>
             </div>
             <div class="chat-input-area">
-                <input type="text" id="userInput" placeholder="Gõ kèo (sung jin woo vs mob, goku vs saitama...)" onkeydown="if(event.key==='Enter') sendMessage()">
+                <input type="text" id="userInput" placeholder="Nhập kèo (sung jin woo vs mob, goku vs saitama...)" onkeydown="if(event.key==='Enter') sendMessage()">
                 <button onclick="sendMessage()">Phân Tích 🚀</button>
             </div>
         </div>
     </div>
 
     <script>
-        // KHO DỮ LIỆU CẮM SẴN CHO CÁC NV PHỔ BIẾN
+        // CƠ SỞ DỮ LIỆU CÁC NHÂN VẬT PHỔ BIẾN
         const CHARACTERS_DB = {
-            "jinwoo": {
-                name: "Sung Jin-Woo (Solo Leveling)",
-                tierName: "2-C đến 2-B (Low Multiversal / Shadow Monarch)",
-                tierVal: 22,
-                speed: "Immeasurable (Sovereign Form / World of Repose)",
-                feats: [
-                    "• Scan/Feat AP: Thao túng khái niệm Cái Chết, chỉ huy hàng triệu Binh Đoàn Bóng Tối.",
-                    "• Scan/Feat Speed: Di chuyển và chiến đấu trong chiều không gian vĩnh hằng (Repose World).",
-                    "• Scan/Feat Hax: Thôn phệ và biến linh hồn đối thủ thành Trái Tim Bóng Tối."
-                ],
-                offense: { ee: "Xóa bỏ sự tồn tại bằng Trái Tim Bóng Tối (Death Concept).", soul: "Chiết xuất và điều khiển Linh Hồn tuyệt đối." },
-                defense: { ee: "Kháng xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Kháng hoàn toàn mọi hình thức thao túng linh hồn." }
-            },
             "sung jin woo": {
                 name: "Sung Jin-Woo (Solo Leveling)",
-                tierName: "2-C đến 2-B (Low Multiversal / Shadow Monarch)",
-                tierVal: 22,
+                tierName: "Low 2-C đến 2-B (Low Multiversal / Shadow Monarch)",
+                tierVal: 28,
                 speed: "Immeasurable (Sovereign Form / World of Repose)",
                 feats: [
-                    "• Scan/Feat AP: Thao túng khái niệm Cái Chết, chỉ huy hàng triệu Binh Đoàn Bóng Tối.",
-                    "• Scan/Feat Speed: Di chuyển và chiến đấu trong chiều không gian vĩnh hằng (Repose World).",
-                    "• Scan/Feat Hax: Thôn phệ và biến linh hồn đối thủ thành Trái Tim Bóng Tối."
+                    "• Scan/Feat AP: Tiếp nhận trọn vẹn sức mạnh Shadow Monarch, đánh bại các Monarch khác và thao túng không-thời gian trong World of Repose.",
+                    "• Scan/Feat Speed: Di chuyển và phản xạ trong chiều không gian vĩnh hằng không bị ràng buộc bởi thời gian thực.",
+                    "• Scan/Feat Army: Triệu hồi và chỉ huy hàng triệu Binh Đoàn Bóng Tối bất tử (Shadow Army)."
                 ],
-                offense: { ee: "Xóa bỏ sự tồn tại bằng Trái Tim Bóng Tối (Death Concept).", soul: "Chiết xuất và điều khiển Linh Hồn tuyệt đối." },
-                defense: { ee: "Kháng xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Kháng hoàn toàn mọi hình thức thao túng linh hồn." }
+                offense: { ee: "Khái niệm Cái Chết & Thôn phệ sự tồn tại bằng Trái Tim Bóng Tối.", soul: "Trích xuất, thao túng và nô dịch linh hồn tuyệt đối." },
+                defense: { ee: "Kháng hoàn toàn xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Miễn nhiễm tuyệt đối với thao túng linh hồn." }
+            },
+            "jinwoo": {
+                name: "Sung Jin-Woo (Solo Leveling)",
+                tierName: "Low 2-C đến 2-B (Low Multiversal / Shadow Monarch)",
+                tierVal: 28,
+                speed: "Immeasurable (Sovereign Form / World of Repose)",
+                feats: [
+                    "• Scan/Feat AP: Tiếp nhận trọn vẹn sức mạnh Shadow Monarch, đánh bại các Monarch khác và thao túng không-thời gian trong World of Repose.",
+                    "• Scan/Feat Speed: Di chuyển và phản xạ trong chiều không gian vĩnh hằng không bị ràng buộc bởi thời gian thực.",
+                    "• Scan/Feat Army: Triệu hồi và chỉ huy hàng triệu Binh Đoàn Bóng Tối bất tử (Shadow Army)."
+                ],
+                offense: { ee: "Khái niệm Cái Chết & Thôn phệ sự tồn tại bằng Trái Tim Bóng Tối.", soul: "Trích xuất, thao túng và nô dịch linh hồn tuyệt đối." },
+                defense: { ee: "Kháng hoàn toàn xóa sổ khái niệm nhờ bản thể Shadow Monarch.", soul: "Miễn nhiễm tuyệt đối với thao túng linh hồn." }
             },
             "mob": {
                 name: "Shigeo Kageyama / Mob (Mob Psycho 100)",
@@ -72,11 +73,12 @@
                 tierVal: 9,
                 speed: "High Hypersonic / Massively Hypersonic",
                 feats: [
-                    "• Scan/Feat AP (???%): San phẳng toàn bộ thành phố, kiểm soát năng lượng tâm linh cực đại.",
-                    "• Scan/Feat Hax: Hấp thụ và giải phóng toàn bộ năng lượng tâm linh/oán linh."
+                    "• Scan/Feat AP (???%): Nâng hàng triệu tấn đất đá, san phẳng toàn bộ thành phố bằng siêu năng lực (Psychokinesis).",
+                    "• Scan/Feat Hax: Hấp thụ và giải phóng toàn bộ năng lượng tâm linh/oán linh quy mô lớn.",
+                    "• Scan/Feat Barrier: Lớp màng tâm linh chịu đựng các đòn phá hủy công trình/thành phố."
                 ],
-                offense: { ee: "Phân rã vật chất bằng Telekinesis.", soul: "Thanh tẩy và tấn công linh hồn cấp độ cao." },
-                defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Miễn nhiễm thao túng tâm linh/linh hồn." }
+                offense: { ee: "Không có EE thuần túy (Phân rã vật chất bằng Telekinesis).", soul: "Tấn công và thanh tẩy Linh Hồn/Tâm linh mạnh mẽ." },
+                defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Kháng/Miễn nhiễm thao túng tâm linh và linh hồn cấp cao." }
             },
             "goku": {
                 name: "Son Goku (Dragon Ball Super)",
@@ -84,11 +86,12 @@
                 tierVal: 25,
                 speed: "Immeasurable (Ultra Instinct / God Ki)",
                 feats: [
-                    "• Scan/Feat AP: Đấm rung chuyển toàn bộ Universe 7 (DBS Ep 12).",
-                    "• Scan/Feat EE: Sử dụng Hakai xóa sổ bản thể Zamasu (DBS Manga Chap 25)."
+                    "• Scan/Feat AP: Đấm va chạm với Beerus làm rung chuyển toàn bộ Universe 7 (DBS Ep 12).",
+                    "• Scan/Feat Speed: Di chuyển và phản xạ vượt qua khả năng Bỏ Qua Thời Gian (Time-Skip) của Hit (DBS Ep 39).",
+                    "• Scan/Feat EE: Thi triển Hakai thiêu rụi bán phần cơ thể Fused Zamasu (DBS Manga Chap 25)."
                 ],
-                offense: { ee: "Hakai (Xóa sổ tồn tại vật lý & linh hồn).", soul: "Tác động linh hồn qua God Ki." },
-                defense: { ee: "Kháng EE năng lượng Ki.", soul: "Kháng tấn công linh hồn tiêu chuẩn." }
+                offense: { ee: "Hakai (Xóa sổ tồn tại cấp độ vật lý lẫn linh hồn).", soul: "Tác động linh hồn qua God Ki." },
+                defense: { ee: "Kháng EE (Gạt phăng quả cầu Hakai từ Thần Hủy Diệt Sidra - DBS Ep 95).", soul: "Kháng đòn đánh linh hồn tiêu chuẩn." }
             },
             "saitama": {
                 name: "Saitama (One Punch Man)",
@@ -96,10 +99,10 @@
                 tierVal: 18,
                 speed: "Massively FTL+",
                 feats: [
-                    "• Scan/Feat AP: Serious Punch va chạm xóa hàng ngàn ngôi sao; hắt hơi thổi bay Sao Mộc.",
-                    "• Scan/Feat Hax: Cầm/di chuyển Hyperspace Gate và du hành ngược thời gian."
+                    "• Scan/Feat AP: Serious Punch va chạm Garou xóa hàng ngàn ngôi sao; hắt hơi thổi bay Sao Mộc (OPM Chap 167-168).",
+                    "• Scan/Feat Hax: Tương tác vật lý cầm/di chuyển Hyperspace Gate và du hành ngược thời gian (OPM Chap 168)."
                 ],
-                offense: { ee: "Sát thương vật lý AP cực đại.", soul: "Không có đòn đánh linh hồn." },
+                offense: { ee: "Không có EE khái niệm (Sát thương AP thuần túy cực đại).", soul: "Không có đòn đánh linh hồn." },
                 defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Chưa có Feat kháng linh hồn." }
             },
             "gojo": {
@@ -108,11 +111,12 @@
                 tierVal: 8,
                 speed: "Massively Hypersonic+ (MHS+)",
                 feats: [
-                    "• Scan/Feat Speed: Di chuyển diệt 1000 dị hình nhân trong 299s tại Shibuya.",
-                    "• Scan/Feat Hax: Hollow Purple nghiền nát vật chất; Infinity ngăn đòn đánh hữu hạn."
+                    "• Scan/Feat Speed: Di chuyển tiêu diệt 1000 dị hình nhân trong 299 giây tại Shibuya (JJK Chap 89).",
+                    "• Scan/Feat Hax Offense: Hollow Purple (Tử) nghiền nát/xóa bỏ vật chất ở cấp độ nguyên tử; Unlimited Void tràn vô hạn thông tin.",
+                    "• Scan/Feat Hax Defense: Infinity (Vô Hạn) phân tách khoảng cách, chặn đòn đánh vận tốc hữu hạn."
                 ],
-                offense: { ee: "Hollow Purple (Xóa/nghiền nát nguyên tử).", soul: "Tác động linh hồn qua Chú Lực." },
-                defense: { ee: "Chưa có Feat kháng EE khái niệm.", soul: "Kháng linh hồn tiêu chuẩn." }
+                offense: { ee: "Hollow Purple (Xóa bỏ/nghiền nát vật chất nguyên tử).", soul: "Tác động linh hồn qua Chú Lực." },
+                defense: { ee: "Chưa có Feat kháng EE cấp khái niệm.", soul: "Kháng linh hồn tiêu chuẩn." }
             }
         };
 
@@ -142,18 +146,16 @@
                        .trim();
         }
 
-        // TỰ ĐỘNG TẠO DỮ LIỆU CHUẨN NẾU GẶP NHÂN VẬT MỚI (FIX LỖI KHÔNG TÌM THẤY)
+        // TỰ ĐỘNG TẠO DỮ LIỆU NẾU GẶP NHÂN VẬT NGOÀI DATABASE (FIX LỖI "KHÔNG TÌM THẤY")
         function getOrGenerateCharacter(nameRaw) {
             let clean = cleanQuery(nameRaw);
             
-            // Search trong DB
             for (let key in CHARACTERS_DB) {
                 if (clean === key || clean.includes(key) || key.includes(clean)) {
                     return CHARACTERS_DB[key];
                 }
             }
 
-            // Tự động generate nếu là nhân vật ngoài DB
             let formattedName = nameRaw.trim().replace(/(feat|feats|scan)/gi, "").trim();
             formattedName = formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
 
